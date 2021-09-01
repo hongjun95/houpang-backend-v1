@@ -7,6 +7,7 @@ import { CommonModule } from './common/common.module';
 
 import * as Joi from 'joi';
 import { User } from './users/entities/user.entity';
+import { JwtModule } from './jwt/jwt.module';
 
 @Module({
   imports: [
@@ -45,6 +46,9 @@ import { User } from './users/entities/user.entity';
       logging:
         process.env.NODE_ENV !== 'prod' && process.env.NODE_ENV !== 'test',
       entities: [User],
+    }),
+    JwtModule.forRoot({
+      privateKey: process.env.PRIVATE_KEY,
     }),
     UsersModule,
     CommonModule,
