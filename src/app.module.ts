@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { CommonModule } from './common/common.module';
 
 import * as Joi from 'joi';
+import { User } from './users/entities/user.entity';
 
 @Module({
   imports: [
@@ -43,7 +44,7 @@ import * as Joi from 'joi';
       // DB에 무슨 일이 일어나는지 콘솔에 표시하는 거다.
       logging:
         process.env.NODE_ENV !== 'prod' && process.env.NODE_ENV !== 'test',
-      entities: [],
+      entities: [User],
     }),
     UsersModule,
     CommonModule,

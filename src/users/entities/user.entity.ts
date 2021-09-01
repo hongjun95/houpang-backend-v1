@@ -1,13 +1,15 @@
 import {
-  createUnionType,
   Field,
   InputType,
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
 import { IsBoolean, IsEmail, IsEnum, IsString } from 'class-validator';
+import { BeforeInsert, Column, Entity } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+
 import { CoreEntity } from 'src/common/entities/common.entity';
-import { Column, Entity } from 'typeorm';
+import { InternalServerErrorException } from '@nestjs/common';
 
 export enum UserRole {
   Consumer = 'Consumer',
@@ -43,7 +45,7 @@ export class User extends CoreEntity {
   @IsString()
   password: string;
 
-  @Column({ type: 'enum', enum: UserRole })
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.Consumer })
   @Field((type) => UserRole)
   @IsEnum(UserRole)
   role: UserRole;
@@ -53,15 +55,15 @@ export class User extends CoreEntity {
   @IsBoolean()
   verified: boolean;
 
-  @Column()
+  @Column({ default: Language.Korean })
   @Field((type) => Language)
   @IsEnum(Language)
   language: Language;
 
-  @Column()
-  @Field((type) => String)
+  @Column({ nullable: true })
+  @Field((type) => String, { nullable: true })
   @IsString()
-  bio: string;
+  bio?: string;
 
   //   @Column()
   //   @Field((type) => String)
@@ -74,4 +76,16 @@ export class User extends CoreEntity {
   //   @Column()
   //   @Field((type) => String)
   //   favList: string;
+
+  @BeforeInsert()
+  async hashPassword(): Promise<void> {
+    if (this.password) {
+      try {
+        this.password = await bcrypt.hash(this.password, 10);
+      } catch (e) {
+        console.log(e);
+        throw new InternalServerErrorException();
+      }
+    }
+  }
 }
