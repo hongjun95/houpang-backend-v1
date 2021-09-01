@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { GraphQLModule } from '@nestjs/graphql';
 import * as Joi from 'joi';
 
 @Module({
@@ -14,6 +15,9 @@ import * as Joi from 'joi';
         DB_HOST: Joi.string(),
         DB_PORT: Joi.string(),
       }),
+    }),
+    GraphQLModule.forRoot({
+      playground: process.env.NODE_ENV !== 'production',
     }),
   ],
   controllers: [],
