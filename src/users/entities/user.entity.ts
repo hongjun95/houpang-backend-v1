@@ -21,11 +21,6 @@ enum Language {
   English = 'English',
 }
 
-// const Language = createUnionType({
-//   name: 'Language',
-//   types: () => ['Korean', 'English'],
-// });
-
 registerEnumType(UserRole, { name: 'UserRole' });
 registerEnumType(Language, { name: 'Language' });
 
