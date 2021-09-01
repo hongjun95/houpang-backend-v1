@@ -2,7 +2,6 @@
 
 ## authentication
 
-- create account
 - login
 - logout
 - my profile page

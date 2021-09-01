@@ -5,6 +5,7 @@ import {
   CreateAccountInput,
   CreateAccountOutput,
 } from './dtos/create-account.dto';
+import { LoginInput, LoginOutput } from './dtos/login.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
@@ -29,6 +30,31 @@ export class UsersService {
       const user = await this.users.save(
         this.users.create({ email, password, role, language, bio }),
       );
+
+      return { ok: true };
+    } catch (e) {
+      return { ok: false, error: "Couldn't create account" };
+    }
+  }
+
+  async login({ email, password }: LoginInput): Promise<LoginOutput> {
+    try {
+      const user = await this.users.findOne({ email });
+
+      if (!user) {
+        return {
+          ok: false,
+          error: 'User not found',
+        };
+      }
+
+      const passwordCorrect = await user.checkPassowrd(password);
+      if (!passwordCorrect) {
+        return {
+          ok: false,
+          error: 'Wrong password',
+        };
+      }
 
       return { ok: true };
     } catch (e) {

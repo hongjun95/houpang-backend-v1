@@ -83,9 +83,19 @@ export class User extends CoreEntity {
       try {
         this.password = await bcrypt.hash(this.password, 10);
       } catch (e) {
-        console.log(e);
+        console.error(e);
         throw new InternalServerErrorException();
       }
+    }
+  }
+
+  async checkPassowrd(password: string): Promise<boolean> {
+    try {
+      const ok = await bcrypt.compare(password, this.password);
+      return ok;
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException();
     }
   }
 }
