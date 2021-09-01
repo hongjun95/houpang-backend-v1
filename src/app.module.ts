@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
 
 import * as Joi from 'joi';
 
@@ -43,6 +44,7 @@ import * as Joi from 'joi';
         process.env.NODE_ENV !== 'prod' && process.env.NODE_ENV !== 'test',
       entities: [],
     }),
+    UsersModule,
   ],
   controllers: [],
   providers: [],
