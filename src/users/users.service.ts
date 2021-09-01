@@ -43,6 +43,7 @@ export class UsersService {
   async login({ email, password }: LoginInput): Promise<LoginOutput> {
     try {
       const user = await this.users.findOne({ email });
+      console.log(user);
 
       if (!user) {
         return {
