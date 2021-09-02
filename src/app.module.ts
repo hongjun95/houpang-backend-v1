@@ -8,6 +8,7 @@ import { CommonModule } from './common/common.module';
 import * as Joi from 'joi';
 import { User } from './users/entities/user.entity';
 import { JwtModule } from './jwt/jwt.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -20,11 +21,33 @@ import { JwtModule } from './jwt/jwt.module';
         NODE_ENV: Joi.string().valid('dev', 'production', 'test').required(),
         DB_HOST: Joi.string(),
         DB_PORT: Joi.string(),
+        DB_USERNAME: Joi.string(),
+        DB_PASSWORD: Joi.string(),
+        DB_NAME: Joi.string(),
+        PRIVATE_KEY: Joi.string().required(),
       }),
     }),
     GraphQLModule.forRoot({
       playground: process.env.NODE_ENV !== 'production',
       autoSchemaFile: true,
+
+      context: ({ req }) => {
+        const TOKEN_KEY = 'authorization';
+
+        let token: string = null;
+        let authorization: string = null;
+        if (req.headers.hasOwnProperty(TOKEN_KEY)) {
+          authorization = req.headers[TOKEN_KEY];
+        }
+
+        if (authorization.includes('Bearer')) {
+          token = authorization.split(' ')[1];
+        }
+
+        return {
+          token,
+        };
+      },
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -50,6 +73,7 @@ import { JwtModule } from './jwt/jwt.module';
     JwtModule.forRoot({
       privateKey: process.env.PRIVATE_KEY,
     }),
+    AuthModule,
     UsersModule,
     CommonModule,
   ],
