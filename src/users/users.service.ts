@@ -6,6 +6,7 @@ import {
   CreateAccountInput,
   CreateAccountOutput,
 } from './dtos/create-account.dto';
+import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile.dto';
 import { LoginInput, LoginOutput } from './dtos/login.dto';
 import { UserProfileOutput } from './dtos/user-profile.dto';
 import { User } from './entities/user.entity';
@@ -79,6 +80,45 @@ export class UsersService {
       return {
         ok: false,
         error: 'User not found',
+      };
+    }
+  }
+
+  async editProfile(
+    { email, language, bio }: EditProfileInput,
+    userId: number,
+  ): Promise<EditProfileOutput> {
+    try {
+      const user = await this.users.findOne(userId);
+      console.log(user);
+
+      if (email) {
+        const exists = await this.users.findOne({ email });
+        if (exists) {
+          return {
+            ok: false,
+            error: 'The email already exists',
+          };
+        }
+
+        user.email = email;
+      }
+      if (language) {
+        user.language = language;
+      }
+      if (bio) {
+        user.bio = bio;
+      }
+      await this.users.save(user);
+
+      return {
+        ok: true,
+      };
+    } catch (e) {
+      console.error(e);
+      return {
+        ok: false,
+        error: "Can't edit user profile",
       };
     }
   }
