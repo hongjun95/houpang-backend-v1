@@ -7,6 +7,7 @@ import {
   CreateAccountOutput,
 } from './dtos/create-account.dto';
 import { LoginInput, LoginOutput } from './dtos/login.dto';
+import { UserProfileOutput } from './dtos/user-profile.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
@@ -63,6 +64,22 @@ export class UsersService {
       return { ok: true, token };
     } catch (e) {
       return { ok: false, error: "Couldn't create account" };
+    }
+  }
+
+  async findById(id: number): Promise<UserProfileOutput> {
+    try {
+      const user = await this.users.findOne({ id });
+      return {
+        ok: true,
+        user,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: 'User not found',
+      };
     }
   }
 }

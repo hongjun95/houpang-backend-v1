@@ -1,4 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { AuthUser } from 'src/auth/auth-user.decorator';
+import { Roles } from 'src/auth/roles.decorator';
 import {
   CreateAccountInput,
   CreateAccountOutput,
@@ -23,8 +25,9 @@ export class UsersResolver {
     return this.usersService.login(loginInput);
   }
 
-  @Query((returns) => String)
-  hi(): string {
-    return 'hello';
+  @Query((returns) => User)
+  @Roles(['Any'])
+  me(@AuthUser() user: User): User {
+    return user;
   }
 }
