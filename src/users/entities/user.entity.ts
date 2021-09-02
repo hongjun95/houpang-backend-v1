@@ -24,7 +24,7 @@ enum Language {
 registerEnumType(UserRole, { name: 'UserRole' });
 registerEnumType(Language, { name: 'Language' });
 
-@InputType()
+@InputType('UserInputType', { isAbstract: true })
 @ObjectType()
 @Entity()
 export class User extends CoreEntity {
