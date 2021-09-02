@@ -28,8 +28,6 @@ registerEnumType(Language, { name: 'Language' });
 @ObjectType()
 @Entity()
 export class User extends CoreEntity {
-  // email, password, verified, role, lan, currency, bio, order, products
-
   @Column({ unique: true })
   @Field((type) => String)
   @IsEmail()

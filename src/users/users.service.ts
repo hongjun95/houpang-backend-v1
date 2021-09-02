@@ -68,7 +68,7 @@ export class UsersService {
     }
   }
 
-  async findUserById(id: number): Promise<UserProfileOutput> {
+  async findUserById(id: string): Promise<UserProfileOutput> {
     try {
       const user = await this.users.findOne({ id });
       return {
@@ -86,7 +86,7 @@ export class UsersService {
 
   async editProfile(
     { email, language, bio }: EditProfileInput,
-    userId: number,
+    userId: string,
   ): Promise<EditProfileOutput> {
     try {
       const user = await this.users.findOne(userId);
