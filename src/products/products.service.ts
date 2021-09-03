@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import {
   CreateProductInput,
   CreateProductOutput,
-} from './dtos/create-account.dto';
+} from './dtos/create-product.dto';
 import {
   FindProductByIdInput,
   FindProductByIdOutput,

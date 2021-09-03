@@ -6,7 +6,7 @@ import { User } from 'src/users/entities/user.entity';
 import {
   CreateProductInput,
   CreateProductOutput,
-} from './dtos/create-account.dto';
+} from './dtos/create-product.dto';
 import {
   FindProductByIdInput,
   FindProductByIdOutput,
