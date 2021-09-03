@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product';
-import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import {
   CreateCategoryInput,
