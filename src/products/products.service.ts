@@ -7,7 +7,7 @@ import {
   CreateProductInput,
   CreateProductOutput,
 } from './dtos/create-product.dto';
-import { EditProductInput, EditProductOutput } from './dtos/edit-product.dts';
+import { EditProductInput, EditProductOutput } from './dtos/edit-product.dto';
 import {
   DeleteProductInput,
   DeleteProductOutput,
@@ -121,7 +121,7 @@ export class ProductsService {
   ): Promise<EditProductOutput> {
     try {
       const product = await this.products.findOne({
-        id: editProductInput.id,
+        id: editProductInput.productId,
         provider,
       });
 

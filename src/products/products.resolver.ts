@@ -7,11 +7,11 @@ import {
   CreateProductInput,
   CreateProductOutput,
 } from './dtos/create-product.dto';
-import { EditProductInput, EditProductOutput } from './dtos/edit-product.dts';
 import {
   DeleteProductInput,
   DeleteProductOutput,
 } from './dtos/delete-product.dto';
+import { EditProductInput, EditProductOutput } from './dtos/edit-product.dto';
 import {
   FindProductByIdInput,
   FindProductByIdOutput,

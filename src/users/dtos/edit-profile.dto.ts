@@ -3,9 +3,11 @@ import { CoreOutput } from 'src/common/dtos/output.dto';
 import { User } from '../entities/user.entity';
 
 @InputType()
-export class EditProfileInput extends PartialType(
-  PickType(User, ['email', 'language', 'bio']),
-) {}
+export class EditProfileInput extends PickType(PartialType(User), [
+  'email',
+  'language',
+  'bio',
+]) {}
 
 @ObjectType()
 export class EditProfileOutput extends CoreOutput {}
