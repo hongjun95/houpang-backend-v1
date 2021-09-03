@@ -9,6 +9,10 @@ import {
 } from './dtos/create-product.dto';
 import { EditProductInput, EditProductOutput } from './dtos/edit-product.dts';
 import {
+  DeleteProductInput,
+  DeleteProductOutput,
+} from './dtos/edit-product.dts copy';
+import {
   FindProductByIdInput,
   FindProductByIdOutput,
 } from './dtos/find-product';
@@ -140,6 +144,37 @@ export class ProductsService {
       return {
         ok: false,
         error: '상품을 추가할 수 없습니다.',
+      };
+    }
+  }
+
+  async deleteProduct(
+    { productId }: DeleteProductInput,
+    provider: User,
+  ): Promise<DeleteProductOutput> {
+    try {
+      const product = await this.products.findOne({
+        id: productId,
+        provider,
+      });
+
+      if (!product) {
+        return {
+          ok: false,
+          error: '삭제하시려는 상품을 찾을 수가 없습니다.',
+        };
+      }
+
+      await this.products.delete(productId);
+
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '상품을 삭제할 수가 없습니다.',
       };
     }
   }

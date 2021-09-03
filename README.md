@@ -15,7 +15,7 @@
 - product list[o]
 - product detail info[o]
 - edit product[o]
-- delete product
+- delete product[o]
 
 ## category
 

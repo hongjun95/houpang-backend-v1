@@ -9,6 +9,10 @@ import {
 } from './dtos/create-product.dto';
 import { EditProductInput, EditProductOutput } from './dtos/edit-product.dts';
 import {
+  DeleteProductInput,
+  DeleteProductOutput,
+} from './dtos/edit-product.dts copy';
+import {
   FindProductByIdInput,
   FindProductByIdOutput,
 } from './dtos/find-product';
@@ -55,5 +59,14 @@ export class ProductsResolver {
     @AuthUser() provider: User,
   ): Promise<EditProductOutput> {
     return this.productService.editProduct(editProductInput, provider);
+  }
+
+  @Mutation((returns) => DeleteProductOutput)
+  @Roles(['Provider'])
+  async deleteProduct(
+    @Args('input') deleteProductInput: DeleteProductInput,
+    @AuthUser() provider: User,
+  ): Promise<DeleteProductOutput> {
+    return this.productService.deleteProduct(deleteProductInput, provider);
   }
 }
