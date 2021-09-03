@@ -21,12 +21,15 @@ import {
   GetAllProductsOutput,
 } from './dtos/get-all-products';
 import { Product } from './entities/product';
+import { CategoryRepository } from 'src/categories/repositories/category.repository';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly products: Repository<Product>,
+
+    private readonly categories: CategoryRepository,
   ) {}
 
   async getAllProducts({
@@ -99,8 +102,13 @@ export class ProductsService {
         };
       }
 
+      const category = await this.categories.findOneBySlugUsingName(
+        createProductInput.categoryName,
+      );
+      console.log(category);
+
       await this.products.save(
-        this.products.create({ ...createProductInput, provider }),
+        this.products.create({ ...createProductInput, provider, category }),
       );
 
       return {
@@ -143,7 +151,7 @@ export class ProductsService {
       console.error(error);
       return {
         ok: false,
-        error: '상품을 추가할 수 없습니다.',
+        error: '상품을 수정할 수 없습니다.',
       };
     }
   }
