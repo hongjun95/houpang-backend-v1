@@ -6,6 +6,10 @@ import {
   CreateCategoryInput,
   CreateCategoryOutput,
 } from './dtos/create-category.dto';
+import {
+  EditCategoryInput,
+  EditCategoryOutput,
+} from './dtos/edit-category.dto';
 import { GetAllCategoriesOutput } from './dtos/get-all-categories.dto';
 import {
   GetProductsOnCategoryInput,
@@ -26,6 +30,12 @@ export class CategoriesService {
   async getAllCategories(): Promise<GetAllCategoriesOutput> {
     try {
       const categories = await this.categories.find();
+      if (!categories) {
+        return {
+          ok: false,
+          error: '카테고리를 불러올 수가 없습니다.',
+        };
+      }
       return {
         ok: true,
         categories,
@@ -71,7 +81,7 @@ export class CategoriesService {
       console.error(error);
       return {
         ok: false,
-        error: 'Could not load categories',
+        error: '카테고리에 있는 상품을 불러올 수 없습니다.',
       };
     }
   }
@@ -96,7 +106,11 @@ export class CategoriesService {
       }
 
       await this.categories.save(
-        this.categories.create({ name, coverImg, slug: categorySlug }),
+        this.categories.create({
+          name: categoryName,
+          coverImg,
+          slug: categorySlug,
+        }),
       );
 
       return {
@@ -106,7 +120,44 @@ export class CategoriesService {
       console.error(error);
       return {
         ok: false,
-        error: '상품을 추가할 수 없습니다.',
+        error: '카테고리를 추가할 수 없습니다.',
+      };
+    }
+  }
+
+  async editCategory({
+    name,
+    coverImg,
+  }: EditCategoryInput): Promise<EditCategoryOutput> {
+    try {
+      const categoryName = name.trim().toLowerCase();
+      const categorySlug = categoryName.replace(/ /g, '-');
+
+      const category = await this.categories.findOne({
+        slug: categorySlug,
+      });
+
+      if (!category) {
+        return {
+          ok: false,
+          error: '수정할 카테고리를 찾을 수가 없습니다.',
+        };
+      }
+
+      await this.categories.save({
+        name: categoryName,
+        coverImg,
+        slug: categorySlug,
+      });
+
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '카테고리를 수정할 수 없습니다.',
       };
     }
   }

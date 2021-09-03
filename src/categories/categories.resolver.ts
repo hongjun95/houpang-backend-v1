@@ -5,6 +5,10 @@ import {
   CreateCategoryInput,
   CreateCategoryOutput,
 } from './dtos/create-category.dto';
+import {
+  EditCategoryInput,
+  EditCategoryOutput,
+} from './dtos/edit-category.dto';
 import { GetAllCategoriesOutput } from './dtos/get-all-categories.dto';
 import {
   GetProductsOnCategoryInput,
@@ -37,5 +41,13 @@ export class CategoriesResolver {
     @Args('input') createCategoryInput: CreateCategoryInput,
   ): Promise<CreateCategoryOutput> {
     return this.categoriesService.createCategory(createCategoryInput);
+  }
+
+  @Mutation((returns) => EditCategoryOutput)
+  @Roles(['Admin'])
+  async editCategory(
+    @Args('input') editCategoryInput: EditCategoryInput,
+  ): Promise<EditCategoryOutput> {
+    return this.categoriesService.editCategory(editCategoryInput);
   }
 }
