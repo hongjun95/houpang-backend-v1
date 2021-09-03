@@ -2,6 +2,10 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Roles } from 'src/auth/roles.decorator';
 import {
+  ChangePasswordInput,
+  ChangePasswordOutput,
+} from './dtos/change-password.dto';
+import {
   CreateAccountInput,
   CreateAccountOutput,
 } from './dtos/create-account.dto';
@@ -15,7 +19,6 @@ export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Mutation((returns) => CreateAccountOutput)
-  @Roles(['Any'])
   async createAccount(
     @Args('input') createAccountInput: CreateAccountInput,
   ): Promise<CreateAccountOutput> {
@@ -40,5 +43,14 @@ export class UsersResolver {
     @AuthUser() user: User,
   ): Promise<EditProfileOutput> {
     return this.usersService.editProfile(editProfileInput, user.id);
+  }
+
+  @Mutation((returns) => EditProfileOutput)
+  @Roles(['Any'])
+  async changePassword(
+    @Args('input') ChangePasswordInput: ChangePasswordInput,
+    @AuthUser() user: User,
+  ): Promise<ChangePasswordOutput> {
+    return this.usersService.changePassword(ChangePasswordInput, user.id);
   }
 }

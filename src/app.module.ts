@@ -34,8 +34,8 @@ import { AuthModule } from './auth/auth.module';
       context: ({ req }) => {
         const TOKEN_KEY = 'authorization';
 
-        let token: string = null;
-        let authorization: string = null;
+        let token: string = '';
+        let authorization: string = '';
         if (req.headers.hasOwnProperty(TOKEN_KEY)) {
           authorization = req.headers[TOKEN_KEY];
         }

@@ -3,6 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from 'src/jwt/jwt.service';
 import { Repository } from 'typeorm';
 import {
+  ChangePasswordInput,
+  ChangePasswordOutput,
+} from './dtos/change-password.dto';
+import {
   CreateAccountInput,
   CreateAccountOutput,
 } from './dtos/create-account.dto';
@@ -90,7 +94,6 @@ export class UsersService {
   ): Promise<EditProfileOutput> {
     try {
       const user = await this.users.findOne(userId);
-      console.log(user);
 
       if (email) {
         const exists = await this.users.findOne({ email });
@@ -109,6 +112,68 @@ export class UsersService {
       if (bio) {
         user.bio = bio;
       }
+      await this.users.save(user);
+
+      return {
+        ok: true,
+      };
+    } catch (e) {
+      console.error(e);
+      return {
+        ok: false,
+        error: "Can't edit user profile",
+      };
+    }
+  }
+
+  async changePassword(
+    {
+      password: currentPassword,
+      newPassword,
+      verifyPassword,
+    }: ChangePasswordInput,
+    userId: string,
+  ): Promise<ChangePasswordOutput> {
+    try {
+      if (newPassword !== verifyPassword) {
+        return {
+          ok: false,
+          error: 'Password does not match',
+        };
+      }
+
+      const user = await this.users.findOne(userId);
+
+      const passwordCorrect = await user.checkPassowrd(currentPassword);
+      if (!passwordCorrect) {
+        return {
+          ok: false,
+          error: 'Wrong current password',
+        };
+      }
+
+      if (currentPassword === newPassword) {
+        return {
+          ok: false,
+          error: 'The new password is same as current password',
+        };
+      }
+
+      const regex = new RegExp(
+        /(?=.*[!@#$%^&\*\(\)_\+\-=\[\]\{\};\':\"\\\|,\.<>\/\?]+)(?=.*[a-zA-Z]+)(?=.*\d+)/,
+      );
+
+      const passwordTestPass = regex.test(newPassword);
+
+      if (!passwordTestPass) {
+        return {
+          ok: false,
+          error: 'Password must contain special character, string and number',
+        };
+      }
+
+      user.password = newPassword;
+
       await this.users.save(user);
 
       return {
