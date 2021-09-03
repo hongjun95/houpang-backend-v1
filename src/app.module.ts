@@ -11,6 +11,7 @@ import { JwtModule } from './jwt/jwt.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
 import { Product } from './products/entities/product';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -79,6 +80,7 @@ import { Product } from './products/entities/product';
     UsersModule,
     CommonModule,
     ProductsModule,
+    CategoriesModule,
   ],
   controllers: [],
   providers: [],
