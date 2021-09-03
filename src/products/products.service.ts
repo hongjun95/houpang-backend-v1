@@ -8,6 +8,10 @@ import {
   CreateProductOutput,
 } from './dtos/create-account.dto';
 import {
+  FindProductByIdInput,
+  FindProductByIdOutput,
+} from './dtos/find-product';
+import {
   GetAllProductsInput,
   GetAllProductsOutput,
 } from './dtos/get-all-products';
@@ -73,6 +77,29 @@ export class ProductsService {
         products,
         totalPages: Math.ceil(totalProducts / takePages),
         totalResults: totalProducts,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '상품 품목들을 가져올 수 없습니다.',
+      };
+    }
+  }
+
+  async findProductById({
+    productId,
+  }: FindProductByIdInput): Promise<FindProductByIdOutput> {
+    // todo
+    // category 내역에 있는 품목만 가져오는 것으로 만들기
+    try {
+      const product = await this.products.findOne(productId, {
+        relations: ['provider'],
+      });
+
+      return {
+        ok: true,
+        product,
       };
     } catch (error) {
       console.error(error);

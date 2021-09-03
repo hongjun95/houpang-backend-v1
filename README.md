@@ -12,8 +12,8 @@
 ## product
 
 - create product[o]
-- product list
-- product detail info
+- product list[o]
+- product detail info[o]
 - edit product
 - delete product
 
@@ -50,3 +50,8 @@
 
 - edit profile
 - change password
+- create product
+- product list
+- product detail info
+- edit product
+- delete product

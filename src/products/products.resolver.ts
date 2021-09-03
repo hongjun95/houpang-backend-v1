@@ -8,6 +8,10 @@ import {
   CreateProductOutput,
 } from './dtos/create-account.dto';
 import {
+  FindProductByIdInput,
+  FindProductByIdOutput,
+} from './dtos/find-product';
+import {
   GetAllProductsInput,
   GetAllProductsOutput,
 } from './dtos/get-all-products';
@@ -33,5 +37,13 @@ export class ProductsResolver {
     @Args('input') getAllProductsInput: GetAllProductsInput,
   ): Promise<GetAllProductsOutput> {
     return this.productService.getAllProducts(getAllProductsInput);
+  }
+
+  @Query((returns) => FindProductByIdOutput)
+  @Roles(['Any'])
+  async findProductById(
+    @Args('input') findProductInput: FindProductByIdInput,
+  ): Promise<FindProductByIdOutput> {
+    return this.productService.findProductById(findProductInput);
   }
 }
