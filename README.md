@@ -19,11 +19,11 @@
 
 ## category
 
-- create category
-- category list
-- category includes books and movies
-- edit category
-- delete category
+- create category[o]
+- category list[o]
+- get products on category[o]
+- edit category[o]
+- delete category[o]
 
 ## order
 
