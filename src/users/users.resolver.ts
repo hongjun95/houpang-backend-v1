@@ -11,6 +11,7 @@ import {
 } from './dtos/create-account.dto';
 import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile.dto';
 import { LoginInput, LoginOutput } from './dtos/login.dto';
+import { UserProfileOutput } from './dtos/user-profile.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
@@ -52,5 +53,11 @@ export class UsersResolver {
     @AuthUser() user: User,
   ): Promise<ChangePasswordOutput> {
     return this.usersService.changePassword(ChangePasswordInput, user.id);
+  }
+
+  @Mutation((returns) => UserProfileOutput)
+  @Roles(['Any'])
+  async userProfile(@AuthUser() user: User): Promise<UserProfileOutput> {
+    return this.usersService.findUserById(user.id);
   }
 }

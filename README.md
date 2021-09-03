@@ -5,9 +5,9 @@
 - create-account[o]
 - login[o]
 - logout[Pending]
-- my profile
+- my profile[o]
 - edit profile[o]
-- change password
+- change password[o]
 
 ## product
 
