@@ -9,6 +9,8 @@ import * as Joi from 'joi';
 import { User } from './users/entities/user.entity';
 import { JwtModule } from './jwt/jwt.module';
 import { AuthModule } from './auth/auth.module';
+import { ProductsModule } from './products/products.module';
+import { Product } from './products/entities/product';
 
 @Module({
   imports: [
@@ -68,7 +70,7 @@ import { AuthModule } from './auth/auth.module';
       // DB에 무슨 일이 일어나는지 콘솔에 표시하는 거다.
       logging:
         process.env.NODE_ENV !== 'prod' && process.env.NODE_ENV !== 'test',
-      entities: [User],
+      entities: [User, Product],
     }),
     JwtModule.forRoot({
       privateKey: process.env.PRIVATE_KEY,
@@ -76,6 +78,7 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
     UsersModule,
     CommonModule,
+    ProductsModule,
   ],
   controllers: [],
   providers: [],

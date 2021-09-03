@@ -11,11 +11,11 @@
 
 ## product
 
-- create product
-- product list
-- product detail info
-- edit product
-- delete product
+- create product[o]
+- product list[o]
+- product detail info[o]
+- edit product[o]
+- delete product[o]
 
 ## category
 
@@ -50,3 +50,8 @@
 
 - edit profile
 - change password
+- create product
+- product list
+- product detail info
+- edit product
+- delete product

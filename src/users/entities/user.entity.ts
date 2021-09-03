@@ -11,11 +11,12 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { CoreEntity } from 'src/common/entities/common.entity';
 import { InternalServerErrorException } from '@nestjs/common';
+import { Product } from 'src/products/entities/product';
 
 export enum UserRole {
   Consumer = 'Consumer',
@@ -64,9 +65,9 @@ export class User extends CoreEntity {
   @IsString()
   bio?: string;
 
-  //   @Column()
-  //   @Field((type) => String)
-  //   products: string;
+  @OneToMany((type) => Product, (products) => products.provider)
+  @Field((type) => [Product])
+  products: Product[];
 
   //   @Column()
   //   @Field((type) => String)
