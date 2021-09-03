@@ -34,13 +34,13 @@ export class UsersService {
     try {
       const exists = await this.users.findOne({ email });
       if (exists) {
-        return { ok: false, error: 'There is a user with that email already' };
+        return { ok: false, error: '계정이 있는 이메일입니다.' };
       }
 
       if (password !== verifyPassword) {
         return {
           ok: false,
-          error: 'Password does not match',
+          error: '비밀번호가 같지 않습니다.',
         };
       }
 
@@ -53,7 +53,7 @@ export class UsersService {
       if (!passwordTestPass) {
         return {
           ok: false,
-          error: 'Password must contain special character, string and number',
+          error: '비밀번호는 문자, 숫자, 특수문자를 1개 이상 포함해야 합니다.',
         };
       }
 
@@ -63,7 +63,7 @@ export class UsersService {
 
       return { ok: true };
     } catch (e) {
-      return { ok: false, error: "Couldn't create account" };
+      return { ok: false, error: '계정을 생성할 수 없습니다.' };
     }
   }
 
@@ -74,7 +74,7 @@ export class UsersService {
       if (!user) {
         return {
           ok: false,
-          error: 'User not found',
+          error: '사용자를 찾을 수 없습니다.',
         };
       }
 
@@ -82,7 +82,7 @@ export class UsersService {
       if (!passwordCorrect) {
         return {
           ok: false,
-          error: 'Wrong password',
+          error: '비밀번호가 틀렸습니다.',
         };
       }
 
@@ -90,7 +90,7 @@ export class UsersService {
 
       return { ok: true, token };
     } catch (e) {
-      return { ok: false, error: "Couldn't create account" };
+      return { ok: false, error: '계정을 생성할 수 없습니다.' };
     }
   }
 
@@ -111,30 +111,28 @@ export class UsersService {
   }
 
   async editProfile(
-    { email, language, bio }: EditProfileInput,
+    editProfileInput: EditProfileInput,
     userId: string,
   ): Promise<EditProfileOutput> {
     try {
       const user = await this.users.findOne(userId);
 
-      if (email) {
-        const exists = await this.users.findOne({ email });
+      if (editProfileInput.email) {
+        const exists = await this.users.findOne({
+          email: editProfileInput.email,
+        });
         if (exists) {
           return {
             ok: false,
-            error: 'The email already exists',
+            error: '이미 존재하는 이메일로 수정할 수 없습니다.',
           };
         }
+      }
 
-        user.email = email;
-      }
-      if (language) {
-        user.language = language;
-      }
-      if (bio) {
-        user.bio = bio;
-      }
-      await this.users.save(user);
+      await this.users.save({
+        id: user.id,
+        ...editProfileInput,
+      });
 
       return {
         ok: true,
@@ -143,7 +141,7 @@ export class UsersService {
       console.error(e);
       return {
         ok: false,
-        error: "Can't edit user profile",
+        error: '사용자 프로파일을 수정할 수 없습니다.',
       };
     }
   }
@@ -156,7 +154,7 @@ export class UsersService {
       if (newPassword !== verifyPassword) {
         return {
           ok: false,
-          error: 'Password does not match',
+          error: '비밀번호가 같지 않습니다.',
         };
       }
 
@@ -166,14 +164,14 @@ export class UsersService {
       if (!passwordCorrect) {
         return {
           ok: false,
-          error: 'Wrong current password',
+          error: '현재 비밀번호가 틀립니다.',
         };
       }
 
       if (currentPassword === newPassword) {
         return {
           ok: false,
-          error: 'The new password is same as current password',
+          error: '새 비밀번호가 현재 비밀번호와 같습니다.',
         };
       }
 
@@ -186,7 +184,7 @@ export class UsersService {
       if (!passwordTestPass) {
         return {
           ok: false,
-          error: 'Password must contain special character, string and number',
+          error: '비밀번호는 문자, 숫자, 특수문자를 1개 이상 포함해야 합니다.',
         };
       }
 
@@ -201,7 +199,7 @@ export class UsersService {
       console.error(e);
       return {
         ok: false,
-        error: "Can't edit user profile",
+        error: '사용자 프로파일 수정할 수 없습니다.',
       };
     }
   }
