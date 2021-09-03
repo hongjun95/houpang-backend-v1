@@ -149,11 +149,7 @@ export class UsersService {
   }
 
   async changePassword(
-    {
-      password: currentPassword,
-      newPassword,
-      verifyPassword,
-    }: ChangePasswordInput,
+    { currentPassword, newPassword, verifyPassword }: ChangePasswordInput,
     userId: string,
   ): Promise<ChangePasswordOutput> {
     try {
