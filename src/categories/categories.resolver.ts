@@ -6,6 +6,10 @@ import {
   CreateCategoryOutput,
 } from './dtos/create-category.dto';
 import { GetAllCategoriesOutput } from './dtos/get-all-categories.dto';
+import {
+  GetProductsOnCategoryInput,
+  GetProductsOnCategoryOutput,
+} from './dtos/get-products-on-category.dto';
 
 @Resolver()
 export class CategoriesResolver {
@@ -15,6 +19,15 @@ export class CategoriesResolver {
   @Roles(['Any'])
   async getAllCategories(): Promise<GetAllCategoriesOutput> {
     return this.categoriesService.getAllCategories();
+  }
+
+  @Query((returns) => GetProductsOnCategoryOutput)
+  async getProductsOnCategory(
+    @Args('input') getProductsOnCategoryInput: GetProductsOnCategoryInput,
+  ): Promise<GetProductsOnCategoryOutput> {
+    return this.categoriesService.getProductsOnCategory(
+      getProductsOnCategoryInput,
+    );
   }
 
   @Mutation((returns) => CreateCategoryOutput)

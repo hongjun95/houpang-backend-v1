@@ -21,7 +21,7 @@
 
 - create category[o]
 - category list[o]
-- category includes books and movies
+- get products on category[o]
 - edit category
 - delete category
 

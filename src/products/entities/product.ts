@@ -46,7 +46,6 @@ export class Product extends CoreEntity {
     onDelete: 'SET NULL',
   })
   @Field((type) => Category)
-  @IsString()
   category: Category;
 
   @Field((type) => [InfoItem], { nullable: true })
