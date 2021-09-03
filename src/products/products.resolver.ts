@@ -11,7 +11,7 @@ import { EditProductInput, EditProductOutput } from './dtos/edit-product.dts';
 import {
   DeleteProductInput,
   DeleteProductOutput,
-} from './dtos/edit-product.dts copy';
+} from './dtos/delete-product.dto';
 import {
   FindProductByIdInput,
   FindProductByIdOutput,

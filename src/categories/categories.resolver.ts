@@ -22,6 +22,7 @@ export class CategoriesResolver {
   }
 
   @Query((returns) => GetProductsOnCategoryOutput)
+  @Roles(['Any'])
   async getProductsOnCategory(
     @Args('input') getProductsOnCategoryInput: GetProductsOnCategoryInput,
   ): Promise<GetProductsOnCategoryOutput> {
