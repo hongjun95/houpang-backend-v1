@@ -44,7 +44,7 @@ export class ProductsResolver {
   }
 
   @Mutation((returns) => CreateProductOutput)
-  @Roles(['Provider'])
+  @Roles(['Provider', 'Admin'])
   async createProduct(
     @Args('input') createProductInput: CreateProductInput,
     @AuthUser() provider: User,
@@ -53,7 +53,7 @@ export class ProductsResolver {
   }
 
   @Mutation((returns) => EditProductOutput)
-  @Roles(['Provider'])
+  @Roles(['Provider', 'Admin'])
   async editProduct(
     @Args('input') editProductInput: EditProductInput,
     @AuthUser() provider: User,
@@ -62,7 +62,7 @@ export class ProductsResolver {
   }
 
   @Mutation((returns) => DeleteProductOutput)
-  @Roles(['Provider'])
+  @Roles(['Provider', 'Admin'])
   async deleteProduct(
     @Args('input') deleteProductInput: DeleteProductInput,
     @AuthUser() provider: User,

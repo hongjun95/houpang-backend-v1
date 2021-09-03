@@ -21,6 +21,7 @@ import { Product } from 'src/products/entities/product';
 export enum UserRole {
   Consumer = 'Consumer',
   Provider = 'Provider',
+  Admin = 'Admin',
 }
 
 enum Language {
