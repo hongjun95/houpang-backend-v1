@@ -19,8 +19,8 @@
 
 ## category
 
-- create category
-- category list
+- create category[o]
+- category list[o]
 - category includes books and movies
 - edit category
 - delete category

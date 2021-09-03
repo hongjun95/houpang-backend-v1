@@ -6,6 +6,7 @@ import {
   CreateCategoryInput,
   CreateCategoryOutput,
 } from './dtos/create-category.dto';
+import { GetAllCategoriesOutput } from './dtos/get-all-categories.dto';
 import { Category } from './entities/category.entity';
 
 @Injectable()
@@ -14,6 +15,22 @@ export class CategoriesService {
     @InjectRepository(Category)
     private readonly categories: Repository<Category>,
   ) {}
+
+  async getAllCategories(): Promise<GetAllCategoriesOutput> {
+    try {
+      const categories = await this.categories.find();
+      return {
+        ok: true,
+        categories,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '카테고리를 불러올 수가 없습니다.',
+      };
+    }
+  }
 
   async createCategory({
     name,
