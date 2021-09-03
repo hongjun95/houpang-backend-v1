@@ -38,9 +38,8 @@ export class Product extends CoreEntity {
   @IsNumber()
   price: number;
 
-  @Column()
+  @Column('text', { array: true })
   @Field((type) => [String])
-  @IsString()
   images: string[];
 
   // @ManyToOne((type) => Category, (category) => category.products, {

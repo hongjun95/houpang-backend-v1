@@ -11,7 +11,7 @@
 
 ## product
 
-- create product
+- create product[o]
 - product list
 - product detail info
 - edit product

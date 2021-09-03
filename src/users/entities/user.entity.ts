@@ -16,7 +16,7 @@ import * as bcrypt from 'bcrypt';
 
 import { CoreEntity } from 'src/common/entities/common.entity';
 import { InternalServerErrorException } from '@nestjs/common';
-import { Product } from 'src/products/entities/products';
+import { Product } from 'src/products/entities/product';
 
 export enum UserRole {
   Consumer = 'Consumer',
