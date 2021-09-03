@@ -7,6 +7,7 @@ import {
   CreateProductInput,
   CreateProductOutput,
 } from './dtos/create-product.dto';
+import { EditProductInput, EditProductOutput } from './dtos/edit-product.dts';
 import {
   FindProductByIdInput,
   FindProductByIdOutput,
@@ -22,15 +23,6 @@ import { ProductsService } from './products.service';
 export class ProductsResolver {
   constructor(private readonly productService: ProductsService) {}
 
-  @Mutation((returns) => CreateProductOutput)
-  @Roles(['Provider'])
-  async createProduct(
-    @Args('input') createProductInput: CreateProductInput,
-    @AuthUser() provider: User,
-  ): Promise<CreateProductOutput> {
-    return this.productService.createProduct(createProductInput, provider);
-  }
-
   @Query((returns) => GetAllProductsOutput)
   @Roles(['Any'])
   async getAllProducts(
@@ -45,5 +37,23 @@ export class ProductsResolver {
     @Args('input') findProductInput: FindProductByIdInput,
   ): Promise<FindProductByIdOutput> {
     return this.productService.findProductById(findProductInput);
+  }
+
+  @Mutation((returns) => CreateProductOutput)
+  @Roles(['Provider'])
+  async createProduct(
+    @Args('input') createProductInput: CreateProductInput,
+    @AuthUser() provider: User,
+  ): Promise<CreateProductOutput> {
+    return this.productService.createProduct(createProductInput, provider);
+  }
+
+  @Mutation((returns) => EditProductOutput)
+  @Roles(['Provider'])
+  async editProduct(
+    @Args('input') editProductInput: EditProductInput,
+    @AuthUser() provider: User,
+  ): Promise<EditProductOutput> {
+    return this.productService.editProduct(editProductInput, provider);
   }
 }

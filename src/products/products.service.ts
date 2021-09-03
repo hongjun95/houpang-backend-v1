@@ -7,6 +7,7 @@ import {
   CreateProductInput,
   CreateProductOutput,
 } from './dtos/create-product.dto';
+import { EditProductInput, EditProductOutput } from './dtos/edit-product.dts';
 import {
   FindProductByIdInput,
   FindProductByIdOutput,
@@ -23,39 +24,6 @@ export class ProductsService {
     @InjectRepository(Product)
     private readonly products: Repository<Product>,
   ) {}
-
-  async createProduct(
-    createProductInput: CreateProductInput,
-    provider: User,
-  ): Promise<CreateProductOutput> {
-    try {
-      const product = await this.products.findOne({
-        name: createProductInput.name,
-        provider,
-      });
-
-      if (product) {
-        return {
-          ok: false,
-          error: '이미 해당 상품을 추가하셨습니다.',
-        };
-      }
-
-      await this.products.save(
-        this.products.create({ ...createProductInput, provider }),
-      );
-
-      return {
-        ok: true,
-      };
-    } catch (error) {
-      console.error(error);
-      return {
-        ok: false,
-        error: '상품을 추가할 수 없습니다.',
-      };
-    }
-  }
 
   async getAllProducts({
     page,
@@ -106,6 +74,72 @@ export class ProductsService {
       return {
         ok: false,
         error: '상품 품목들을 가져올 수 없습니다.',
+      };
+    }
+  }
+
+  async createProduct(
+    createProductInput: CreateProductInput,
+    provider: User,
+  ): Promise<CreateProductOutput> {
+    try {
+      const product = await this.products.findOne({
+        name: createProductInput.name,
+        provider,
+      });
+
+      if (product) {
+        return {
+          ok: false,
+          error: '이미 해당 상품을 추가하셨습니다.',
+        };
+      }
+
+      await this.products.save(
+        this.products.create({ ...createProductInput, provider }),
+      );
+
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '상품을 추가할 수 없습니다.',
+      };
+    }
+  }
+
+  async editProduct(
+    editProductInput: EditProductInput,
+    provider: User,
+  ): Promise<EditProductOutput> {
+    try {
+      const product = await this.products.findOne({
+        id: editProductInput.id,
+        provider,
+      });
+
+      if (!product) {
+        return {
+          ok: false,
+          error: '수정하시려는 상품이 없습니다.',
+        };
+      }
+
+      await this.products.save({
+        ...editProductInput,
+      });
+
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '상품을 추가할 수 없습니다.',
       };
     }
   }
