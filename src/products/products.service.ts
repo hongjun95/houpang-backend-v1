@@ -105,7 +105,6 @@ export class ProductsService {
       const category = await this.categories.findOneBySlugUsingName(
         createProductInput.categoryName,
       );
-      console.log(category);
 
       await this.products.save(
         this.products.create({ ...createProductInput, provider, category }),
@@ -140,8 +139,14 @@ export class ProductsService {
         };
       }
 
+      const category = await this.categories.findOneBySlugUsingName(
+        editProductInput.categoryName,
+      );
+
       await this.products.save({
+        id: editProductInput.productId,
         ...editProductInput,
+        category,
       });
 
       return {
