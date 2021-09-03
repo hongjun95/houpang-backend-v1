@@ -7,6 +7,10 @@ import {
   CreateProductInput,
   CreateProductOutput,
 } from './dtos/create-account.dto';
+import {
+  GetAllProductsInput,
+  GetAllProductsOutput,
+} from './dtos/get-all-products';
 import { Product } from './entities/product';
 
 @Injectable()
@@ -21,7 +25,6 @@ export class ProductsService {
     provider: User,
   ): Promise<CreateProductOutput> {
     try {
-      console.log(createProductInput);
       const product = await this.products.findOne({
         name: createProductInput.name,
         provider,
@@ -34,7 +37,9 @@ export class ProductsService {
         };
       }
 
-      await this.products.save(this.products.create(createProductInput));
+      await this.products.save(
+        this.products.create({ ...createProductInput, provider }),
+      );
 
       return {
         ok: true,
@@ -44,6 +49,36 @@ export class ProductsService {
       return {
         ok: false,
         error: '상품을 추가할 수 없습니다.',
+      };
+    }
+  }
+
+  async getAllProducts({
+    page,
+  }: GetAllProductsInput): Promise<GetAllProductsOutput> {
+    // todo
+    // category 내역에 있는 품목만 가져오는 것으로 만들기
+    try {
+      const takePages = 10;
+      const [products, totalProducts] = await this.products.findAndCount({
+        skip: (page - 1) * takePages,
+        take: takePages,
+        order: {
+          createdAt: 'DESC',
+        },
+        relations: ['provider'],
+      });
+      return {
+        ok: true,
+        products,
+        totalPages: Math.ceil(totalProducts / takePages),
+        totalResults: totalProducts,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '상품 품목들을 가져올 수 없습니다.',
       };
     }
   }
