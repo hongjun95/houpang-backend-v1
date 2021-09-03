@@ -29,12 +29,34 @@ export class UsersService {
     password,
     language,
     bio,
+    verifyPassword,
   }: CreateAccountInput): Promise<CreateAccountOutput> {
     try {
       const exists = await this.users.findOne({ email });
       if (exists) {
         return { ok: false, error: 'There is a user with that email already' };
       }
+
+      if (password !== verifyPassword) {
+        return {
+          ok: false,
+          error: 'Password does not match',
+        };
+      }
+
+      const regex = new RegExp(
+        /(?=.*[!@#$%^&\*\(\)_\+\-=\[\]\{\};\':\"\\\|,\.<>\/\?]+)(?=.*[a-zA-Z]+)(?=.*\d+)/,
+      );
+
+      const passwordTestPass = regex.test(password);
+
+      if (!passwordTestPass) {
+        return {
+          ok: false,
+          error: 'Password must contain special character, string and number',
+        };
+      }
+
       const user = await this.users.save(
         this.users.create({ email, password, language, bio }),
       );
