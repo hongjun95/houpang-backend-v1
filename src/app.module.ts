@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
 import { Product } from './products/entities/product';
 import { CategoriesModule } from './categories/categories.module';
+import { Category } from './categories/entities/category.entity';
 
 @Module({
   imports: [
@@ -71,7 +72,7 @@ import { CategoriesModule } from './categories/categories.module';
       // DB에 무슨 일이 일어나는지 콘솔에 표시하는 거다.
       logging:
         process.env.NODE_ENV !== 'prod' && process.env.NODE_ENV !== 'test',
-      entities: [User, Product],
+      entities: [User, Product, Category],
     }),
     JwtModule.forRoot({
       privateKey: process.env.PRIVATE_KEY,
