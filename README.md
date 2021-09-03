@@ -22,8 +22,8 @@
 - create category[o]
 - category list[o]
 - get products on category[o]
-- edit category
-- delete category
+- edit category[o]
+- delete category[o]
 
 ## order
 

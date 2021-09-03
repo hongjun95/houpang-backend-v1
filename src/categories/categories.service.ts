@@ -7,6 +7,10 @@ import {
   CreateCategoryOutput,
 } from './dtos/create-category.dto';
 import {
+  DeleteCategoryInput,
+  DeleteCategoryOutput,
+} from './dtos/delete-category.dto';
+import {
   EditCategoryInput,
   EditCategoryOutput,
 } from './dtos/edit-category.dto';
@@ -128,14 +132,13 @@ export class CategoriesService {
   async editCategory({
     name,
     coverImg,
+    categoryId,
   }: EditCategoryInput): Promise<EditCategoryOutput> {
     try {
       const categoryName = name.trim().toLowerCase();
       const categorySlug = categoryName.replace(/ /g, '-');
 
-      const category = await this.categories.findOne({
-        slug: categorySlug,
-      });
+      const category = await this.categories.findOne(categoryId);
 
       if (!category) {
         return {
@@ -145,11 +148,38 @@ export class CategoriesService {
       }
 
       await this.categories.save({
+        id: categoryId,
         name: categoryName,
         coverImg,
         slug: categorySlug,
       });
 
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '카테고리를 수정할 수 없습니다.',
+      };
+    }
+  }
+
+  async deleteCategory({
+    categoryId,
+  }: DeleteCategoryInput): Promise<DeleteCategoryOutput> {
+    try {
+      const category = await this.categories.findOne(categoryId);
+
+      if (!category) {
+        return {
+          ok: false,
+          error: '삭제할 카테고리를 찾을 수가 없습니다.',
+        };
+      }
+
+      await this.categories.delete(categoryId);
       return {
         ok: true,
       };
