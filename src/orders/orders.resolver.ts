@@ -71,7 +71,8 @@ export class OrdersResolver {
   @Roles(['Consumer', 'Admin'])
   async cancelOrder(
     @Args('input') cancelOrderInput: CancelOrderInput,
+    @AuthUser() consumer: User,
   ): Promise<CancelOrderOutput> {
-    return this.ordersService.cancelOrder(cancelOrderInput);
+    return this.ordersService.cancelOrder(cancelOrderInput,consumer);
   }
 }

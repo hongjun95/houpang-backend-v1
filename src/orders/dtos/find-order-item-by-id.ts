@@ -6,6 +6,9 @@ import { OrderItem } from '../entities/order-item.entity';
 export class FindOrderItemByIdInput {
   @Field((type) => String)
   orderItemId: string;
+
+  @Field((type) => String)
+  providerId: string;
 }
 
 @ObjectType()

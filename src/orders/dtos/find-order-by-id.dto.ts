@@ -6,6 +6,9 @@ import { Order } from '../entities/order.entity';
 export class FindOrderByIdInput {
   @Field((type) => String)
   orderId: string;
+
+  @Field((type) => String)
+  consumerId: string;
 }
 
 @ObjectType()

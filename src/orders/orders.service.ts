@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product';
-import { User, UserRole } from 'src/users/entities/user.entity';
+import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateOrderInput, CreateOrderOutput } from './dtos/create-order.dto';
 import {
@@ -14,10 +14,6 @@ import {
 } from './dtos/get-orders-from-consumer.dto';
 import { OrderItem } from './entities/order-item.entity';
 import { Order, OrderStatus } from './entities/order.entity';
-import {
-  FindProductByIdInput,
-  FindProductByIdOutput,
-} from 'src/products/dtos/find-product-by-id.dto';
 import {
   FindOrderByIdInput,
   FindOrderByIdOutput,
@@ -50,6 +46,14 @@ export class OrdersService {
   }: GetOrdersFromConsumerInput): Promise<GetOrdersFromConsumerOutput> {
     try {
       const consumer = await this.users.findOne(customerId);
+
+      if (!consumer) {
+        return {
+          ok: false,
+          error: '고객이 존재하지 않습니다.',
+        };
+      }
+
       const orders = await this.orders.find({
         where: {
           consumer,
@@ -71,7 +75,7 @@ export class OrdersService {
       console.error(error);
       return {
         ok: false,
-        error: 'Could not get orders',
+        error: '고객의 주문들을 가져올 수가 없습니다.',
       };
     }
   }
@@ -82,6 +86,14 @@ export class OrdersService {
   }: GetOrdersFromProviderInput): Promise<GetOrdersFromProviderOutput> {
     try {
       const provider = await this.users.findOne(providerId);
+
+      if (!provider) {
+        return {
+          ok: false,
+          error: '공급자가 존재하지 않습니다.',
+        };
+      }
+
       const orderItems = await this.orderItems.find({
         where: {
           product: {
@@ -105,15 +117,25 @@ export class OrdersService {
       console.error(error);
       return {
         ok: false,
-        error: 'Could not get orders',
+        error: '공급자에게 판매된 주문을 가져올 수가 없습니다.',
       };
     }
   }
 
   async findOrderById({
     orderId,
+    consumerId,
   }: FindOrderByIdInput): Promise<FindOrderByIdOutput> {
     try {
+      const consumer = await this.users.findOne(consumerId);
+
+      if (!consumer) {
+        return {
+          ok: false,
+          error: '고객이 존재하지 않습니다.',
+        };
+      }
+
       const order = await this.orders.findOne(orderId, {
         relations: [
           'orderItems',
@@ -123,6 +145,13 @@ export class OrdersService {
         ],
       });
 
+      if (!order) {
+        return {
+          ok: false,
+          error: '주문 ID에 해당하는 주문이 없습니다.',
+        };
+      }
+
       return {
         ok: true,
         order,
@@ -131,18 +160,35 @@ export class OrdersService {
       console.error(error);
       return {
         ok: false,
-        error: '상품 품목들을 가져올 수 없습니다.',
+        error: '해당 주문 ID 값의 주문을 가져올 수가 없습니다.',
       };
     }
   }
 
   async findOrderItemById({
     orderItemId,
+    providerId,
   }: FindOrderItemByIdInput): Promise<FindOrderItemByIdOutput> {
     try {
+      const provider = await this.users.findOne(providerId);
+
+      if (!provider) {
+        return {
+          ok: false,
+          error: '공급자가 존재하지 않습니다.',
+        };
+      }
+
       const orderItem = await this.orderItems.findOne(orderItemId, {
         relations: ['product', 'product.provider', 'product.category', 'order'],
       });
+
+      if (!orderItem) {
+        return {
+          ok: false,
+          error: '해당 품목에 대한 주문이 없습니다.',
+        };
+      }
 
       return {
         ok: true,
@@ -205,9 +251,24 @@ export class OrdersService {
     }
   }
 
-  async cancelOrder({ orderId }: CancelOrderInput): Promise<CancelOrderOutput> {
+  async cancelOrder(
+    { orderId }: CancelOrderInput,
+    consumer: User,
+  ): Promise<CancelOrderOutput> {
     try {
-      const order = await this.orders.findOne(orderId);
+      const order = await this.orders.findOne({
+        where: {
+          id: orderId,
+          consumer,
+        },
+      });
+
+      if (!order) {
+        return {
+          ok: false,
+          error: '주문을 찾을 수가 없습니다.',
+        };
+      }
 
       if (order.status !== OrderStatus.Checking) {
         return {
