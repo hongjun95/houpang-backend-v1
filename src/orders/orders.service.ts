@@ -63,15 +63,16 @@ export class OrdersService {
     }
   }
 
-  async getOrdersFromProvider(
-    user: User,
-    { status }: GetOrdersFromProviderInput,
-  ): Promise<GetOrdersFromProviderOutput> {
+  async getOrdersFromProvider({
+    status,
+    providerId,
+  }: GetOrdersFromProviderInput): Promise<GetOrdersFromProviderOutput> {
     try {
+      const provider = await this.users.findOne(providerId);
       const orderItems = await this.orderItems.find({
         where: {
           product: {
-            provider: user,
+            provider,
           },
           order: {
             ...(status && { status }),

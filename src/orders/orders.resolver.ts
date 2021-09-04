@@ -28,10 +28,9 @@ export class OrdersResolver {
   @Query((returns) => GetOrdersFromProviderOutput)
   @Roles(['Provider', 'Admin'])
   async getOrdersFromProvider(
-    @AuthUser() user: User,
     @Args('input') getOrdersInput: GetOrdersFromProviderInput,
   ): Promise<GetOrdersFromProviderOutput> {
-    return this.ordersService.getOrdersFromProvider(user, getOrdersInput);
+    return this.ordersService.getOrdersFromProvider(getOrdersInput);
   }
 
   @Mutation((returns) => CreateOrderOutput)

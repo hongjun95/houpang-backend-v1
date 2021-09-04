@@ -7,6 +7,9 @@ import { OrderStatus } from '../entities/order.entity';
 export class GetOrdersFromProviderInput {
   @Field((type) => OrderStatus, { nullable: true })
   status?: OrderStatus;
+
+  @Field((type) => String)
+  providerId: string;
 }
 
 @ObjectType()
