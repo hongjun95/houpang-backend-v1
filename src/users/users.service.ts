@@ -92,8 +92,6 @@ export class UsersService {
         }),
       );
 
-      console.log(user);
-
       await this.favlists.save(
         this.favlists.create({
           createdBy: user,

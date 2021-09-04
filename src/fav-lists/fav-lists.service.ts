@@ -30,9 +30,14 @@ export class FavListsService {
         };
       }
 
-      const favList = await this.favLists.findOne({ createdBy: consumer });
+      const favList = await this.favLists.findOne({
+        where: {
+          createdBy: consumer,
+        },
+        relations: ['products'],
+      });
 
-      favList.products.push(product);
+      favList.products = [...favList.products, { ...product }];
 
       await this.favLists.save(favList);
 
