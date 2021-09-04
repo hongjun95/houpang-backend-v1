@@ -33,9 +33,10 @@
 
 ## order
 
-- create order
+- create order[o]
+- get all orders from customer[o]
+- get all orders from provider
 - Cancel order
-- get all order lists
 - order detail
 - payment service
 

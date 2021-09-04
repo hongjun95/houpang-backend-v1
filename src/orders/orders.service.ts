@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product';
-import { User } from 'src/users/entities/user.entity';
+import { User, UserRole } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateOrderInput, CreateOrderOutput } from './dtos/create-order.dto';
+import { GetOrdersInput, GetOrdersOutput } from './dtos/get-orders.dto';
 import { OrderItem } from './entities/order-item.entity';
 import { Order, OrderStatus } from './entities/order.entity';
 
@@ -19,6 +20,32 @@ export class OrdersService {
     @InjectRepository(Product)
     private readonly products: Repository<Product>,
   ) {}
+
+  async getOrdersFromCustomer(
+    user: User,
+    { status }: GetOrdersInput,
+  ): Promise<GetOrdersOutput> {
+    try {
+      const orders = await this.orders.find({
+        where: {
+          consumer: user,
+          ...(status && { status }),
+        },
+        relations: ['consumer', 'items', 'items.product'],
+      });
+
+      return {
+        ok: true,
+        orders,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: 'Could not get orders',
+      };
+    }
+  }
 
   async createOrder(
     { productIds }: CreateOrderInput,
@@ -49,6 +76,7 @@ export class OrdersService {
       const order = await this.orders.save(
         this.orders.create({
           consumer,
+          items: orderItems,
           total: orderFinalPrice,
           status: OrderStatus.Checking,
         }),
