@@ -23,6 +23,7 @@ export enum OrderStatus {
   Received = '주문 접수',
   Delivering = '배달중',
   Delivered = '배달 완료',
+  Canceled = '주문 취소',
 }
 
 registerEnumType(OrderStatus, { name: 'OrderStatus' });

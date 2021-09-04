@@ -56,3 +56,8 @@
 - find order item by id (Limited in Provider and Admin)
 - Cancel order
 - payment service
+
+# tomorrow todo
+
+- Add username field to User Entity
+- Auth security for orders

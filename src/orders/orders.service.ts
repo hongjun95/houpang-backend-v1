@@ -26,6 +26,7 @@ import {
   FindOrderItemByIdInput,
   FindOrderItemByIdOutput,
 } from './dtos/find-order-item-by-id';
+import { CancelOrderInput, CancelOrderOutput } from './dtos/cancel-order.dto';
 
 @Injectable()
 export class OrdersService {
@@ -200,6 +201,33 @@ export class OrdersService {
       return {
         ok: false,
         error: '주문을 하실 수가 없습니다.',
+      };
+    }
+  }
+
+  async cancelOrder({ orderId }: CancelOrderInput): Promise<CancelOrderOutput> {
+    try {
+      const order = await this.orders.findOne(orderId);
+
+      if (order.status !== OrderStatus.Checking) {
+        return {
+          ok: false,
+          error: '주문을 취소할 수 없습니다.',
+        };
+      }
+
+      order.status = OrderStatus.Canceled;
+      const newOrder = await this.orders.save(order);
+
+      return {
+        ok: true,
+        order: newOrder,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '주문을 취소할 수 없습니다.',
       };
     }
   }
