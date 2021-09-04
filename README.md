@@ -61,7 +61,6 @@
 - find order by id (Limited in Consumer and Admin)
 - find order item by id (Limited in Provider and Admin)
 - Cancel order
-- payment service
 
 # tomorrow todo
 
