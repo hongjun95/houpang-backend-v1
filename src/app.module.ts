@@ -16,6 +16,7 @@ import { Category } from './categories/entities/category.entity';
 import { OrdersModule } from './orders/orders.module';
 import { Order } from './orders/entities/order.entity';
 import { OrderItem } from './orders/entities/order-item.entity';
+import { FavListsModule } from './fav-lists/fav-lists.module';
 
 @Module({
   imports: [
@@ -86,6 +87,7 @@ import { OrderItem } from './orders/entities/order-item.entity';
     ProductsModule,
     CategoriesModule,
     OrdersModule,
+    FavListsModule,
   ],
   controllers: [],
   providers: [],
