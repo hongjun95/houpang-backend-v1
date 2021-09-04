@@ -32,11 +32,10 @@ export class ProductsService {
     private readonly categories: CategoryRepository,
   ) {}
 
+  // Deprecated
   async getAllProducts({
     page,
   }: GetAllProductsInput): Promise<GetAllProductsOutput> {
-    // todo
-    // category 내역에 있는 품목만 가져오는 것으로 만들기
     try {
       const takePages = 10;
       const [products, totalProducts] = await this.products.findAndCount({
