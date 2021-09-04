@@ -11,6 +11,6 @@ export class GetAllProductsInput extends PaginationInput {}
 
 @ObjectType()
 export class GetAllProductsOutput extends PaginationOutput {
-  @Field((type) => [Product])
+  @Field((type) => [Product], { nullable: true })
   products?: Product[];
 }

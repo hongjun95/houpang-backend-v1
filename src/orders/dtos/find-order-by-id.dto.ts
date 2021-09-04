@@ -10,6 +10,6 @@ export class FindOrderByIdInput {
 
 @ObjectType()
 export class FindOrderByIdOutput extends CoreOutput {
-  @Field((type) => Order)
+  @Field((type) => Order, { nullable: true })
   order?: Order;
 }
