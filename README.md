@@ -41,6 +41,12 @@
 - Cancel order[o]
 - payment service
 
+## Fav list
+
+- Add product to a fav list
+- Remove product from a fav list
+- Get a fav list
+
 ## review
 
 - create review

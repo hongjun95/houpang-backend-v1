@@ -45,7 +45,7 @@ export class User extends CoreEntity {
   @Column({ unique: true })
   @Field((type) => String)
   @IsString()
-  nickName: string;
+  username: string;
 
   @Column()
   @Field((type) => String)
@@ -71,6 +71,16 @@ export class User extends CoreEntity {
   @Field((type) => String, { nullable: true })
   @IsString()
   bio?: string;
+
+  @Column({ unique: true })
+  @Field((type) => String)
+  @IsString()
+  phoneNumber: string;
+
+  @Column({ unique: true })
+  @Field((type) => String)
+  @IsString()
+  address: string;
 
   @OneToMany((type) => Product, (product) => product.provider)
   @Field((type) => [Product])

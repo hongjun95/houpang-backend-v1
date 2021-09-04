@@ -26,15 +26,22 @@ export class UsersService {
 
   async createAccount({
     email,
-    nickName,
+    username,
     password,
-    language,
-    bio,
     verifyPassword,
+    language,
+    phoneNumber,
+    address,
+    bio,
   }: CreateAccountInput): Promise<CreateAccountOutput> {
     try {
-      const exists = await this.users.findOne({ email });
-      if (exists) {
+      const existedEmail = await this.users.findOne({ email });
+      if (existedEmail) {
+        return { ok: false, error: '계정이 있는 이메일입니다.' };
+      }
+
+      const existedUsername = await this.users.findOne({ username });
+      if (existedUsername) {
         return { ok: false, error: '계정이 있는 이메일입니다.' };
       }
 
@@ -45,11 +52,11 @@ export class UsersService {
         };
       }
 
-      const regex = new RegExp(
+      const passwordRegex = new RegExp(
         /(?=.*[!@#$%^&\*\(\)_\+\-=\[\]\{\};\':\"\\\|,\.<>\/\?]+)(?=.*[a-zA-Z]+)(?=.*\d+)/,
       );
 
-      const passwordTestPass = regex.test(password);
+      const passwordTestPass = passwordRegex.test(password);
 
       if (!passwordTestPass) {
         return {
@@ -58,8 +65,25 @@ export class UsersService {
         };
       }
 
-      const user = await this.users.save(
-        this.users.create({ email, nickName, password, language, bio }),
+      const phoneNumberRegex = new RegExp(/^[0-9]{3}[-]+[0-9]{4}[-]+[0-9]{4}$/);
+
+      if (!phoneNumberRegex) {
+        return {
+          ok: false,
+          error: '올바른 전화번호를 입력하세요',
+        };
+      }
+
+      await this.users.save(
+        this.users.create({
+          email,
+          username,
+          password,
+          language,
+          phoneNumber,
+          address,
+          bio,
+        }),
       );
 
       return { ok: true };
@@ -130,16 +154,25 @@ export class UsersService {
         }
       }
 
-      if (editProfileInput.nickName) {
+      if (editProfileInput.username) {
         const exists = await this.users.findOne({
-          nickName: editProfileInput.nickName,
+          username: editProfileInput.username,
         });
         if (exists) {
           return {
             ok: false,
-            error: '이미 존재하는 닉네임으로 수정할 수 없습니다.',
+            error: '이미 존재하는 사용자 이름으로 수정할 수 없습니다.',
           };
         }
+      }
+
+      const phoneNumberRegex = new RegExp(/^[0-9]{3}[-]+[0-9]{4}[-]+[0-9]{4}$/);
+
+      if (!phoneNumberRegex) {
+        return {
+          ok: false,
+          error: '올바른 전화번호를 입력하세요',
+        };
       }
 
       await this.users.save({

@@ -7,9 +7,11 @@ import { User } from '../entities/user.entity';
 @InputType()
 export class CreateAccountInput extends PickType(User, [
   'email',
-  'nickName',
+  'username',
   'password',
   'language',
+  'phoneNumber',
+  'address',
 ]) {
   @Field((type) => String, { nullable: true })
   bio?: string;
