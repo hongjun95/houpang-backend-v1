@@ -8,7 +8,9 @@ import { Entity, JoinColumn, JoinTable, ManyToMany, OneToOne } from 'typeorm';
 @InputType()
 @Entity()
 export class FavList extends CoreEntity {
-  @OneToOne(() => User)
+  @OneToOne(() => User, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   createdBy: User;
 
