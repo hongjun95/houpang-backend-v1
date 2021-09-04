@@ -15,11 +15,11 @@ import {
 import {
   FindProductByIdInput,
   FindProductByIdOutput,
-} from './dtos/find-product';
+} from './dtos/find-product-by-id.dto';
 import {
   GetAllProductsInput,
   GetAllProductsOutput,
-} from './dtos/get-all-products';
+} from './dtos/get-all-products.dto';
 import { Product } from './entities/product';
 import { CategoryRepository } from 'src/categories/repositories/category.repository';
 

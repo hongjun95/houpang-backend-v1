@@ -12,7 +12,10 @@ import {
   GetOrdersFromConsumerOutput,
 } from './dtos/get-orders-from-consumer.dto';
 import { OrdersService } from './orders.service';
-import { FindOrderByIdInput, FindOrderByIdOutput } from './dtos/find-order';
+import {
+  FindOrderByIdInput,
+  FindOrderByIdOutput,
+} from './dtos/find-order-by-id.dto';
 
 @Resolver()
 export class OrdersResolver {

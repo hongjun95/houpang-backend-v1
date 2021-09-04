@@ -15,11 +15,11 @@ import { EditProductInput, EditProductOutput } from './dtos/edit-product.dto';
 import {
   FindProductByIdInput,
   FindProductByIdOutput,
-} from './dtos/find-product';
+} from './dtos/find-product-by-id.dto';
 import {
   GetAllProductsInput,
   GetAllProductsOutput,
-} from './dtos/get-all-products';
+} from './dtos/get-all-products.dto';
 
 import { ProductsService } from './products.service';
 

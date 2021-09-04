@@ -17,8 +17,11 @@ import { Order, OrderStatus } from './entities/order.entity';
 import {
   FindProductByIdInput,
   FindProductByIdOutput,
-} from 'src/products/dtos/find-product';
-import { FindOrderByIdInput, FindOrderByIdOutput } from './dtos/find-order';
+} from 'src/products/dtos/find-product-by-id.dto';
+import {
+  FindOrderByIdInput,
+  FindOrderByIdOutput,
+} from './dtos/find-order-by-id.dto';
 
 @Injectable()
 export class OrdersService {
