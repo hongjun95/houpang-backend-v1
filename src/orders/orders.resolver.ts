@@ -7,20 +7,22 @@ import {
   GetOrdersFromProviderInput,
   GetOrdersFromProviderOutput,
 } from './dtos/get-orders-from-provider.dto';
-import { GetOrdersInput, GetOrdersOutput } from './dtos/get-orders.dto';
+import {
+  GetOrdersFromConsumerInput,
+  GetOrdersFromConsumerOutput,
+} from './dtos/get-orders-from-consumer.dto';
 import { OrdersService } from './orders.service';
 
 @Resolver()
 export class OrdersResolver {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @Query((returns) => GetOrdersOutput)
-  @Roles(['Consumer'])
-  async getOrdersFromCustomer(
-    @AuthUser() user: User,
-    @Args('input') getOrdersInput: GetOrdersInput,
-  ): Promise<GetOrdersOutput> {
-    return this.ordersService.getOrdersFromCustomer(user, getOrdersInput);
+  @Query((returns) => GetOrdersFromConsumerOutput)
+  @Roles(['Consumer', 'Admin'])
+  async getOrdersFromConsumer(
+    @Args('input') getOrdersInput: GetOrdersFromConsumerInput,
+  ): Promise<GetOrdersFromConsumerOutput> {
+    return this.ordersService.getOrdersFromConsumer(getOrdersInput);
   }
 
   @Query((returns) => GetOrdersFromProviderOutput)

@@ -8,7 +8,10 @@ import {
   GetOrdersFromProviderInput,
   GetOrdersFromProviderOutput,
 } from './dtos/get-orders-from-provider.dto';
-import { GetOrdersInput, GetOrdersOutput } from './dtos/get-orders.dto';
+import {
+  GetOrdersFromConsumerInput,
+  GetOrdersFromConsumerOutput,
+} from './dtos/get-orders-from-consumer.dto';
 import { OrderItem } from './entities/order-item.entity';
 import { Order, OrderStatus } from './entities/order.entity';
 
@@ -23,19 +26,28 @@ export class OrdersService {
 
     @InjectRepository(Product)
     private readonly products: Repository<Product>,
+
+    @InjectRepository(User)
+    private readonly users: Repository<User>,
   ) {}
 
-  async getOrdersFromCustomer(
-    user: User,
-    { status }: GetOrdersInput,
-  ): Promise<GetOrdersOutput> {
+  async getOrdersFromConsumer({
+    status,
+    customerId,
+  }: GetOrdersFromConsumerInput): Promise<GetOrdersFromConsumerOutput> {
     try {
+      const consumer = await this.users.findOne(customerId);
       const orders = await this.orders.find({
         where: {
-          consumer: user,
+          consumer,
           ...(status && { status }),
         },
-        relations: ['consumer', 'items', 'items.product'],
+        relations: [
+          'orderItems',
+          'orderItems.product',
+          'orderItems.product.category',
+          'orderItems.product.provider',
+        ],
       });
 
       return {
