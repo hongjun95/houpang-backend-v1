@@ -42,6 +42,11 @@ export class User extends CoreEntity {
   @IsEmail()
   email: string;
 
+  @Column({ unique: true })
+  @Field((type) => String)
+  @IsString()
+  nickName: string;
+
   @Column()
   @Field((type) => String)
   @MinLength(8)

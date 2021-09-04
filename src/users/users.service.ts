@@ -26,6 +26,7 @@ export class UsersService {
 
   async createAccount({
     email,
+    nickName,
     password,
     language,
     bio,
@@ -58,7 +59,7 @@ export class UsersService {
       }
 
       const user = await this.users.save(
-        this.users.create({ email, password, language, bio }),
+        this.users.create({ email, nickName, password, language, bio }),
       );
 
       return { ok: true };
@@ -125,6 +126,18 @@ export class UsersService {
           return {
             ok: false,
             error: '이미 존재하는 이메일로 수정할 수 없습니다.',
+          };
+        }
+      }
+
+      if (editProfileInput.nickName) {
+        const exists = await this.users.findOne({
+          nickName: editProfileInput.nickName,
+        });
+        if (exists) {
+          return {
+            ok: false,
+            error: '이미 존재하는 닉네임으로 수정할 수 없습니다.',
           };
         }
       }

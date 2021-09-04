@@ -5,6 +5,7 @@ import { User } from '../entities/user.entity';
 @InputType()
 export class EditProfileInput extends PickType(PartialType(User), [
   'email',
+  'nickName',
   'language',
   'bio',
 ]) {}

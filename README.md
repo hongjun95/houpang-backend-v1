@@ -38,7 +38,7 @@
 - get all orders from provider[o]
 - find order by id (Limited in Consumer and Admin)[o]
 - find order item by id (Limited in Provider and Admin)[o]
-- Cancel order
+- Cancel order[o]
 - payment service
 
 ## review
@@ -58,6 +58,3 @@
 - payment service
 
 # tomorrow todo
-
-- Add username field to User Entity
-- Auth security for orders
