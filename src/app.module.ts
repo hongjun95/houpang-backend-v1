@@ -13,6 +13,7 @@ import { ProductsModule } from './products/products.module';
 import { Product } from './products/entities/product';
 import { CategoriesModule } from './categories/categories.module';
 import { Category } from './categories/entities/category.entity';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -82,6 +83,7 @@ import { Category } from './categories/entities/category.entity';
     CommonModule,
     ProductsModule,
     CategoriesModule,
+    OrdersModule,
   ],
   controllers: [],
   providers: [],
