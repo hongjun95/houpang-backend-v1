@@ -7,7 +7,6 @@ import {
 } from '@nestjs/graphql';
 import { IsNumber } from 'class-validator';
 import { CoreEntity } from 'src/common/entities/common.entity';
-import { Product } from 'src/products/entities/product';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,

@@ -8,8 +8,6 @@ import { Order } from './order.entity';
 @ObjectType()
 @Entity()
 export class OrderItem extends CoreEntity {
-  // OrderItem : product
-
   @Field((type) => Order)
   @ManyToOne((type) => Order, (order) => order.items, {
     onDelete: 'CASCADE',
