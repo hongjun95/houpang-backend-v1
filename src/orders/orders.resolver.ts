@@ -16,6 +16,10 @@ import {
   FindOrderByIdInput,
   FindOrderByIdOutput,
 } from './dtos/find-order-by-id.dto';
+import {
+  FindOrderItemByIdInput,
+  FindOrderItemByIdOutput,
+} from './dtos/find-order-item-by-id';
 
 @Resolver()
 export class OrdersResolver {
@@ -40,9 +44,17 @@ export class OrdersResolver {
   @Query((returns) => FindOrderByIdOutput)
   @Roles(['Consumer', 'Admin'])
   async findOrderById(
-    @Args('input') findOrderById: FindOrderByIdInput,
+    @Args('input') findOrderByIdInput: FindOrderByIdInput,
   ): Promise<FindOrderByIdOutput> {
-    return this.ordersService.findOrderById(findOrderById);
+    return this.ordersService.findOrderById(findOrderByIdInput);
+  }
+
+  @Query((returns) => FindOrderItemByIdOutput)
+  @Roles(['Provider', 'Admin'])
+  async findOrderItemById(
+    @Args('input') findOrderItemByIdInput: FindOrderItemByIdInput,
+  ): Promise<FindOrderItemByIdOutput> {
+    return this.ordersService.findOrderItemById(findOrderItemByIdInput);
   }
 
   @Mutation((returns) => CreateOrderOutput)

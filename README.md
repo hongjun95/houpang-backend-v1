@@ -37,7 +37,7 @@
 - get all orders from consumer[o]
 - get all orders from provider[o]
 - find order by id (Limited in Consumer and Admin)[o]
-- find order item by id (Limited in Provider and Admin)
+- find order item by id (Limited in Provider and Admin)[o]
 - Cancel order
 - payment service
 

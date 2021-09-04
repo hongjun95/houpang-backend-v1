@@ -22,6 +22,10 @@ import {
   FindOrderByIdInput,
   FindOrderByIdOutput,
 } from './dtos/find-order-by-id.dto';
+import {
+  FindOrderItemByIdInput,
+  FindOrderItemByIdOutput,
+} from './dtos/find-order-item-by-id';
 
 @Injectable()
 export class OrdersService {
@@ -121,6 +125,27 @@ export class OrdersService {
       return {
         ok: true,
         order,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '상품 품목들을 가져올 수 없습니다.',
+      };
+    }
+  }
+
+  async findOrderItemById({
+    orderItemId,
+  }: FindOrderItemByIdInput): Promise<FindOrderItemByIdOutput> {
+    try {
+      const orderItem = await this.orderItems.findOne(orderItemId, {
+        relations: ['product', 'product.provider', 'product.category', 'order'],
+      });
+
+      return {
+        ok: true,
+        orderItem,
       };
     } catch (error) {
       console.error(error);
