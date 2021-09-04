@@ -1,10 +1,11 @@
 import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { IsNumber, IsString } from 'class-validator';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToOne, OneToMany } from 'typeorm';
 
 import { CoreEntity } from 'src/common/entities/common.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Category } from 'src/categories/entities/category.entity';
+import { OrderItem } from 'src/orders/entities/order-item.entity';
 
 @InputType('InfoItemInputType', { isAbstract: true })
 @ObjectType()
@@ -51,6 +52,11 @@ export class Product extends CoreEntity {
   @Field((type) => [InfoItem], { nullable: true })
   @Column({ nullable: true, type: 'json' })
   info?: InfoItem[];
+
+  @Field((type) => [OrderItem])
+  @OneToMany((type) => OrderItem, (orderItem) => orderItem.order)
+  @JoinTable()
+  items: OrderItem[];
 
   // @OneToMany((type) => Review, (reviews) => reviews.product, {
   //   onDelete: 'CASCADE',
