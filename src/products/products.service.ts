@@ -15,25 +15,27 @@ import {
 import {
   FindProductByIdInput,
   FindProductByIdOutput,
-} from './dtos/find-product';
+} from './dtos/find-product-by-id.dto';
 import {
   GetAllProductsInput,
   GetAllProductsOutput,
-} from './dtos/get-all-products';
+} from './dtos/get-all-products.dto';
 import { Product } from './entities/product';
+import { CategoryRepository } from 'src/categories/repositories/category.repository';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly products: Repository<Product>,
+
+    private readonly categories: CategoryRepository,
   ) {}
 
+  // Deprecated
   async getAllProducts({
     page,
   }: GetAllProductsInput): Promise<GetAllProductsOutput> {
-    // todo
-    // category 내역에 있는 품목만 가져오는 것으로 만들기
     try {
       const takePages = 10;
       const [products, totalProducts] = await this.products.findAndCount({
@@ -99,8 +101,12 @@ export class ProductsService {
         };
       }
 
+      const category = await this.categories.findOneBySlugUsingName(
+        createProductInput.categoryName,
+      );
+
       await this.products.save(
-        this.products.create({ ...createProductInput, provider }),
+        this.products.create({ ...createProductInput, provider, category }),
       );
 
       return {
@@ -132,8 +138,14 @@ export class ProductsService {
         };
       }
 
+      const category = await this.categories.findOneBySlugUsingName(
+        editProductInput.categoryName,
+      );
+
       await this.products.save({
+        id: editProductInput.productId,
         ...editProductInput,
+        category,
       });
 
       return {
@@ -143,7 +155,7 @@ export class ProductsService {
       console.error(error);
       return {
         ok: false,
-        error: '상품을 추가할 수 없습니다.',
+        error: '상품을 수정할 수 없습니다.',
       };
     }
   }

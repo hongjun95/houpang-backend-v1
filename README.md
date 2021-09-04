@@ -25,13 +25,27 @@
 - edit category[o]
 - delete category[o]
 
+## shopping list - Implement this using localStorge better
+
+- Add product to shopping list
+- Clean all shopping list
+- Remove product from a shopping list
+
 ## order
 
-- create order
-- Cancel order
-- get all order lists
-- order detail
+- create order[o]
+- get all orders from consumer[o]
+- get all orders from provider[o]
+- find order by id (Limited in Consumer and Admin)[o]
+- find order item by id (Limited in Provider and Admin)[o]
+- Cancel order[o]
 - payment service
+
+## Fav list
+
+- Add product to a fav list
+- Remove product from a fav list
+- Get a fav list
 
 ## review
 
@@ -39,19 +53,17 @@
 - edit review
 - review list
 
-## shopping basket
-
-- Add product to shopping busket
-- Clean all shopping busket
-- Remove product from a shopping busket
--
-
 # today todo
 
-- edit profile
-- change password
-- create product
-- product list
-- product detail info
-- edit product
-- delete product
+- create order
+- get all orders from consumer
+- get all orders from provider
+- find order by id (Limited in Consumer and Admin)
+- find order item by id (Limited in Provider and Admin)
+- Cancel order
+- payment service
+
+# tomorrow todo
+
+- Display product count
+- 주문 받을 때 해당 상품xN 가능하게 하기

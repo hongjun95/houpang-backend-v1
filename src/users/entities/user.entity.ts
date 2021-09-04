@@ -17,6 +17,7 @@ import * as bcrypt from 'bcrypt';
 import { CoreEntity } from 'src/common/entities/common.entity';
 import { InternalServerErrorException } from '@nestjs/common';
 import { Product } from 'src/products/entities/product';
+import { Order } from 'src/orders/entities/order.entity';
 
 export enum UserRole {
   Consumer = 'Consumer',
@@ -40,6 +41,11 @@ export class User extends CoreEntity {
   @Field((type) => String)
   @IsEmail()
   email: string;
+
+  @Column({ unique: true })
+  @Field((type) => String)
+  @IsString()
+  username: string;
 
   @Column()
   @Field((type) => String)
@@ -66,13 +72,23 @@ export class User extends CoreEntity {
   @IsString()
   bio?: string;
 
-  @OneToMany((type) => Product, (products) => products.provider)
+  @Column({ unique: true })
+  @Field((type) => String)
+  @IsString()
+  phoneNumber: string;
+
+  @Column({ unique: true })
+  @Field((type) => String)
+  @IsString()
+  address: string;
+
+  @OneToMany((type) => Product, (product) => product.provider)
   @Field((type) => [Product])
   products: Product[];
 
-  //   @Column()
-  //   @Field((type) => String)
-  //   orders: string;
+  @OneToMany((type) => Order, (order) => order.consumer)
+  @Field((type) => [Order])
+  orders: Order[];
 
   //   @Column()
   //   @Field((type) => String)

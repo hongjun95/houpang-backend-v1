@@ -11,6 +11,6 @@ export class FindProductByIdInput {
 
 @ObjectType()
 export class FindProductByIdOutput extends CoreOutput {
-  @Field((type) => Product)
+  @Field((type) => Product, { nullable: true })
   product?: Product;
 }

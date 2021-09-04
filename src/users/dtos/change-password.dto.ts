@@ -1,4 +1,4 @@
-import { Field, InputType, ObjectType, PickType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { MinLength } from 'class-validator';
 import { CoreOutput } from 'src/common/dtos/output.dto';
 
