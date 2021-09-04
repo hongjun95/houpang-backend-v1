@@ -25,6 +25,12 @@
 - edit category[o]
 - delete category[o]
 
+## shopping list - Implement this using localStorge better
+
+- Add product to shopping list
+- Clean all shopping list
+- Remove product from a shopping list
+
 ## order
 
 - create order
@@ -39,19 +45,10 @@
 - edit review
 - review list
 
-## shopping basket
-
-- Add product to shopping busket
-- Clean all shopping busket
-- Remove product from a shopping busket
--
-
 # today todo
 
-- edit profile
-- change password
-- create product
-- product list
-- product detail info
-- edit product
-- delete product
+- create order
+- Cancel order
+- get all order lists
+- order detail
+- payment service
