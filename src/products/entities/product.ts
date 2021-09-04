@@ -1,6 +1,13 @@
 import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { IsNumber, IsString } from 'class-validator';
-import { Column, Entity, JoinTable, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToOne,
+  OneToMany,
+  RelationId,
+} from 'typeorm';
 
 import { CoreEntity } from 'src/common/entities/common.entity';
 import { User } from 'src/users/entities/user.entity';
@@ -34,6 +41,9 @@ export class Product extends CoreEntity {
   @Field((type) => User)
   provider: User;
 
+  @RelationId((product: Product) => product.provider)
+  providerId: number;
+
   @Column()
   @Field((type) => Int)
   @IsNumber()
@@ -48,6 +58,9 @@ export class Product extends CoreEntity {
   })
   @Field((type) => Category)
   category: Category;
+
+  @RelationId((product: Product) => product.category)
+  categoryId: number;
 
   @Field((type) => [InfoItem], { nullable: true })
   @Column({ nullable: true, type: 'json' })
