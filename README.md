@@ -64,3 +64,6 @@
 - payment service
 
 # tomorrow todo
+
+- Display product count
+- 주문 받을 때 해당 상품xN 가능하게 하기
