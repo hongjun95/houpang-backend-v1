@@ -14,6 +14,11 @@ import {
 } from './dtos/get-orders-from-consumer.dto';
 import { OrderItem } from './entities/order-item.entity';
 import { Order, OrderStatus } from './entities/order.entity';
+import {
+  FindProductByIdInput,
+  FindProductByIdOutput,
+} from 'src/products/dtos/find-product';
+import { FindOrderByIdInput, FindOrderByIdOutput } from './dtos/find-order';
 
 @Injectable()
 export class OrdersService {
@@ -93,6 +98,32 @@ export class OrdersService {
       return {
         ok: false,
         error: 'Could not get orders',
+      };
+    }
+  }
+
+  async findOrderById({
+    orderId,
+  }: FindOrderByIdInput): Promise<FindOrderByIdOutput> {
+    try {
+      const order = await this.orders.findOne(orderId, {
+        relations: [
+          'orderItems',
+          'orderItems.product',
+          'orderItems.product.category',
+          'orderItems.product.provider',
+        ],
+      });
+
+      return {
+        ok: true,
+        order,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '상품 품목들을 가져올 수 없습니다.',
       };
     }
   }

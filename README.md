@@ -36,8 +36,9 @@
 - create order[o]
 - get all orders from consumer[o]
 - get all orders from provider[o]
+- find order by id (Limited in Consumer and Admin)[o]
+- find order item by id (Limited in Provider and Admin)
 - Cancel order
-- order detail
 - payment service
 
 ## review
@@ -49,7 +50,9 @@
 # today todo
 
 - create order
+- get all orders from consumer
+- get all orders from provider
+- find order by id (Limited in Consumer and Admin)
+- find order item by id (Limited in Provider and Admin)
 - Cancel order
-- get all order lists
-- order detail
 - payment service

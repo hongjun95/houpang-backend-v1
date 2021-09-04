@@ -12,6 +12,7 @@ import {
   GetOrdersFromConsumerOutput,
 } from './dtos/get-orders-from-consumer.dto';
 import { OrdersService } from './orders.service';
+import { FindOrderByIdInput, FindOrderByIdOutput } from './dtos/find-order';
 
 @Resolver()
 export class OrdersResolver {
@@ -28,9 +29,17 @@ export class OrdersResolver {
   @Query((returns) => GetOrdersFromProviderOutput)
   @Roles(['Provider', 'Admin'])
   async getOrdersFromProvider(
-    @Args('input') getOrdersInput: GetOrdersFromProviderInput,
+    @Args('input') getOrdersFromProviderInput: GetOrdersFromProviderInput,
   ): Promise<GetOrdersFromProviderOutput> {
-    return this.ordersService.getOrdersFromProvider(getOrdersInput);
+    return this.ordersService.getOrdersFromProvider(getOrdersFromProviderInput);
+  }
+
+  @Query((returns) => FindOrderByIdOutput)
+  @Roles(['Consumer', 'Admin'])
+  async findOrderById(
+    @Args('input') findOrderById: FindOrderByIdInput,
+  ): Promise<FindOrderByIdOutput> {
+    return this.ordersService.findOrderById(findOrderById);
   }
 
   @Mutation((returns) => CreateOrderOutput)
