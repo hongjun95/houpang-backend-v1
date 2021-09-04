@@ -69,7 +69,7 @@ export class Product extends CoreEntity {
   @Field((type) => [OrderItem])
   @OneToMany((type) => OrderItem, (orderItem) => orderItem.order)
   @JoinTable()
-  items: OrderItem[];
+  orderItems: OrderItem[];
 
   // @OneToMany((type) => Review, (reviews) => reviews.product, {
   //   onDelete: 'CASCADE',

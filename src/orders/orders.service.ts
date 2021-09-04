@@ -4,6 +4,10 @@ import { Product } from 'src/products/entities/product';
 import { User, UserRole } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateOrderInput, CreateOrderOutput } from './dtos/create-order.dto';
+import {
+  GetOrdersFromProviderInput,
+  GetOrdersFromProviderOutput,
+} from './dtos/get-orders-from-provider.dto';
 import { GetOrdersInput, GetOrdersOutput } from './dtos/get-orders.dto';
 import { OrderItem } from './entities/order-item.entity';
 import { Order, OrderStatus } from './entities/order.entity';
@@ -47,6 +51,39 @@ export class OrdersService {
     }
   }
 
+  async getOrdersFromProvider(
+    user: User,
+    { status }: GetOrdersFromProviderInput,
+  ): Promise<GetOrdersFromProviderOutput> {
+    try {
+      const orderItems = await this.orderItems.find({
+        where: {
+          product: {
+            provider: user,
+          },
+          order: {
+            ...(status && { status }),
+          },
+        },
+        relations: ['product', 'product.provider', 'product.category', 'order'],
+        order: {
+          createdAt: 'ASC',
+        },
+      });
+
+      return {
+        ok: true,
+        orderItems,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: 'Could not get orders',
+      };
+    }
+  }
+
   async createOrder(
     { productIds }: CreateOrderInput,
     consumer: User,
@@ -76,7 +113,7 @@ export class OrdersService {
       const order = await this.orders.save(
         this.orders.create({
           consumer,
-          items: orderItems,
+          orderItems,
           total: orderFinalPrice,
           status: OrderStatus.Checking,
         }),

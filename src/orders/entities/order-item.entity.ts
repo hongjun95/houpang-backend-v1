@@ -9,7 +9,7 @@ import { Order } from './order.entity';
 @Entity()
 export class OrderItem extends CoreEntity {
   @Field((type) => Order)
-  @ManyToOne((type) => Order, (order) => order.items, {
+  @ManyToOne((type) => Order, (order) => order.orderItems, {
     onDelete: 'CASCADE',
   })
   order: Order;
@@ -18,7 +18,9 @@ export class OrderItem extends CoreEntity {
   orderId: number;
 
   @Field((type) => Product)
-  @ManyToOne((type) => Product, { onDelete: 'SET NULL' })
+  @ManyToOne((type) => Product, (product) => product.orderItems, {
+    onDelete: 'SET NULL',
+  })
   product: Product;
 
   @RelationId((orderItem: OrderItem) => orderItem.order)

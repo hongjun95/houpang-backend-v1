@@ -43,7 +43,7 @@ export class Order extends CoreEntity {
   @Field((type) => [OrderItem])
   @OneToMany((type) => OrderItem, (orderItem) => orderItem.order)
   @JoinTable()
-  items: OrderItem[];
+  orderItems: OrderItem[];
 
   @Field((type) => Int)
   @Column()
