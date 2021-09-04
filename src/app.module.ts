@@ -17,6 +17,7 @@ import { OrdersModule } from './orders/orders.module';
 import { Order } from './orders/entities/order.entity';
 import { OrderItem } from './orders/entities/order-item.entity';
 import { FavListsModule } from './fav-lists/fav-lists.module';
+import { FavList } from './fav-lists/entities/favList.entity';
 
 @Module({
   imports: [
@@ -76,7 +77,7 @@ import { FavListsModule } from './fav-lists/fav-lists.module';
       // DB에 무슨 일이 일어나는지 콘솔에 표시하는 거다.
       logging:
         process.env.NODE_ENV !== 'prod' && process.env.NODE_ENV !== 'test',
-      entities: [User, Product, Category, Order, OrderItem],
+      entities: [User, Product, Category, Order, OrderItem, FavList],
     }),
     JwtModule.forRoot({
       privateKey: process.env.PRIVATE_KEY,
