@@ -235,10 +235,12 @@ export class OrdersService {
         orderFinalPrice += productPrice;
 
         product.stock -= createOrderItem.count;
+        await this.products.save(product);
 
         const orderItem = await this.orderItems.save(
           this.orderItems.create({
             product,
+            count: createOrderItem.count,
           }),
         );
         orderItems.push(orderItem);
@@ -276,6 +278,7 @@ export class OrdersService {
           id: orderId,
           consumer,
         },
+        relations: ['orderItems', 'orderItems.product'],
       });
 
       if (!order) {
@@ -293,6 +296,15 @@ export class OrdersService {
       }
 
       order.status = OrderStatus.Canceled;
+
+      console.log(order.orderItems);
+      for (const orderItem of order.orderItems) {
+        orderItem.product.stock += orderItem.count;
+        await this.products.save(orderItem.product);
+      }
+      console.log(order.orderItems);
+      // await this.orders.save(order);
+
       const newOrder = await this.orders.save(order);
 
       return {

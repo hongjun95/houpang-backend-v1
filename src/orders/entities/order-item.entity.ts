@@ -1,7 +1,7 @@
 import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { CoreEntity } from 'src/common/entities/common.entity';
 import { Product } from 'src/products/entities/product';
-import { Entity, ManyToOne, RelationId } from 'typeorm';
+import { Column, Entity, ManyToOne, RelationId } from 'typeorm';
 import { Order } from './order.entity';
 
 @InputType('OrderItemInputType', { isAbstract: true })
@@ -25,4 +25,8 @@ export class OrderItem extends CoreEntity {
 
   @RelationId((orderItem: OrderItem) => orderItem.order)
   productId: number;
+
+  @Column()
+  @Field((type) => Int, { defaultValue: 1 })
+  count: number;
 }
