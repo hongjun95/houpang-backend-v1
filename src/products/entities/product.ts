@@ -13,6 +13,7 @@ import { CoreEntity } from 'src/common/entities/common.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Category } from 'src/categories/entities/category.entity';
 import { OrderItem } from 'src/orders/entities/order-item.entity';
+import { Review } from 'src/reviews/entities/review.entity';
 
 @InputType('InfoItemInputType', { isAbstract: true })
 @ObjectType()
@@ -71,9 +72,9 @@ export class Product extends CoreEntity {
   @JoinTable()
   orderItems: OrderItem[];
 
-  // @OneToMany((type) => Review, (reviews) => reviews.product, {
-  //   onDelete: 'CASCADE',
-  // })
-  // @Field((type) => Review)
-  // reviews: Review;
+  @OneToMany((type) => Review, (reviews) => reviews.product, {
+    onDelete: 'CASCADE',
+  })
+  @Field((type) => [Review])
+  reviews: Review[];
 }

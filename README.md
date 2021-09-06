@@ -49,9 +49,10 @@
 
 ## review
 
-- create review
+- create review[o]
+- review list on product[o]
+- review list on consumer
 - edit review
-- review list
 
 # today todo
 
@@ -71,6 +72,7 @@
 
 - Remove product from a fav list[o]
 - Get a fav list[o]
-- create review
+- create review[o]
+- review list on product[o]
+- review list on consumer
 - edit review
-- review list

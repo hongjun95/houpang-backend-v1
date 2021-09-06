@@ -18,6 +18,7 @@ import { CoreEntity } from 'src/common/entities/common.entity';
 import { InternalServerErrorException } from '@nestjs/common';
 import { Product } from 'src/products/entities/product';
 import { Order } from 'src/orders/entities/order.entity';
+import { Review } from 'src/reviews/entities/review.entity';
 
 export enum UserRole {
   Consumer = 'Consumer',
@@ -90,9 +91,9 @@ export class User extends CoreEntity {
   @Field((type) => [Order])
   orders: Order[];
 
-  //   @Column()
-  //   @Field((type) => String)
-  //   favList: string;
+  @OneToMany((type) => Review, (review) => review.commenter)
+  @Field((type) => [Review])
+  reviews: Review[];
 
   @BeforeInsert()
   @BeforeUpdate()
