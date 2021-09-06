@@ -43,8 +43,8 @@
 
 ## Fav list
 
-- Add product to a fav list
-- Remove product from a fav list
+- Add product to a fav list[o]
+- Remove product from a fav list[o]
 - Get a fav list
 
 ## review
@@ -61,10 +61,16 @@
 - find order by id (Limited in Consumer and Admin)
 - find order item by id (Limited in Provider and Admin)
 - Cancel order
+- Like Product
 - 계정이 생성될 시 찜 목록 생성
 
 # tomorrow todo
 
 - Display product count
 - 주문 받을 때 해당 상품 x n 가능하게 하기
-- like product 만들기
+
+- Remove product from a fav list[o]
+- Get a fav list
+- create review
+- edit review
+- review list
