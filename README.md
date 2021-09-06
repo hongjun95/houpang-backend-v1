@@ -25,12 +25,6 @@
 - edit category[o]
 - delete category[o]
 
-## shopping list - Implement this using localStorge better
-
-- Add product to shopping list
-- Clean all shopping list
-- Remove product from a shopping list
-
 ## order
 
 - create order[o]
@@ -52,27 +46,24 @@
 - create review[o]
 - review list on product[o]
 - review list on consumer[o]
-- edit review
+- edit review[o]
+
+## shopping list - Implement this using localStorge better
+
+- Add product to shopping list
+- Clean all shopping list
+- Remove product from a shopping list
 
 # today todo
-
-- create order
-- get all orders from consumer
-- get all orders from provider
-- find order by id (Limited in Consumer and Admin)
-- find order item by id (Limited in Provider and Admin)
-- Cancel order
-- Like Product
-- 계정이 생성될 시 찜 목록 생성
-
-# tomorrow todo
-
-- Display product count
-- 주문 받을 때 해당 상품 x n 가능하게 하기
 
 - Remove product from a fav list[o]
 - Get a fav list[o]
 - create review[o]
 - review list on product[o]
 - review list on consumer[o]
-- edit review
+- edit review[o]
+
+# tomorrow todo
+
+- Display product count
+- 주문 받을 때 해당 상품 x n 가능하게 하기

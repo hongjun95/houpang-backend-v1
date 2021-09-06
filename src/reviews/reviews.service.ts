@@ -68,14 +68,14 @@ export class ReviewsService {
 
   async getReviewsOnConsumer(
     { consumerId }: GetReviewsOnConsumerInput,
-    user: User,
+    commenter: User,
   ): Promise<GetReviewsOnConsumerOutput> {
     try {
       const consumer = await this.users.findOne(consumerId, {
         relations: ['reviews', 'reviews.product'],
       });
 
-      if (user.id !== consumer.id || user.role !== UserRole.Admin) {
+      if (commenter.id !== consumer.id || commenter.role !== UserRole.Admin) {
         return {
           ok: false,
           error: '사용자의 댓글 목록을 보실 수 없습니다.',
@@ -99,7 +99,7 @@ export class ReviewsService {
 
   async createReview(
     { orderItemId, content }: CreateReviewInput,
-    consumer: User,
+    commenter: User,
   ): Promise<CreateReviewOutput> {
     try {
       const orderItem = await this.orderItems.findOne(orderItemId, {
@@ -113,7 +113,7 @@ export class ReviewsService {
         };
       }
 
-      if (consumer.id !== orderItem.order.consumer.id) {
+      if (commenter.id !== orderItem.order.consumer.id) {
         return {
           ok: false,
           error: '댓글을 다실 수가 없습니다.',
@@ -122,7 +122,7 @@ export class ReviewsService {
 
       const review = await this.reviews.save(
         this.reviews.create({
-          commenter: consumer,
+          commenter,
           content,
           product: orderItem.product,
         }),
@@ -143,7 +143,7 @@ export class ReviewsService {
 
   async editReview(
     { id, content }: EditReviewInput,
-    consumer: User,
+    commenter: User,
   ): Promise<EditReviewOutput> {
     try {
       const review = await this.reviews.findOne(id, {
@@ -157,7 +157,7 @@ export class ReviewsService {
         };
       }
 
-      if (review.commenter.id !== consumer.id) {
+      if (review.commenter.id !== commenter.id) {
         return {
           ok: false,
           error: '해당 댓글을 수정하실 수 없습니다.',
@@ -175,7 +175,7 @@ export class ReviewsService {
       console.error(error);
       return {
         ok: false,
-        error: '댓글을 다실 수가 없습니다.',
+        error: '댓글을 수정하실 수가 없습니다.',
       };
     }
   }

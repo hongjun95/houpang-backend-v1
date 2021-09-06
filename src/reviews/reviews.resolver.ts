@@ -30,32 +30,32 @@ export class ReviewsResolver {
   }
 
   @Query((returns) => GetReviewsOnProductOutput)
-  @Roles(['Consumer', 'Admin'])
+  @Roles(['Any'])
   async getReviewOnConsumer(
     @Args('input') getReviewsOnConsumerInput: GetReviewsOnConsumerInput,
-    @AuthUser() user: User,
+    @AuthUser() commenter: User,
   ): Promise<GetReviewsOnConsumerOutput> {
     return this.reviewsService.getReviewsOnConsumer(
       getReviewsOnConsumerInput,
-      user,
+      commenter,
     );
   }
 
   @Mutation((returns) => CreateReviewOutput)
-  @Roles(['Consumer', 'Admin'])
+  @Roles(['Any'])
   async createReview(
     @Args('input') createReviewInput: CreateReviewInput,
-    @AuthUser() consumer: User,
+    @AuthUser() commenter: User,
   ): Promise<CreateReviewOutput> {
-    return this.reviewsService.createReview(createReviewInput, consumer);
+    return this.reviewsService.createReview(createReviewInput, commenter);
   }
 
   @Mutation((returns) => EditReviewOutput)
-  @Roles(['Consumer'])
+  @Roles(['Any'])
   async editReview(
     @Args('input') editReviewInput: EditReviewInput,
-    @AuthUser() consumer: User,
+    @AuthUser() commenter: User,
   ): Promise<EditReviewOutput> {
-    return this.reviewsService.editReview(editReviewInput, consumer);
+    return this.reviewsService.editReview(editReviewInput, commenter);
   }
 }
