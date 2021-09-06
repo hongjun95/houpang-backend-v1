@@ -50,6 +50,11 @@ export class Product extends CoreEntity {
   @IsNumber()
   price: number;
 
+  @Column()
+  @Field((type) => Int)
+  @IsNumber()
+  stock: number;
+
   @Column('text', { array: true })
   @Field((type) => [String])
   images: string[];
