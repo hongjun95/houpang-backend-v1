@@ -18,6 +18,7 @@ import { Order } from './orders/entities/order.entity';
 import { OrderItem } from './orders/entities/order-item.entity';
 import { FavListsModule } from './fav-lists/fav-lists.module';
 import { FavList } from './fav-lists/entities/favList.entity';
+import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
   imports: [
@@ -89,6 +90,7 @@ import { FavList } from './fav-lists/entities/favList.entity';
     CategoriesModule,
     OrdersModule,
     FavListsModule,
+    ReviewsModule,
   ],
   controllers: [],
   providers: [],
