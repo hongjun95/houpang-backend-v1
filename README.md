@@ -51,7 +51,7 @@
 
 - create review[o]
 - review list on product[o]
-- review list on consumer
+- review list on consumer[o]
 - edit review
 
 # today todo
@@ -74,5 +74,5 @@
 - Get a fav list[o]
 - create review[o]
 - review list on product[o]
-- review list on consumer
+- review list on consumer[o]
 - edit review
