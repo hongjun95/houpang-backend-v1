@@ -6,6 +6,7 @@ import {
   CreateReviewInput,
   CreateReviewOutput,
 } from './dtos/create-review.dto';
+import { EditReviewInput, EditReviewOutput } from './dtos/edit-review.dto';
 import {
   GetReviewsOnConsumerInput,
   GetReviewsOnConsumerOutput,
@@ -47,5 +48,14 @@ export class ReviewsResolver {
     @AuthUser() consumer: User,
   ): Promise<CreateReviewOutput> {
     return this.reviewsService.createReview(createReviewInput, consumer);
+  }
+
+  @Mutation((returns) => EditReviewOutput)
+  @Roles(['Consumer'])
+  async editReview(
+    @Args('input') editReviewInput: EditReviewInput,
+    @AuthUser() consumer: User,
+  ): Promise<EditReviewOutput> {
+    return this.reviewsService.editReview(editReviewInput, consumer);
   }
 }

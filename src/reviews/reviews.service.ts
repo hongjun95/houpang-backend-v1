@@ -9,6 +9,7 @@ import {
   CreateReviewInput,
   CreateReviewOutput,
 } from './dtos/create-review.dto';
+import { EditReviewInput, EditReviewOutput } from './dtos/edit-review.dto';
 import {
   GetReviewsOnConsumerInput,
   GetReviewsOnConsumerOutput,
@@ -126,6 +127,45 @@ export class ReviewsService {
           product: orderItem.product,
         }),
       );
+
+      return {
+        ok: true,
+        review,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '댓글을 다실 수가 없습니다.',
+      };
+    }
+  }
+
+  async editReview(
+    { id, content }: EditReviewInput,
+    consumer: User,
+  ): Promise<EditReviewOutput> {
+    try {
+      const review = await this.reviews.findOne(id, {
+        relations: ['commenter'],
+      });
+
+      if (!review) {
+        return {
+          ok: false,
+          error: '해당 댓글이 존재하지 않습니다.',
+        };
+      }
+
+      if (review.commenter.id !== consumer.id) {
+        return {
+          ok: false,
+          error: '해당 댓글을 수정하실 수 없습니다.',
+        };
+      }
+
+      review.content = content;
+      await this.reviews.save(review);
 
       return {
         ok: true,
