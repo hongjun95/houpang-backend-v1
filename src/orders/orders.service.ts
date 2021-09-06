@@ -210,7 +210,7 @@ export class OrdersService {
     try {
       let orderFinalPrice = 0;
       const orderItems: OrderItem[] = [];
-      productIds.forEach(async (productId) => {
+      for (const productId of productIds) {
         const product = await this.products.findOne(productId);
         if (!product) {
           return {
@@ -227,7 +227,7 @@ export class OrdersService {
           }),
         );
         orderItems.push(orderItem);
-      });
+      }
 
       const order = await this.orders.save(
         this.orders.create({

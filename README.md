@@ -49,7 +49,7 @@
 
 ## review
 
-- create review
+- create review[o]
 - edit review
 - review list
 
@@ -71,6 +71,6 @@
 
 - Remove product from a fav list[o]
 - Get a fav list[o]
-- create review
+- create review[o]
 - edit review
 - review list

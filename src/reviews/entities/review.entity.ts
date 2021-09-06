@@ -1,6 +1,7 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
 import { CoreEntity } from 'src/common/entities/common.entity';
+import { Product } from 'src/products/entities/product';
 import { User } from 'src/users/entities/user.entity';
 import { Column, Entity, ManyToOne, RelationId } from 'typeorm';
 
@@ -11,7 +12,7 @@ export class Review extends CoreEntity {
   @Field((type) => String)
   @IsString()
   @Column()
-  comment: string;
+  content: string;
 
   @Field((type) => User)
   @ManyToOne((type) => User, (user) => user.reviews, {
@@ -21,4 +22,13 @@ export class Review extends CoreEntity {
 
   @RelationId((review: Review) => review.commenter)
   commenterId: number;
+
+  @Field((type) => Product)
+  @ManyToOne((type) => Product, (product) => product.reviews, {
+    onDelete: 'CASCADE',
+  })
+  product: Product;
+
+  @RelationId((review: Review) => review.product)
+  productId: number;
 }
