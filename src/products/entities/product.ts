@@ -1,5 +1,5 @@
 import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsString, Min } from 'class-validator';
 import {
   Column,
   Entity,
@@ -48,11 +48,13 @@ export class Product extends CoreEntity {
   @Column()
   @Field((type) => Int)
   @IsNumber()
+  @Min(0)
   price: number;
 
-  @Column()
-  @Field((type) => Int)
+  @Column({ default: 0 })
+  @Field((type) => Int, { defaultValue: 0 })
   @IsNumber()
+  @Min(0)
   stock: number;
 
   @Column('text', { array: true })

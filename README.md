@@ -58,12 +58,12 @@
 
 - Remove product from a fav list[o]
 - Get a fav list[o]
+
 - create review[o]
 - review list on product[o]
 - review list on consumer[o]
 - edit review[o]
+- Display product count[o]
+- 주문 받을 때 해당 상품 x n 가능하게 하기[o]
 
 # tomorrow todo
-
-- Display product count
-- 주문 받을 때 해당 상품 x n 가능하게 하기

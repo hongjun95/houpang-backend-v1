@@ -204,26 +204,43 @@ export class OrdersService {
   }
 
   async createOrder(
-    { productIds }: CreateOrderInput,
+    { createOrderItems }: CreateOrderInput,
     consumer: User,
   ): Promise<CreateOrderOutput> {
     try {
       let orderFinalPrice = 0;
       const orderItems: OrderItem[] = [];
-      for (const productId of productIds) {
-        const product = await this.products.findOne(productId);
+      for (const createOrderItem of createOrderItems) {
+        const product = await this.products.findOne(createOrderItem.productId);
         if (!product) {
+          for (const orderItem of orderItems) {
+            await this.orderItems.delete(orderItem);
+          }
           return {
             ok: false,
             error: '상품을 찾을 수가 없습니다.',
           };
         }
-        let productFinalPrice = product.price;
-        orderFinalPrice += productFinalPrice;
+        if (product.stock - createOrderItem.count < 0) {
+          for (const orderItem of orderItems) {
+            await this.orderItems.delete(orderItem);
+          }
+          return {
+            ok: false,
+            error: '상품의 재고보다 많은 수를 주문하셨습니다.',
+          };
+        }
+
+        let productPrice = product.price * createOrderItem.count;
+        orderFinalPrice += productPrice;
+
+        product.stock -= createOrderItem.count;
+        await this.products.save(product);
 
         const orderItem = await this.orderItems.save(
           this.orderItems.create({
             product,
+            count: createOrderItem.count,
           }),
         );
         orderItems.push(orderItem);
@@ -261,6 +278,7 @@ export class OrdersService {
           id: orderId,
           consumer,
         },
+        relations: ['orderItems', 'orderItems.product'],
       });
 
       if (!order) {
@@ -278,6 +296,15 @@ export class OrdersService {
       }
 
       order.status = OrderStatus.Canceled;
+
+      console.log(order.orderItems);
+      for (const orderItem of order.orderItems) {
+        orderItem.product.stock += orderItem.count;
+        await this.products.save(orderItem.product);
+      }
+      console.log(order.orderItems);
+      // await this.orders.save(order);
+
       const newOrder = await this.orders.save(order);
 
       return {
