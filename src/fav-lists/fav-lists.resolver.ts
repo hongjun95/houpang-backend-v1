@@ -6,7 +6,10 @@ import {
   FindDipsListInput,
   FindDipsListOutput,
 } from './dtos/find-dips-list.dto';
-import { LikeProductInput, LikeProductOutput } from './dtos/like-product.dto';
+import {
+  DipsOnProductInput,
+  DipsOnProductOutput,
+} from './dtos/dips-on-product.dto';
 import {
   RemoveProductInput,
   RemoveProductOutput,
@@ -25,13 +28,13 @@ export class FavListsResolver {
     return this.favListsService.findDipsList(getDipsListInput);
   }
 
-  @Mutation((returns) => LikeProductOutput)
+  @Mutation((returns) => DipsOnProductOutput)
   @Roles(['Consumer'])
-  async likeProduct(
-    @Args('input') likeProductInput: LikeProductInput,
+  async dipsOnProduct(
+    @Args('input') dipsOnProductInput: DipsOnProductInput,
     @AuthUser() consumer: User,
-  ): Promise<LikeProductOutput> {
-    return this.favListsService.likeProduct(likeProductInput, consumer);
+  ): Promise<DipsOnProductOutput> {
+    return this.favListsService.dipsOnProduct(dipsOnProductInput, consumer);
   }
 
   @Mutation((returns) => RemoveProductOutput)

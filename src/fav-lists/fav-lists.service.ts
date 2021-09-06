@@ -7,7 +7,10 @@ import {
   FindDipsListInput,
   FindDipsListOutput,
 } from './dtos/find-dips-list.dto';
-import { LikeProductInput, LikeProductOutput } from './dtos/like-product.dto';
+import {
+  DipsOnProductInput,
+  DipsOnProductOutput,
+} from './dtos/dips-on-product.dto';
 import {
   RemoveProductInput,
   RemoveProductOutput,
@@ -48,10 +51,10 @@ export class FavListsService {
     }
   }
 
-  async likeProduct(
-    { productId }: LikeProductInput,
+  async dipsOnProduct(
+    { productId }: DipsOnProductInput,
     consumer: User,
-  ): Promise<LikeProductOutput> {
+  ): Promise<DipsOnProductOutput> {
     try {
       const product = await this.products.findOne(productId);
 
