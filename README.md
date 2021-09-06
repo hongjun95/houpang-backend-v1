@@ -45,7 +45,7 @@
 
 - Add product to a fav list[o]
 - Remove product from a fav list[o]
-- Get a fav list
+- Get a fav list[o]
 
 ## review
 
@@ -70,7 +70,7 @@
 - 주문 받을 때 해당 상품 x n 가능하게 하기
 
 - Remove product from a fav list[o]
-- Get a fav list
+- Get a fav list[o]
 - create review
 - edit review
 - review list
