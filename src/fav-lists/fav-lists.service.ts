@@ -3,10 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
-import {
-  FindDipsListInput,
-  FindDipsListOutput,
-} from './dtos/find-dips-list.dto';
+import { FindFavListInput, FindFavListOutput } from './dtos/find-fav-list.dto';
 import {
   DipsOnProductInput,
   DipsOnProductOutput,
@@ -27,9 +24,9 @@ export class FavListsService {
     private readonly products: Repository<Product>,
   ) {}
 
-  async findDipsList({
+  async findFavList({
     favListId,
-  }: FindDipsListInput): Promise<FindDipsListOutput> {
+  }: FindFavListInput): Promise<FindFavListOutput> {
     try {
       const favList = await this.favLists.findOne({
         where: {

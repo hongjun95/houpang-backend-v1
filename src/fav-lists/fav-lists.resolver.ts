@@ -2,10 +2,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Roles } from 'src/auth/roles.decorator';
 import { User } from 'src/users/entities/user.entity';
-import {
-  FindDipsListInput,
-  FindDipsListOutput,
-} from './dtos/find-dips-list.dto';
+import { FindFavListInput, FindFavListOutput } from './dtos/find-fav-list.dto';
 import {
   DipsOnProductInput,
   DipsOnProductOutput,
@@ -20,12 +17,12 @@ import { FavListsService } from './fav-lists.service';
 export class FavListsResolver {
   constructor(private readonly favListsService: FavListsService) {}
 
-  @Query((returns) => FindDipsListOutput)
+  @Query((returns) => FindFavListOutput)
   @Roles(['Consumer'])
-  async findDipsList(
-    @Args('input') getDipsListInput: FindDipsListInput,
-  ): Promise<FindDipsListOutput> {
-    return this.favListsService.findDipsList(getDipsListInput);
+  async findFavList(
+    @Args('input') getFavListInput: FindFavListInput,
+  ): Promise<FindFavListOutput> {
+    return this.favListsService.findFavList(getFavListInput);
   }
 
   @Mutation((returns) => DipsOnProductOutput)
