@@ -3,6 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
+import {
+  FindDipsListInput,
+  FindDipsListOutput,
+} from './dtos/find-dips-list.dto';
 import { LikeProductInput, LikeProductOutput } from './dtos/like-product.dto';
 import {
   RemoveProductInput,
@@ -19,6 +23,30 @@ export class FavListsService {
     @InjectRepository(Product)
     private readonly products: Repository<Product>,
   ) {}
+
+  async findDipsList({
+    favListId,
+  }: FindDipsListInput): Promise<FindDipsListOutput> {
+    try {
+      const favList = await this.favLists.findOne({
+        where: {
+          id: favListId,
+        },
+        relations: ['products'],
+      });
+
+      return {
+        ok: true,
+        favList,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '찜 할 수가 없습니다.',
+      };
+    }
+  }
 
   async likeProduct(
     { productId }: LikeProductInput,
