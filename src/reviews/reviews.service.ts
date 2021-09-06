@@ -9,6 +9,10 @@ import {
   CreateReviewInput,
   CreateReviewOutput,
 } from './dtos/create-review.dto';
+import {
+  GetReviewsOnProductInput,
+  GetReviewsOnProductOutput,
+} from './dtos/get-reviews-on-products.dto';
 import { Review } from './entities/review.entity';
 
 @Injectable()
@@ -61,6 +65,36 @@ export class ReviewsService {
       return {
         ok: true,
         review,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '댓글을 다실 수가 없습니다.',
+      };
+    }
+  }
+
+  async getReviewsOnProduct({
+    productId,
+  }: GetReviewsOnProductInput): Promise<GetReviewsOnProductOutput> {
+    try {
+      const product = await this.products.findOne(productId, {
+        relations: ['reviews', 'reviews.commenter'],
+      });
+
+      if (!product) {
+        return {
+          ok: false,
+          error: '해당 상품이 없습니다.',
+        };
+      }
+
+      const reviews: Review[] = product.reviews;
+
+      return {
+        ok: true,
+        reviews,
       };
     } catch (error) {
       console.error(error);

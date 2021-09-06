@@ -75,6 +75,6 @@ export class Product extends CoreEntity {
   @OneToMany((type) => Review, (reviews) => reviews.product, {
     onDelete: 'CASCADE',
   })
-  @Field((type) => Review)
-  reviews: Review;
+  @Field((type) => [Review])
+  reviews: Review[];
 }
