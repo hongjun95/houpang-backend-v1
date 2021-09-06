@@ -50,7 +50,7 @@
 
 ## shopping list - Implement this using localStorge better
 
-- Add product to shopping list
+- Add product to a shopping list
 - Clean all shopping list
 - Remove product from a shopping list
 
