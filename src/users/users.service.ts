@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FavList } from 'src/fav-lists/entities/favList.entity';
 import { JwtService } from 'src/jwt/jwt.service';
 import { Repository } from 'typeorm';
 import {
@@ -20,6 +21,9 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly users: Repository<User>,
+
+    @InjectRepository(FavList)
+    private readonly favlists: Repository<FavList>,
 
     private readonly jwtService: JwtService,
   ) {}
@@ -42,7 +46,7 @@ export class UsersService {
 
       const existedUsername = await this.users.findOne({ username });
       if (existedUsername) {
-        return { ok: false, error: '계정이 있는 이메일입니다.' };
+        return { ok: false, error: '계정이 있는 이름입니다.' };
       }
 
       if (password !== verifyPassword) {
@@ -66,15 +70,17 @@ export class UsersService {
       }
 
       const phoneNumberRegex = new RegExp(/^[0-9]{3}[-]+[0-9]{4}[-]+[0-9]{4}$/);
+      const phoneNumberTestPass = phoneNumberRegex.test(phoneNumber);
+      console.log(phoneNumberTestPass);
 
-      if (!phoneNumberRegex) {
+      if (!phoneNumberTestPass) {
         return {
           ok: false,
           error: '올바른 전화번호를 입력하세요',
         };
       }
 
-      await this.users.save(
+      const user = await this.users.save(
         this.users.create({
           email,
           username,
@@ -83,6 +89,12 @@ export class UsersService {
           phoneNumber,
           address,
           bio,
+        }),
+      );
+
+      await this.favlists.save(
+        this.favlists.create({
+          createdBy: user,
         }),
       );
 

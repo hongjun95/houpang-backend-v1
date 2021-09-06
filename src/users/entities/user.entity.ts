@@ -72,12 +72,12 @@ export class User extends CoreEntity {
   @IsString()
   bio?: string;
 
-  @Column({ unique: true })
+  @Column()
   @Field((type) => String)
   @IsString()
   phoneNumber: string;
 
-  @Column({ unique: true })
+  @Column()
   @Field((type) => String)
   @IsString()
   address: string;
