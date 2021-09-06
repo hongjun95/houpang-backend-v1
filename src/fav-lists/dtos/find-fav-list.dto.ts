@@ -4,13 +4,13 @@ import { CoreOutput } from 'src/common/dtos/output.dto';
 import { FavList } from '../entities/favList.entity';
 
 @InputType()
-export class FindDipsListInput {
+export class FindFavListInput {
   @Field((type) => String)
   favListId: string;
 }
 
 @ObjectType()
-export class FindDipsListOutput extends CoreOutput {
+export class FindFavListOutput extends CoreOutput {
   @Field((type) => FavList, { nullable: true })
   favList?: FavList;
 }
