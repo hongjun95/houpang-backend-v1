@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderItem } from 'src/orders/entities/order-item.entity';
-import { Order } from 'src/orders/entities/order.entity';
 import { Product } from 'src/products/entities/product';
 import { User, UserRole } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -40,9 +39,12 @@ export class ReviewsService {
     productId,
   }: GetReviewsOnProductInput): Promise<GetReviewsOnProductOutput> {
     try {
-      const product = await this.products.findOne(productId, {
-        relations: ['reviews', 'reviews.commenter'],
-      });
+      const product = await this.products.findOne(
+        { id: productId },
+        {
+          relations: ['reviews', 'reviews.commenter'],
+        },
+      );
 
       if (!product) {
         return {
@@ -71,11 +73,14 @@ export class ReviewsService {
     commenter: User,
   ): Promise<GetReviewsOnConsumerOutput> {
     try {
-      const consumer = await this.users.findOne(consumerId, {
-        relations: ['reviews', 'reviews.product'],
-      });
+      const consumer = await this.users.findOne(
+        { id: consumerId },
+        {
+          relations: ['reviews', 'reviews.product'],
+        },
+      );
 
-      if (commenter.id !== consumer.id || commenter.role !== UserRole.Admin) {
+      if (commenter.id !== consumer.id && commenter.role !== UserRole.Admin) {
         return {
           ok: false,
           error: '사용자의 댓글 목록을 보실 수 없습니다.',
@@ -102,9 +107,12 @@ export class ReviewsService {
     commenter: User,
   ): Promise<CreateReviewOutput> {
     try {
-      const orderItem = await this.orderItems.findOne(orderItemId, {
-        relations: ['product', 'order', 'order.consumer'],
-      });
+      const orderItem = await this.orderItems.findOne(
+        { id: orderItemId },
+        {
+          relations: ['product', 'order', 'order.consumer'],
+        },
+      );
 
       if (!orderItem) {
         return {
@@ -146,9 +154,12 @@ export class ReviewsService {
     commenter: User,
   ): Promise<EditReviewOutput> {
     try {
-      const review = await this.reviews.findOne(id, {
-        relations: ['commenter'],
-      });
+      const review = await this.reviews.findOne(
+        { id },
+        {
+          relations: ['commenter'],
+        },
+      );
 
       if (!review) {
         return {
