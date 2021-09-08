@@ -131,6 +131,8 @@ export class ProductsService {
         provider,
       });
 
+      let category = product.category;
+
       if (!product) {
         return {
           ok: false,
@@ -138,9 +140,11 @@ export class ProductsService {
         };
       }
 
-      const category = await this.categories.findOneBySlugUsingName(
-        editProductInput.categoryName,
-      );
+      if (editProductInput.categoryName) {
+        category = await this.categories.findOneBySlugUsingName(
+          editProductInput.categoryName,
+        );
+      }
 
       await this.products.save({
         id: editProductInput.productId,

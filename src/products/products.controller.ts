@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Roles } from 'src/auth/roles.decorator';
 import { User } from 'src/users/entities/user.entity';
@@ -12,11 +21,11 @@ import { FindProductByIdOutput } from './dtos/find-product-by-id.dto';
 import { GetAllProductsOutput } from './dtos/get-all-products.dto';
 import { ProductsService } from './products.service';
 
-@Controller('/')
+@Controller('products/')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Get('get-all-products')
+  @Get('')
   @Roles(['Any'])
   async getAllProducts(
     @Query('page') page, //
@@ -24,7 +33,7 @@ export class ProductsController {
     return this.productsService.getAllProducts({ page });
   }
 
-  @Get('find-product-by-id')
+  @Get(':productId/')
   @Roles(['Any'])
   async findProductById(
     @Param('productId') productId,
@@ -32,7 +41,7 @@ export class ProductsController {
     return this.productsService.findProductById({ productId });
   }
 
-  @Post('create-product')
+  @Post('')
   @Roles(['Provider', 'Admin'])
   async createProduct(
     @Body() createProductInput: CreateProductInput,
@@ -41,16 +50,21 @@ export class ProductsController {
     return this.productsService.createProduct(createProductInput, provider);
   }
 
-  @Post('')
+  @Put(':productId/')
   @Roles(['Provider', 'Admin'])
   async editProduct(
-    @Body() editProductInput: EditProductInput,
+    @Param('productId') productId,
+    @Body() body,
     @AuthUser() provider: User,
   ): Promise<EditProductOutput> {
+    const editProductInput: EditProductInput = {
+      ...body,
+      productId,
+    };
     return this.productsService.editProduct(editProductInput, provider);
   }
 
-  @Post('')
+  @Delete(':productId/')
   @Roles(['Provider', 'Admin'])
   async deleteProduct(
     @Param('productId') productId,
