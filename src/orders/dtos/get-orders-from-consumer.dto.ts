@@ -8,7 +8,7 @@ export class GetOrdersFromConsumerInput {
   status?: OrderStatus;
 
   @Field((type) => String)
-  customerId: string;
+  consumerId: string;
 }
 
 @ObjectType()

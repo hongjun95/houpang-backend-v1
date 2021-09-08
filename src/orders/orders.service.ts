@@ -42,10 +42,12 @@ export class OrdersService {
 
   async getOrdersFromConsumer({
     status,
-    customerId,
+    consumerId,
   }: GetOrdersFromConsumerInput): Promise<GetOrdersFromConsumerOutput> {
     try {
-      const consumer = await this.users.findOne(customerId);
+      const consumer = await this.users.findOne({
+        id: consumerId,
+      });
 
       if (!consumer) {
         return {
@@ -85,7 +87,9 @@ export class OrdersService {
     providerId,
   }: GetOrdersFromProviderInput): Promise<GetOrdersFromProviderOutput> {
     try {
-      const provider = await this.users.findOne(providerId);
+      const provider = await this.users.findOne({
+        id: providerId,
+      });
 
       if (!provider) {
         return {
@@ -127,7 +131,9 @@ export class OrdersService {
     consumerId,
   }: FindOrderByIdInput): Promise<FindOrderByIdOutput> {
     try {
-      const consumer = await this.users.findOne(consumerId);
+      const consumer = await this.users.findOne({
+        id: consumerId,
+      });
 
       if (!consumer) {
         return {
@@ -136,7 +142,10 @@ export class OrdersService {
         };
       }
 
-      const order = await this.orders.findOne(orderId, {
+      const order = await this.orders.findOne({
+        where: {
+          id: orderId,
+        },
         relations: [
           'orderItems',
           'orderItems.product',
@@ -170,7 +179,9 @@ export class OrdersService {
     providerId,
   }: FindOrderItemByIdInput): Promise<FindOrderItemByIdOutput> {
     try {
-      const provider = await this.users.findOne(providerId);
+      const provider = await this.users.findOne({
+        id: providerId,
+      });
 
       if (!provider) {
         return {
@@ -179,7 +190,10 @@ export class OrdersService {
         };
       }
 
-      const orderItem = await this.orderItems.findOne(orderItemId, {
+      const orderItem = await this.orderItems.findOne({
+        where: {
+          id: orderItemId,
+        },
         relations: ['product', 'product.provider', 'product.category', 'order'],
       });
 
@@ -211,7 +225,9 @@ export class OrdersService {
       let orderFinalPrice = 0;
       const orderItems: OrderItem[] = [];
       for (const createOrderItem of createOrderItems) {
-        const product = await this.products.findOne(createOrderItem.productId);
+        const product = await this.products.findOne({
+          id: createOrderItem.productId,
+        });
         if (!product) {
           for (const orderItem of orderItems) {
             await this.orderItems.delete(orderItem);
@@ -297,13 +313,10 @@ export class OrdersService {
 
       order.status = OrderStatus.Canceled;
 
-      console.log(order.orderItems);
       for (const orderItem of order.orderItems) {
         orderItem.product.stock += orderItem.count;
         await this.products.save(orderItem.product);
       }
-      console.log(order.orderItems);
-      // await this.orders.save(order);
 
       const newOrder = await this.orders.save(order);
 
