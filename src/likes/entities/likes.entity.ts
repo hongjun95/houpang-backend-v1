@@ -4,10 +4,10 @@ import { Product } from 'src/products/entities/product';
 import { User } from 'src/users/entities/user.entity';
 import { Entity, JoinColumn, JoinTable, ManyToMany, OneToOne } from 'typeorm';
 
-@InputType('FavListInputType', { isAbstract: true })
+@InputType('LikeInputType', { isAbstract: true })
 @ObjectType()
 @Entity()
-export class FavList extends CoreEntity {
+export class Like extends CoreEntity {
   @OneToOne(() => User, {
     onDelete: 'CASCADE',
   })

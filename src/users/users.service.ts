@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FavList } from 'src/fav-lists/entities/favList.entity';
+import { Like } from 'src/likes/entities/likes.entity';
 import { JwtService } from 'src/jwt/jwt.service';
 import { Repository } from 'typeorm';
 import {
@@ -22,8 +22,8 @@ export class UsersService {
     @InjectRepository(User)
     private readonly users: Repository<User>,
 
-    @InjectRepository(FavList)
-    private readonly favlists: Repository<FavList>,
+    @InjectRepository(Like)
+    private readonly likes: Repository<Like>,
 
     private readonly jwtService: JwtService,
   ) {}
@@ -92,8 +92,8 @@ export class UsersService {
         }),
       );
 
-      await this.favlists.save(
-        this.favlists.create({
+      await this.likes.save(
+        this.likes.create({
           createdBy: user,
         }),
       );

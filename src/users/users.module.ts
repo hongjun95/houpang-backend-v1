@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FavList } from 'src/fav-lists/entities/favList.entity';
+import { Like } from 'src/likes/entities/likes.entity';
 import { User } from './entities/user.entity';
 import { UsersResolver } from './users.resolver';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, FavList])],
+  imports: [TypeOrmModule.forFeature([User, Like])],
   providers: [UsersResolver, UsersService],
   exports: [UsersService],
   controllers: [UsersController],

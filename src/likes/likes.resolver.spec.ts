@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FavListsResolver } from './fav-lists.resolver';
+import { FavListsResolver } from './likes.resolver';
 
 describe('FavListsResolver', () => {
   let resolver: FavListsResolver;

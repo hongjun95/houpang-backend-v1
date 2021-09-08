@@ -16,10 +16,10 @@ import { Category } from './categories/entities/category.entity';
 import { OrdersModule } from './orders/orders.module';
 import { Order } from './orders/entities/order.entity';
 import { OrderItem } from './orders/entities/order-item.entity';
-import { FavListsModule } from './fav-lists/fav-lists.module';
-import { FavList } from './fav-lists/entities/favList.entity';
+import { Like } from './likes/entities/likes.entity';
 import { ReviewsModule } from './reviews/reviews.module';
 import { Review } from './reviews/entities/review.entity';
+import { LikesModule } from './likes/likes.module';
 
 @Module({
   imports: [
@@ -79,7 +79,7 @@ import { Review } from './reviews/entities/review.entity';
       // DB에 무슨 일이 일어나는지 콘솔에 표시하는 거다.
       logging:
         process.env.NODE_ENV !== 'prod' && process.env.NODE_ENV !== 'test',
-      entities: [User, Product, Category, Order, OrderItem, FavList, Review],
+      entities: [User, Product, Category, Order, OrderItem, Like, Review],
     }),
     JwtModule.forRoot({
       privateKey: process.env.PRIVATE_KEY,
@@ -90,7 +90,7 @@ import { Review } from './reviews/entities/review.entity';
     ProductsModule,
     CategoriesModule,
     OrdersModule,
-    FavListsModule,
+    LikesModule,
     ReviewsModule,
   ],
   controllers: [],

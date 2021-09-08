@@ -6,7 +6,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
 } from '@nestjs/common';
 import { Roles } from 'src/auth/roles.decorator';
 import { CategoriesService } from './categories.service';

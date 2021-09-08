@@ -3,55 +3,62 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
-import { FindFavListInput, FindFavListOutput } from './dtos/find-fav-list.dto';
 import {
-  DipsOnProductInput,
-  DipsOnProductOutput,
-} from './dtos/dips-on-product.dto';
+  FindLikeListInput,
+  FindLikeListOutput,
+} from './dtos/find-like-list.dto';
+import { LikeProductInput, LikeProductOutput } from './dtos/like-product.dto';
 import {
-  RemoveProductInput,
-  RemoveProductOutput,
-} from './dtos/remove-product.dto';
-import { FavList } from './entities/favList.entity';
+  UnlikeProductInput,
+  UnlikeProductOutput,
+} from './dtos/unlike-product.dto';
+import { Like } from './entities/likes.entity';
 
 @Injectable()
-export class FavListsService {
+export class LikesService {
   constructor(
-    @InjectRepository(FavList)
-    private readonly favLists: Repository<FavList>,
+    @InjectRepository(Like)
+    private readonly Likes: Repository<Like>,
 
     @InjectRepository(Product)
     private readonly products: Repository<Product>,
   ) {}
 
-  async findFavList({
-    favListId,
-  }: FindFavListInput): Promise<FindFavListOutput> {
+  async findLikeList({
+    likeListId,
+  }: FindLikeListInput): Promise<FindLikeListOutput> {
     try {
-      const favList = await this.favLists.findOne({
+      const likeList = await this.Likes.findOne({
         where: {
-          id: favListId,
+          id: likeListId,
         },
         relations: ['products'],
       });
 
+      if (!likeList) {
+        return {
+          ok: false,
+          error: '좋아요 목록을 찾을 수가 없습니다.',
+        };
+      }
+
       return {
         ok: true,
-        favList,
+        likeList,
       };
     } catch (error) {
       console.error(error);
       return {
         ok: false,
-        error: '찜 할 수가 없습니다.',
+        error: '좋아요 목록을 찾을 수가 없습니다.',
       };
     }
   }
 
-  async dipsOnProduct(
-    { productId }: DipsOnProductInput,
+  async likeProduct(
+    { productId }: LikeProductInput,
     consumer: User,
-  ): Promise<DipsOnProductOutput> {
+  ): Promise<LikeProductOutput> {
     try {
       const product = await this.products.findOne(productId);
 
@@ -62,16 +69,16 @@ export class FavListsService {
         };
       }
 
-      const favList = await this.favLists.findOne({
+      const like = await this.Likes.findOne({
         where: {
           createdBy: consumer,
         },
         relations: ['products'],
       });
 
-      favList.products = [...favList.products, { ...product }];
+      like.products = [...like.products, { ...product }];
 
-      await this.favLists.save(favList);
+      await this.Likes.save(like);
 
       return {
         ok: true,
@@ -80,15 +87,15 @@ export class FavListsService {
       console.error(error);
       return {
         ok: false,
-        error: '찜 할 수가 없습니다.',
+        error: '좋아요 목록에 담을 수가 없습니다.',
       };
     }
   }
 
-  async removeProduct(
-    { productId }: RemoveProductInput,
+  async unlikeProduct(
+    { productId }: UnlikeProductInput,
     consumer: User,
-  ): Promise<RemoveProductOutput> {
+  ): Promise<UnlikeProductOutput> {
     try {
       const product = await this.products.findOne(productId);
 
@@ -99,7 +106,7 @@ export class FavListsService {
         };
       }
 
-      const favList = await this.favLists.findOne({
+      const favList = await this.Likes.findOne({
         where: {
           createdBy: consumer,
         },
@@ -110,7 +117,7 @@ export class FavListsService {
         (aProduct) => aProduct.id !== product.id,
       );
 
-      await this.favLists.save(favList);
+      await this.Likes.save(favList);
 
       return {
         ok: true,
@@ -119,7 +126,7 @@ export class FavListsService {
       console.error(error);
       return {
         ok: false,
-        error: '찜 할 수가 없습니다.',
+        error: '좋아요 목록에서 뺄 수가 없습니다.',
       };
     }
   }
