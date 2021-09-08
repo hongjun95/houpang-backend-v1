@@ -19,6 +19,12 @@ import { UsersService } from './users.service';
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
+  @Query((returns) => User)
+  @Roles(['Any'])
+  me(@AuthUser() user: User): User {
+    return user;
+  }
+
   @Mutation((returns) => CreateAccountOutput)
   async createAccount(
     @Args('input') createAccountInput: CreateAccountInput,
@@ -29,12 +35,6 @@ export class UsersResolver {
   @Mutation((returns) => LoginOutput)
   async login(@Args('input') loginInput: LoginInput): Promise<LoginOutput> {
     return this.usersService.login(loginInput);
-  }
-
-  @Query((returns) => User)
-  @Roles(['Any'])
-  me(@AuthUser() user: User): User {
-    return user;
   }
 
   @Mutation((returns) => EditProfileOutput)
