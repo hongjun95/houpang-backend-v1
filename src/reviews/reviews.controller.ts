@@ -1,4 +1,13 @@
-import { Controller, Get, Query, Post, Put, Param, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Post,
+  Put,
+  Param,
+  Body,
+  Delete,
+} from '@nestjs/common';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Roles } from 'src/auth/roles.decorator';
 import { User } from 'src/users/entities/user.entity';
@@ -6,6 +15,10 @@ import {
   CreateReviewInput,
   CreateReviewOutput,
 } from './dtos/create-review.dto';
+import {
+  DeleteReviewInput,
+  DeleteReviewOutput,
+} from './dtos/delete-review.dto';
 import { EditReviewInput, EditReviewOutput } from './dtos/edit-review.dto';
 import {
   GetReviewsOnConsumerInput,
@@ -44,10 +57,11 @@ export class ReviewsController {
   @Post('/orderItem/:orderItemId')
   @Roles(['Any'])
   async createReview(
-    @Query('orderItemId') orderItemId: string,
+    @Param('orderItemId') orderItemId: string,
     @Body() body: any,
     @AuthUser() commenter: User,
   ): Promise<CreateReviewOutput> {
+    console.log(orderItemId);
     const createReviewInput: CreateReviewInput = {
       ...body,
       orderItemId,
@@ -67,5 +81,14 @@ export class ReviewsController {
       id,
     };
     return this.reviewsService.editReview(editReviewInput, commenter);
+  }
+
+  @Delete('/:reviewId')
+  @Roles(['Any'])
+  async deleteReview(
+    @Param() deleteReviewInput: DeleteReviewInput,
+    @AuthUser() commenter: User,
+  ): Promise<DeleteReviewOutput> {
+    return this.reviewsService.deleteReview(deleteReviewInput, commenter);
   }
 }

@@ -6,6 +6,10 @@ import {
   CreateReviewInput,
   CreateReviewOutput,
 } from './dtos/create-review.dto';
+import {
+  DeleteReviewInput,
+  DeleteReviewOutput,
+} from './dtos/delete-review.dto';
 import { EditReviewInput, EditReviewOutput } from './dtos/edit-review.dto';
 import {
   GetReviewsOnConsumerInput,
@@ -57,5 +61,14 @@ export class ReviewsResolver {
     @AuthUser() commenter: User,
   ): Promise<EditReviewOutput> {
     return this.reviewsService.editReview(editReviewInput, commenter);
+  }
+
+  @Mutation((returns) => DeleteReviewOutput)
+  @Roles(['Any'])
+  async deleteReview(
+    @Args('input') deleteReviewInput: DeleteReviewInput,
+    @AuthUser() commenter: User,
+  ): Promise<DeleteReviewOutput> {
+    return this.reviewsService.deleteReview(deleteReviewInput, commenter);
   }
 }

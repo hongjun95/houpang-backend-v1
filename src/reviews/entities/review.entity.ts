@@ -21,7 +21,7 @@ export class Review extends CoreEntity {
   commenter: User;
 
   @RelationId((review: Review) => review.commenter)
-  commenterId: number;
+  commenterId: string;
 
   @Field((type) => Product)
   @ManyToOne((type) => Product, (product) => product.reviews, {
@@ -30,5 +30,5 @@ export class Review extends CoreEntity {
   product: Product;
 
   @RelationId((review: Review) => review.product)
-  productId: number;
+  productId: string;
 }

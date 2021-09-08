@@ -8,6 +8,10 @@ import {
   CreateReviewInput,
   CreateReviewOutput,
 } from './dtos/create-review.dto';
+import {
+  DeleteReviewInput,
+  DeleteReviewOutput,
+} from './dtos/delete-review.dto';
 import { EditReviewInput, EditReviewOutput } from './dtos/edit-review.dto';
 import {
   GetReviewsOnConsumerInput,
@@ -187,6 +191,49 @@ export class ReviewsService {
       return {
         ok: false,
         error: '댓글을 수정하실 수가 없습니다.',
+      };
+    }
+  }
+
+  async deleteReview(
+    { reviewId }: DeleteReviewInput,
+    commenter: User,
+  ): Promise<DeleteReviewOutput> {
+    try {
+      const review = await this.reviews.findOne(
+        { id: reviewId },
+        {
+          relations: ['commenter'],
+        },
+      );
+
+      if (!review) {
+        return {
+          ok: false,
+          error: '해당 댓글이 존재하지 않습니다.',
+        };
+      }
+
+      console.log(commenter.id);
+      console.log(review.commenter.id);
+
+      if (review.commenter.id !== commenter.id) {
+        return {
+          ok: false,
+          error: '해당 댓글을 삭제하실 수 없습니다.',
+        };
+      }
+
+      await this.reviews.delete(reviewId);
+
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '댓글을 삭제하실 수가 없습니다.',
       };
     }
   }
