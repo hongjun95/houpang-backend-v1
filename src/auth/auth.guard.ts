@@ -32,9 +32,11 @@ export class AuthGuard implements CanActivate {
         token = gqlContext.token;
       } else if (host.getType() === 'http') {
         const req = host.getArgByIndex(0);
-        const authorization = req.headers['authorization'];
-        if (authorization.includes('Bearer')) {
-          token = authorization.split(' ')[1];
+        if (req.headers.hasOwnProperty('authorization')) {
+          const authorization = req.headers['authorization'];
+          if (authorization.includes('Bearer')) {
+            token = authorization.split(' ')[1];
+          }
         }
       }
     }
@@ -51,12 +53,12 @@ export class AuthGuard implements CanActivate {
           gqlContext['user'] = user;
         }
 
-        if (roles.includes('Any')) {
-          return true;
-        }
-
         return roles.includes(user.role);
       }
+    }
+
+    if (roles.includes('Any')) {
+      return true;
     }
 
     return false;

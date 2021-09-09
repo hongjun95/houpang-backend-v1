@@ -15,47 +15,57 @@ import { LoginInput, LoginOutput } from './dtos/login.dto';
 import { UserProfileOutput } from './dtos/user-profile.dto';
 import { UsersService } from './users.service';
 
-@Controller('/')
+@Controller('')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('me')
+  @Get('/me')
   @Roles(['Any'])
   me(@AuthUser() user: User): User {
     return user;
   }
 
-  @Post('signup')
-  async createAccount(
-    @Body() body: CreateAccountInput,
-  ): Promise<CreateAccountOutput> {
-    return this.usersService.createAccount(body);
+  @Post('/signup')
+  async createAccount(@Body() body): Promise<CreateAccountOutput> {
+    const createAccountInput: CreateAccountInput = {
+      ...body.data,
+    };
+    return this.usersService.createAccount(createAccountInput);
   }
 
-  @Post('login')
-  async login(@Body() body: LoginInput): Promise<LoginOutput> {
-    return this.usersService.login(body);
+  @Post('/login')
+  async login(@Body() body): Promise<LoginOutput> {
+    const loginInput: LoginInput = {
+      ...body.data,
+    };
+    return this.usersService.login(loginInput);
   }
 
-  @Post('edit-profile')
+  @Post('/edit-profile')
   @Roles(['Any'])
   async editProfile(
-    @Body() body: EditProfileInput,
+    @Body() body,
     @AuthUser() user: User,
   ): Promise<EditProfileOutput> {
-    return this.usersService.editProfile(body, user.id);
+    const editProfileInput: EditProfileInput = {
+      ...body.data,
+    };
+    return this.usersService.editProfile(editProfileInput, user.id);
   }
 
-  @Post('change-password')
+  @Post('/change-password')
   @Roles(['Any'])
   async changePassword(
-    @Body() ChangePasswordInput: ChangePasswordInput,
+    @Body() body,
     @AuthUser() user: User,
   ): Promise<ChangePasswordOutput> {
-    return this.usersService.changePassword(ChangePasswordInput, user.id);
+    const changePasswordOutput: ChangePasswordInput = {
+      ...body.data,
+    };
+    return this.usersService.changePassword(changePasswordOutput, user.id);
   }
 
-  @Post('user-profile')
+  @Post('/user-profile')
   @Roles(['Any'])
   async userProfile(@AuthUser() user: User): Promise<UserProfileOutput> {
     return this.usersService.findUserById(user.id);
