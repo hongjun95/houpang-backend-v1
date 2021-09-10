@@ -16,6 +16,10 @@ import {
 } from './dtos/edit-category.dto';
 import { GetAllCategoriesOutput } from './dtos/get-all-categories.dto';
 import {
+  GetProductsByCategoryIdInput,
+  GetProductsByCategoryIdOutput,
+} from './dtos/get-products-by-categoryId.dto';
+import {
   GetProductsOnCategoryInput,
   GetProductsOnCategoryOutput,
 } from './dtos/get-products-on-category.dto';
@@ -60,6 +64,43 @@ export class CategoriesService {
     try {
       const takePages = 3;
       const category = await this.categories.findOne({ slug });
+
+      if (!category) {
+        return {
+          ok: false,
+          error: '해당 카테고리가 존재하지 않습니다.',
+        };
+      }
+
+      const [products, totalProducts] = await this.products.findAndCount({
+        where: {
+          category,
+        },
+        skip: (page - 1) * takePages,
+        take: takePages,
+      });
+      return {
+        ok: true,
+        products,
+        totalPages: Math.ceil(totalProducts / takePages),
+        totalResults: totalProducts,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '카테고리에 있는 상품을 불러올 수 없습니다.',
+      };
+    }
+  }
+
+  async getProductsByCategoryId({
+    categoryId,
+    page,
+  }: GetProductsByCategoryIdInput): Promise<GetProductsByCategoryIdOutput> {
+    try {
+      const takePages = 3;
+      const category = await this.categories.findOne({ id: categoryId });
 
       if (!category) {
         return {

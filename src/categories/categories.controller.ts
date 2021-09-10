@@ -19,6 +19,7 @@ import {
   EditCategoryOutput,
 } from './dtos/edit-category.dto';
 import { GetAllCategoriesOutput } from './dtos/get-all-categories.dto';
+import { GetProductsByCategoryIdInput, GetProductsByCategoryIdOutput } from './dtos/get-products-by-categoryId.dto';
 import {
   GetProductsOnCategoryInput,
   GetProductsOnCategoryOutput,
@@ -41,6 +42,16 @@ export class CategoriesController {
   ): Promise<GetProductsOnCategoryOutput> {
     return this.categoriesService.getProductsOnCategory(
       getProductsOnCategoryInput,
+    );
+  }
+
+  @Get('/:categoryId')
+  @Roles(['Any'])
+  async getProductsByCategoryId(
+    @Param() getProductsByCategoryIdInput: GetProductsByCategoryIdInput,
+  ): Promise<GetProductsByCategoryIdOutput> {
+    return this.categoriesService.getProductsByCategoryId(
+      getProductsByCategoryIdInput,
     );
   }
 
