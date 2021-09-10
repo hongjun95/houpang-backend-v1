@@ -54,7 +54,7 @@ export class UsersController {
     const editProfileInput: EditProfileInput = {
       ...body.data,
     };
-    return this.usersService.editProfile(editProfileInput, user.id);
+    return this.usersService.editProfile(editProfileInput, user);
   }
 
   @Post('/change-password')

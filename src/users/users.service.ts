@@ -73,7 +73,6 @@ export class UsersService {
 
       const phoneNumberRegex = new RegExp(/^[0-9]{3}[-]+[0-9]{4}[-]+[0-9]{4}$/);
       const phoneNumberTestPass = phoneNumberRegex.test(phoneNumber);
-      console.log(phoneNumberTestPass);
 
       if (!phoneNumberTestPass) {
         return {
@@ -174,32 +173,36 @@ export class UsersService {
 
   async editProfile(
     editProfileInput: EditProfileInput,
-    userId: string,
+    authUser: User,
   ): Promise<EditProfileOutput> {
     try {
-      const user = await this.users.findOne(userId);
+      const user = await this.users.findOne({ id: authUser.id });
 
       if (editProfileInput.email) {
-        const exists = await this.users.findOne({
-          email: editProfileInput.email,
-        });
-        if (exists) {
-          return {
-            ok: false,
-            error: '이미 존재하는 이메일로 수정할 수 없습니다.',
-          };
+        if (editProfileInput.email !== authUser.email) {
+          const exists = await this.users.findOne({
+            email: editProfileInput.email,
+          });
+          if (exists) {
+            return {
+              ok: false,
+              error: '이미 존재하는 이메일로 수정할 수 없습니다.',
+            };
+          }
         }
       }
 
       if (editProfileInput.username) {
-        const exists = await this.users.findOne({
-          username: editProfileInput.username,
-        });
-        if (exists) {
-          return {
-            ok: false,
-            error: '이미 존재하는 사용자 이름으로 수정할 수 없습니다.',
-          };
+        if (editProfileInput.username !== authUser.username) {
+          const exists = await this.users.findOne({
+            username: editProfileInput.username,
+          });
+          if (exists) {
+            return {
+              ok: false,
+              error: '이미 존재하는 사용자 이름으로 수정할 수 없습니다.',
+            };
+          }
         }
       }
 

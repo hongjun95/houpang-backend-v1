@@ -43,7 +43,7 @@ export class UsersResolver {
     @Args('input') editProfileInput: EditProfileInput,
     @AuthUser() user: User,
   ): Promise<EditProfileOutput> {
-    return this.usersService.editProfile(editProfileInput, user.id);
+    return this.usersService.editProfile(editProfileInput, user);
   }
 
   @Mutation((returns) => EditProfileOutput)
