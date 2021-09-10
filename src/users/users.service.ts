@@ -1,3 +1,4 @@
+import { Response, Request } from 'express';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like } from 'src/likes/entities/likes.entity';
@@ -15,6 +16,7 @@ import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile.dto';
 import { LoginInput, LoginOutput } from './dtos/login.dto';
 import { UserProfileOutput } from './dtos/user-profile.dto';
 import { User } from './entities/user.entity';
+import { CookieOptions } from 'express';
 
 @Injectable()
 export class UsersService {
@@ -104,7 +106,10 @@ export class UsersService {
     }
   }
 
-  async login({ email, password }: LoginInput): Promise<LoginOutput> {
+  async login(
+    { email, password }: LoginInput,
+    res?: Response,
+  ): Promise<LoginOutput> {
     try {
       const user = await this.users.findOne({ email });
 
@@ -124,6 +129,26 @@ export class UsersService {
       }
 
       const token = this.jwtService.sign(user.id);
+      const options: CookieOptions = {
+        maxAge: 86400 * 1000,
+        httpOnly: true,
+        sameSite: 'none', // Client가 Server와 다른 IP(다른 도메인) 이더라도 동작하게 한다.
+        // secure: true, // sameSite:'none'을 할 경우 secure:true로 설정해준다.
+        domain: 'http://localhost:8080/',
+      };
+
+      if (res) {
+        res.setHeader('Access-Control-Expose-Headers', 'Set-Cookie');
+        res.header('Access-Control-Allow-Headers', 'Set-Cookie');
+        res.cookie('token', token, options);
+      }
+      // res.cookie('token', token, {
+      //   expires: new Date(new Date().getTime() + 30 * 1000),
+      //   sameSite: 'strict',
+      //   httpOnly: true,
+      // });
+
+      // return res.send({ ok: true, token });
 
       return { ok: true, token };
     } catch (e) {

@@ -20,6 +20,7 @@ import { Like } from './likes/entities/likes.entity';
 import { ReviewsModule } from './reviews/reviews.module';
 import { Review } from './reviews/entities/review.entity';
 import { LikesModule } from './likes/likes.module';
+import { TOKEN_KEY } from './common/common.constants';
 
 @Module({
   imports: [
@@ -43,8 +44,6 @@ import { LikesModule } from './likes/likes.module';
       autoSchemaFile: true,
 
       context: ({ req }) => {
-        const TOKEN_KEY = 'authorization';
-
         let token: string = '';
         let authorization: string = '';
         if (req.headers.hasOwnProperty(TOKEN_KEY)) {

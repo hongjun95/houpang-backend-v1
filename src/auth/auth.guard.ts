@@ -1,6 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
+import { TOKEN_KEY } from 'src/common/common.constants';
 import { JwtService } from 'src/jwt/jwt.service';
 import { UsersService } from 'src/users/users.service';
 import { AllowedRoles } from './roles.decorator';
@@ -32,8 +33,9 @@ export class AuthGuard implements CanActivate {
         token = gqlContext.token;
       } else if (host.getType() === 'http') {
         const req = host.getArgByIndex(0);
-        if (req.headers.hasOwnProperty('authorization')) {
-          const authorization = req.headers['authorization'];
+        console.log(req.cookies);
+        if (req.headers.hasOwnProperty(TOKEN_KEY)) {
+          const authorization = req.headers[TOKEN_KEY];
           if (authorization.includes('Bearer')) {
             token = authorization.split(' ')[1];
           }
@@ -43,7 +45,6 @@ export class AuthGuard implements CanActivate {
 
     if (token) {
       const decoded = this.jwtService.verify(token);
-
       if (typeof decoded === 'object' && decoded.hasOwnProperty('id')) {
         const { ok, user } = await this.usersService.findUserById(
           decoded['id'],
@@ -51,9 +52,12 @@ export class AuthGuard implements CanActivate {
         if (ok) {
           const gqlContext = host.getContext();
           gqlContext['user'] = user;
-        }
 
-        return roles.includes(user.role);
+          if (roles.includes('Any')) {
+            return true;
+          }
+          return roles.includes(user.role);
+        }
       }
     }
 

@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import { Response } from 'express';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Roles } from 'src/auth/roles.decorator';
 import { User } from 'src/users/entities/user.entity';
@@ -34,11 +35,14 @@ export class UsersController {
   }
 
   @Post('/login')
-  async login(@Body() body): Promise<LoginOutput> {
+  async login(
+    @Body() body, //
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<LoginOutput> {
     const loginInput: LoginInput = {
       ...body.data,
     };
-    return this.usersService.login(loginInput);
+    return this.usersService.login(loginInput, res);
   }
 
   @Post('/edit-profile')
