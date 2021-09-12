@@ -21,7 +21,7 @@ import { FindProductByIdOutput } from './dtos/find-product-by-id.dto';
 import { GetAllProductsOutput } from './dtos/get-all-products.dto';
 import { ProductsService } from './products.service';
 
-@Controller('products/')
+@Controller('/products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
@@ -33,7 +33,7 @@ export class ProductsController {
     return this.productsService.getAllProducts({ page });
   }
 
-  @Get(':productId/')
+  @Get('/:productId')
   @Roles(['Any'])
   async findProductById(
     @Param('productId') productId,
@@ -50,7 +50,7 @@ export class ProductsController {
     return this.productsService.createProduct(createProductInput, provider);
   }
 
-  @Put(':productId/')
+  @Put('/:productId')
   @Roles(['Provider', 'Admin'])
   async editProduct(
     @Param('productId') productId,
@@ -64,7 +64,7 @@ export class ProductsController {
     return this.productsService.editProduct(editProductInput, provider);
   }
 
-  @Delete(':productId/')
+  @Delete('/:productId')
   @Roles(['Provider', 'Admin'])
   async deleteProduct(
     @Param('productId') productId,
