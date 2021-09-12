@@ -96,7 +96,8 @@ export class CategoriesService {
 
   async getProductsByCategoryId({
     categoryId,
-    page,
+    page = 1,
+    order = 'createdAt desc',
   }: GetProductsByCategoryIdInput): Promise<GetProductsByCategoryIdOutput> {
     try {
       const takePages = 3;
@@ -109,13 +110,51 @@ export class CategoriesService {
         };
       }
 
-      const [products, totalProducts] = await this.products.findAndCount({
-        where: {
-          category,
-        },
-        skip: (page - 1) * takePages,
-        take: takePages,
-      });
+      let products: Product[], totalProducts: number;
+      switch (order) {
+        case 'createdAt desc':
+          [products, totalProducts] = await this.products.findAndCount({
+            where: {
+              category,
+            },
+            relations: ['category'],
+            order: {
+              createdAt: 'DESC',
+            },
+            skip: (page - 1) * takePages,
+            take: takePages,
+          });
+          break;
+        case 'price desc':
+          [products, totalProducts] = await this.products.findAndCount({
+            where: {
+              category,
+            },
+            relations: ['category'],
+            order: {
+              price: 'DESC',
+            },
+            skip: (page - 1) * takePages,
+            take: takePages,
+          });
+          break;
+        case 'price asc':
+          [products, totalProducts] = await this.products.findAndCount({
+            where: {
+              category,
+            },
+            relations: ['category'],
+            order: {
+              price: 'ASC',
+            },
+            skip: (page - 1) * takePages,
+            take: takePages,
+          });
+          break;
+        default:
+          throw new Error('상품이 존재하지 않습니다.');
+      }
+
       return {
         ok: true,
         products,

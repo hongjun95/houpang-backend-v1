@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { Roles } from 'src/auth/roles.decorator';
 import { CategoriesService } from './categories.service';
@@ -19,7 +20,10 @@ import {
   EditCategoryOutput,
 } from './dtos/edit-category.dto';
 import { GetAllCategoriesOutput } from './dtos/get-all-categories.dto';
-import { GetProductsByCategoryIdInput, GetProductsByCategoryIdOutput } from './dtos/get-products-by-categoryId.dto';
+import {
+  GetProductsByCategoryIdInput,
+  GetProductsByCategoryIdOutput,
+} from './dtos/get-products-by-categoryId.dto';
 import {
   GetProductsOnCategoryInput,
   GetProductsOnCategoryOutput,
@@ -48,8 +52,13 @@ export class CategoriesController {
   @Get('/:categoryId')
   @Roles(['Any'])
   async getProductsByCategoryId(
-    @Param() getProductsByCategoryIdInput: GetProductsByCategoryIdInput,
+    @Param('categoryId') categoryId: string,
+    @Query() order,
   ): Promise<GetProductsByCategoryIdOutput> {
+    const getProductsByCategoryIdInput: GetProductsByCategoryIdInput = {
+      categoryId,
+      ...order,
+    };
     return this.categoriesService.getProductsByCategoryId(
       getProductsByCategoryIdInput,
     );
