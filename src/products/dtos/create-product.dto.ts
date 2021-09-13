@@ -16,4 +16,7 @@ export class CreateProductInput extends PickType(Product, [
 }
 
 @ObjectType()
-export class CreateProductOutput extends CoreOutput {}
+export class CreateProductOutput extends CoreOutput {
+  @Field((type) => Product, { nullable: true })
+  product?: Product;
+}
