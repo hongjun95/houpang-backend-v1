@@ -118,6 +118,7 @@ export class CategoriesService {
             where: {
               category,
             },
+            relations: ['provider'],
             order: {
               createdAt: 'DESC',
             },
@@ -130,6 +131,7 @@ export class CategoriesService {
             where: {
               category,
             },
+            relations: ['provider'],
             order: {
               price: 'DESC',
             },
@@ -142,6 +144,7 @@ export class CategoriesService {
             where: {
               category,
             },
+            relations: ['provider'],
             order: {
               price: 'ASC',
             },
