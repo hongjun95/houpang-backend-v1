@@ -21,6 +21,7 @@ import { ReviewsModule } from './reviews/reviews.module';
 import { Review } from './reviews/entities/review.entity';
 import { LikesModule } from './likes/likes.module';
 import { TOKEN_KEY } from './common/common.constants';
+import { UploadsModule } from './uploads/uploads.module';
 
 @Module({
   imports: [
@@ -91,6 +92,7 @@ import { TOKEN_KEY } from './common/common.constants';
     OrdersModule,
     LikesModule,
     ReviewsModule,
+    UploadsModule,
   ],
   controllers: [],
   providers: [],

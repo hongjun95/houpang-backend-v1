@@ -105,12 +105,13 @@ export class ProductsService {
         createProductInput.categoryName,
       );
 
-      await this.products.save(
+      const newProduct = await this.products.save(
         this.products.create({ ...createProductInput, provider, category }),
       );
 
       return {
         ok: true,
+        product: newProduct,
       };
     } catch (error) {
       console.error(error);

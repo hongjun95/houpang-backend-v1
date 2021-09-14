@@ -78,6 +78,10 @@ export class User extends CoreEntity {
   @IsString()
   phoneNumber: string;
 
+  @Column({ nullable: true })
+  @Field((type) => String, { nullable: true })
+  userImg?: string;
+
   @Column()
   @Field((type) => String)
   @IsString()

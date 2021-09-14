@@ -12,6 +12,7 @@ export class CreateAccountInput extends PickType(User, [
   'language',
   'phoneNumber',
   'address',
+  'userImg'
 ]) {
   @Field((type) => String, { nullable: true })
   bio?: string;

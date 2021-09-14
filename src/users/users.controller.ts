@@ -29,7 +29,7 @@ export class UsersController {
   @Post('/signup')
   async createAccount(@Body() body): Promise<CreateAccountOutput> {
     const createAccountInput: CreateAccountInput = {
-      ...body.data,
+      ...body,
     };
     return this.usersService.createAccount(createAccountInput);
   }
@@ -40,7 +40,7 @@ export class UsersController {
     @Res({ passthrough: true }) res: Response,
   ): Promise<LoginOutput> {
     const loginInput: LoginInput = {
-      ...body.data,
+      ...body,
     };
     return this.usersService.login(loginInput, res);
   }
@@ -52,7 +52,7 @@ export class UsersController {
     @AuthUser() user: User,
   ): Promise<EditProfileOutput> {
     const editProfileInput: EditProfileInput = {
-      ...body.data,
+      ...body,
     };
     return this.usersService.editProfile(editProfileInput, user);
   }
@@ -64,7 +64,7 @@ export class UsersController {
     @AuthUser() user: User,
   ): Promise<ChangePasswordOutput> {
     const changePasswordOutput: ChangePasswordInput = {
-      ...body.data,
+      ...body,
     };
     return this.usersService.changePassword(changePasswordOutput, user.id);
   }

@@ -39,6 +39,7 @@ export class UsersService {
     phoneNumber,
     address,
     bio,
+    userImg,
   }: CreateAccountInput): Promise<CreateAccountOutput> {
     try {
       const existedEmail = await this.users.findOne({ email });
@@ -61,6 +62,8 @@ export class UsersService {
       const passwordRegex = new RegExp(
         /(?=.*[!@#$%^&\*\(\)_\+\-=\[\]\{\};\':\"\\\|,\.<>\/\?]+)(?=.*[a-zA-Z]+)(?=.*\d+)/,
       );
+
+      console.log(password);
 
       const passwordTestPass = passwordRegex.test(password);
 
@@ -90,6 +93,7 @@ export class UsersService {
           phoneNumber,
           address,
           bio,
+          userImg,
         }),
       );
 
