@@ -27,4 +27,7 @@ export class GetProductsByCategoryIdInput extends PaginationInput {
 export class GetProductsByCategoryIdOutput extends PaginationOutput {
   @Field((type) => [Product], { nullable: true })
   products?: Product[];
+
+  @Field((type) => String, { nullable: true })
+  categoryName?: string;
 }

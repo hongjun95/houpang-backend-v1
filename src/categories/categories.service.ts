@@ -62,7 +62,7 @@ export class CategoriesService {
     page,
   }: GetProductsOnCategoryInput): Promise<GetProductsOnCategoryOutput> {
     try {
-      const takePages = 3;
+      const takePages = 10;
       const category = await this.categories.findOne({ slug });
 
       if (!category) {
@@ -84,6 +84,7 @@ export class CategoriesService {
         products,
         totalPages: Math.ceil(totalProducts / takePages),
         totalResults: totalProducts,
+        categoryName: category.name,
       };
     } catch (error) {
       console.error(error);
@@ -100,7 +101,7 @@ export class CategoriesService {
     order = 'createdAt desc',
   }: GetProductsByCategoryIdInput): Promise<GetProductsByCategoryIdOutput> {
     try {
-      const takePages = 3;
+      const takePages = 10;
       const category = await this.categories.findOne({ id: categoryId });
 
       if (!category) {
@@ -117,7 +118,6 @@ export class CategoriesService {
             where: {
               category,
             },
-            relations: ['category'],
             order: {
               createdAt: 'DESC',
             },
@@ -130,7 +130,6 @@ export class CategoriesService {
             where: {
               category,
             },
-            relations: ['category'],
             order: {
               price: 'DESC',
             },
@@ -143,7 +142,6 @@ export class CategoriesService {
             where: {
               category,
             },
-            relations: ['category'],
             order: {
               price: 'ASC',
             },
@@ -160,6 +158,7 @@ export class CategoriesService {
         products,
         totalPages: Math.ceil(totalProducts / takePages),
         totalResults: totalProducts,
+        categoryName: category.name,
       };
     } catch (error) {
       console.error(error);

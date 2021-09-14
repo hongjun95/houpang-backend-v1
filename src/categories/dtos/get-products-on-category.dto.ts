@@ -16,4 +16,7 @@ export class GetProductsOnCategoryInput extends PaginationInput {
 export class GetProductsOnCategoryOutput extends PaginationOutput {
   @Field((type) => [Product], { nullable: true })
   products?: Product[];
+
+  @Field((type) => String, { nullable: true })
+  categoryName?: string;
 }
