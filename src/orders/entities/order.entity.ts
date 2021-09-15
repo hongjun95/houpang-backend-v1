@@ -5,7 +5,7 @@ import {
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { IsNumber } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 import { CoreEntity } from 'src/common/entities/common.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
@@ -28,6 +28,7 @@ export enum OrderStatus {
 
 registerEnumType(OrderStatus, { name: 'OrderStatus' });
 
+// deliver_request, payment_method
 @InputType('OrderInputType', { isAbstract: true })
 @ObjectType()
 @Entity()
@@ -50,6 +51,16 @@ export class Order extends CoreEntity {
   @Column()
   @IsNumber()
   total: number;
+
+  @Field((type) => String)
+  @Column({ default: '' })
+  @IsString()
+  destination: string;
+
+  @Field((type) => String)
+  @Column({ default: '문 앞' })
+  @IsString()
+  deliverRequest: string;
 
   @Field((type) => OrderStatus)
   @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.Checking })

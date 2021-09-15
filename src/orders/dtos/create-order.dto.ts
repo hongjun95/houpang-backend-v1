@@ -14,6 +14,12 @@ export class CreateOrderItemInput {
 export class CreateOrderInput {
   @Field((type) => [CreateOrderItemInput])
   createOrderItems: CreateOrderItemInput[];
+
+  @Field((type) => String)
+  destination: string;
+
+  @Field((type) => String)
+  deliverRequest: string;
 }
 
 @ObjectType()

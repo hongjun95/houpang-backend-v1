@@ -218,7 +218,7 @@ export class OrdersService {
   }
 
   async createOrder(
-    { createOrderItems }: CreateOrderInput,
+    { createOrderItems, destination, deliverRequest }: CreateOrderInput,
     consumer: User,
   ): Promise<CreateOrderOutput> {
     try {
@@ -268,6 +268,8 @@ export class OrdersService {
           orderItems,
           total: orderFinalPrice,
           status: OrderStatus.Checking,
+          destination,
+          deliverRequest,
         }),
       );
 
