@@ -68,17 +68,19 @@ export class OrdersController {
     return this.ordersService.findOrderItemById(findOrderItemByIdInput);
   }
 
-  @Post()
-  @Roles(['Consumer', 'Admin'])
+  @Post('')
+  @Roles(['Any'])
   async createOrder(
-    @Body() createOrderInput: CreateOrderInput,
+    @Body() createOrderInput,
     @AuthUser() consumer: User,
   ): Promise<CreateOrderOutput> {
+    console.log('create-order');
+    console.log(createOrderInput);
     return this.ordersService.createOrder(createOrderInput, consumer);
   }
 
   @Post('/:orderId')
-  @Roles(['Consumer', 'Admin'])
+  @Roles(['Any'])
   async cancelOrder(
     @Param() cancelOrderInput: CancelOrderInput,
     @AuthUser() consumer: User,
