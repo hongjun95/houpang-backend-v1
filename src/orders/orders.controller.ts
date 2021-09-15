@@ -22,11 +22,11 @@ import {
 } from './dtos/find-order-item-by-id';
 import { CancelOrderInput, CancelOrderOutput } from './dtos/cancel-order.dto';
 
-@Controller('orders/')
+@Controller('/orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @Get('consumer')
+  @Get('/consumer')
   @Roles(['Consumer', 'Admin'])
   async getOrdersFromConsumer(
     @Query() getOrdersInput: GetOrdersFromConsumerInput,
@@ -34,7 +34,7 @@ export class OrdersController {
     return this.ordersService.getOrdersFromConsumer(getOrdersInput);
   }
 
-  @Get('provider')
+  @Get('/provider')
   @Roles(['Provider', 'Admin'])
   async getOrdersFromProvider(
     @Query() getOrdersFromProviderInput: GetOrdersFromProviderInput,
@@ -42,7 +42,7 @@ export class OrdersController {
     return this.ordersService.getOrdersFromProvider(getOrdersFromProviderInput);
   }
 
-  @Get(':orderId')
+  @Get('/:orderId')
   @Roles(['Consumer', 'Admin'])
   async findOrderById(
     @Param('orderId') orderId: string,
@@ -55,7 +55,7 @@ export class OrdersController {
     return this.ordersService.findOrderById(findOrderByIdInput);
   }
 
-  @Get(':orderItemId')
+  @Get('/:orderItemId')
   @Roles(['Provider', 'Admin'])
   async findOrderItemById(
     @Param('orderItemId') orderItemId: string,
@@ -77,7 +77,7 @@ export class OrdersController {
     return this.ordersService.createOrder(createOrderInput, consumer);
   }
 
-  @Post(':orderId')
+  @Post('/:orderId')
   @Roles(['Consumer', 'Admin'])
   async cancelOrder(
     @Param() cancelOrderInput: CancelOrderInput,
