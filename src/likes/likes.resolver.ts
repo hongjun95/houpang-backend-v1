@@ -2,10 +2,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Roles } from 'src/auth/roles.decorator';
 import { User } from 'src/users/entities/user.entity';
-import {
-  FindLikeListInput,
-  FindLikeListOutput,
-} from './dtos/find-like-list.dto';
+import { FindLikeListOutput } from './dtos/find-like-list.dto';
 import { LikeProductInput, LikeProductOutput } from './dtos/like-product.dto';
 import {
   UnlikeProductInput,
@@ -19,10 +16,8 @@ export class LikeResolver {
 
   @Query((returns) => FindLikeListOutput)
   @Roles(['Consumer'])
-  async findLikeList(
-    @Args('input') findLikeListInput: FindLikeListInput,
-  ): Promise<FindLikeListOutput> {
-    return this.LikeService.findLikeList(findLikeListInput);
+  async findLikeList(@AuthUser() user: User): Promise<FindLikeListOutput> {
+    return this.LikeService.findLikeList(user);
   }
 
   @Mutation((returns) => LikeProductOutput)

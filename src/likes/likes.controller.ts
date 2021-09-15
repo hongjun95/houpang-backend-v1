@@ -2,10 +2,7 @@ import { Controller, Get, Param, Put } from '@nestjs/common';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Roles } from 'src/auth/roles.decorator';
 import { User } from 'src/users/entities/user.entity';
-import {
-  FindLikeListInput,
-  FindLikeListOutput,
-} from './dtos/find-like-list.dto';
+import { FindLikeListOutput } from './dtos/find-like-list.dto';
 import { LikeProductInput, LikeProductOutput } from './dtos/like-product.dto';
 import {
   UnlikeProductInput,
@@ -13,19 +10,17 @@ import {
 } from './dtos/unlike-product.dto';
 import { LikesService } from './likes.service';
 
-@Controller('likes')
+@Controller('/likes')
 export class LikesController {
   constructor(private readonly LikesService: LikesService) {}
 
-  @Get(':likeListId')
+  @Get('')
   @Roles(['Consumer'])
-  async findLikeList(
-    @Param() findLikeListInput: FindLikeListInput,
-  ): Promise<FindLikeListOutput> {
-    return this.LikesService.findLikeList(findLikeListInput);
+  async findLikeList(@AuthUser() user: User): Promise<FindLikeListOutput> {
+    return this.LikesService.findLikeList(user);
   }
 
-  @Put('products/:productId/add')
+  @Put('/products/:productId/add')
   @Roles(['Consumer'])
   async likeProduct(
     @Param() likeProductInput: LikeProductInput,
@@ -34,7 +29,7 @@ export class LikesController {
     return this.LikesService.likeProduct(likeProductInput, consumer);
   }
 
-  @Put('products/:productId/remove')
+  @Put('/products/:productId/remove')
   @Roles(['Consumer'])
   async unlikeProduct(
     @Param() removeProductInput: UnlikeProductInput,

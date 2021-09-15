@@ -3,10 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
-import {
-  FindLikeListInput,
-  FindLikeListOutput,
-} from './dtos/find-like-list.dto';
+import { FindLikeListOutput } from './dtos/find-like-list.dto';
 import { LikeProductInput, LikeProductOutput } from './dtos/like-product.dto';
 import {
   UnlikeProductInput,
@@ -24,13 +21,11 @@ export class LikesService {
     private readonly products: Repository<Product>,
   ) {}
 
-  async findLikeList({
-    likeListId,
-  }: FindLikeListInput): Promise<FindLikeListOutput> {
+  async findLikeList(user: User): Promise<FindLikeListOutput> {
     try {
       const likeList = await this.Likes.findOne({
         where: {
-          id: likeListId,
+          createdBy: user,
         },
         relations: ['products'],
       });
