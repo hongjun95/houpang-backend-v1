@@ -22,6 +22,10 @@ import {
 } from './dtos/get-all-products.dto';
 import { Product } from './entities/product';
 import { CategoryRepository } from 'src/categories/repositories/category.repository';
+import {
+  GetProductsFromProviderInput,
+  GetProductsFromProviderOutput,
+} from './dtos/get-products-from-provider.dto';
 
 @Injectable()
 export class ProductsService {
@@ -74,6 +78,39 @@ export class ProductsService {
       return {
         ok: true,
         product,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '상품 품목들을 가져올 수 없습니다.',
+      };
+    }
+  }
+
+  async getProductsFromProvider(
+    provider: User,
+  ): Promise<GetProductsFromProviderOutput> {
+    // todo
+    // category 내역에 있는 품목만 가져오는 것으로 만들기
+    try {
+      const products = await this.products.find({
+        where: {
+          provider,
+        },
+        relations: ['provider'],
+      });
+
+      if (!products) {
+        return {
+          ok: false,
+          error: '상품 품목들을 가져올 수 없습니다.',
+        };
+      }
+
+      return {
+        ok: true,
+        products,
       };
     } catch (error) {
       console.error(error);

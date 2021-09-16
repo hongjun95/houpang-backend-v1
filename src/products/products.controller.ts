@@ -19,6 +19,10 @@ import { DeleteProductOutput } from './dtos/delete-product.dto';
 import { EditProductInput, EditProductOutput } from './dtos/edit-product.dto';
 import { FindProductByIdOutput } from './dtos/find-product-by-id.dto';
 import { GetAllProductsOutput } from './dtos/get-all-products.dto';
+import {
+  GetProductsFromProviderInput,
+  GetProductsFromProviderOutput,
+} from './dtos/get-products-from-provider.dto';
 import { ProductsService } from './products.service';
 
 @Controller('/products')
@@ -39,6 +43,14 @@ export class ProductsController {
     @Param('productId') productId,
   ): Promise<FindProductByIdOutput> {
     return this.productsService.findProductById({ productId });
+  }
+
+  @Get('/provider')
+  @Roles(['Provider'])
+  async getProductsFromProvider(
+    @AuthUser() provider: User,
+  ): Promise<GetProductsFromProviderOutput> {
+    return this.productsService.getProductsFromProvider(provider);
   }
 
   @Post('')
