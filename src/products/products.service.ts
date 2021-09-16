@@ -22,6 +22,10 @@ import {
 } from './dtos/get-all-products.dto';
 import { Product } from './entities/product';
 import { CategoryRepository } from 'src/categories/repositories/category.repository';
+import {
+  GetProductsFromProviderInput,
+  GetProductsFromProviderOutput,
+} from './dtos/get-products-from-provider.dto';
 
 @Injectable()
 export class ProductsService {
@@ -74,6 +78,72 @@ export class ProductsService {
       return {
         ok: true,
         product,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '상품 품목들을 가져올 수 없습니다.',
+      };
+    }
+  }
+
+  async getProductsFromProvider(
+    { page = 1, sort }: GetProductsFromProviderInput,
+    provider: User,
+  ): Promise<GetProductsFromProviderOutput> {
+    let products: Product[], totalProducts: number;
+    const takePages = 10;
+    try {
+      switch (sort) {
+        case 'createdAt desc':
+          [products, totalProducts] = await this.products.findAndCount({
+            where: {
+              provider,
+            },
+            relations: ['provider'],
+            order: {
+              createdAt: 'DESC',
+            },
+            skip: (page - 1) * takePages,
+            take: takePages,
+          });
+          break;
+        case 'price desc':
+          [products, totalProducts] = await this.products.findAndCount({
+            where: {
+              provider,
+            },
+            relations: ['provider'],
+            order: {
+              price: 'DESC',
+            },
+            skip: (page - 1) * takePages,
+            take: takePages,
+          });
+          break;
+        case 'price asc':
+          [products, totalProducts] = await this.products.findAndCount({
+            where: {
+              provider,
+            },
+            relations: ['provider'],
+            order: {
+              price: 'ASC',
+            },
+            skip: (page - 1) * takePages,
+            take: takePages,
+          });
+          break;
+        default:
+          throw new Error('상품이 존재하지 않습니다.');
+      }
+
+      return {
+        ok: true,
+        products,
+        totalPages: Math.ceil(totalProducts / takePages),
+        totalResults: totalProducts,
       };
     } catch (error) {
       console.error(error);

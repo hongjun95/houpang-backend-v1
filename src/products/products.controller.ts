@@ -19,6 +19,11 @@ import { DeleteProductOutput } from './dtos/delete-product.dto';
 import { EditProductInput, EditProductOutput } from './dtos/edit-product.dto';
 import { FindProductByIdOutput } from './dtos/find-product-by-id.dto';
 import { GetAllProductsOutput } from './dtos/get-all-products.dto';
+import {
+  GetProductsFromProviderInput,
+  GetProductsFromProviderOutput,
+  GetProductsFromProviderQuery,
+} from './dtos/get-products-from-provider.dto';
 import { ProductsService } from './products.service';
 
 @Controller('/products')
@@ -31,6 +36,22 @@ export class ProductsController {
     @Query('page') page, //
   ): Promise<GetAllProductsOutput> {
     return this.productsService.getAllProducts({ page });
+  }
+
+  @Get('/provider')
+  @Roles(['Provider'])
+  async getProductsFromProvider(
+    @Query() query: GetProductsFromProviderQuery,
+    @AuthUser() provider: User,
+  ): Promise<GetProductsFromProviderOutput> {
+    const getProductsFromProviderInput: GetProductsFromProviderInput = {
+      sort: query?.sort || 'createdAt desc',
+      page: +query?.page || 1,
+    };
+    return this.productsService.getProductsFromProvider(
+      getProductsFromProviderInput,
+      provider,
+    );
   }
 
   @Get('/:productId')
