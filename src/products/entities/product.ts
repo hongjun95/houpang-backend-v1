@@ -72,7 +72,7 @@ export class Product extends CoreEntity {
 
   @Field((type) => [InfoItem], { nullable: true })
   @Column({ nullable: true, type: 'json' })
-  info?: InfoItem[];
+  infos?: InfoItem[];
 
   @Field((type) => [OrderItem])
   @OneToMany((type) => OrderItem, (orderItem) => orderItem.order)

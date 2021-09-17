@@ -15,7 +15,7 @@ export class EditProductInput extends PickType(PartialType(Product), [
   'price',
   'images',
   'stock',
-  'info',
+  'infos',
 ]) {
   @Field((type) => String)
   productId: string;
