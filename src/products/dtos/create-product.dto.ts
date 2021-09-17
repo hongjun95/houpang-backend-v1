@@ -8,8 +8,8 @@ export class CreateProductInput extends PickType(Product, [
   'name',
   'price',
   'images',
-  'info',
   'stock',
+  'info',
 ]) {
   @Field((type) => String)
   categoryName: string;
