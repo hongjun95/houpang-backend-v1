@@ -72,7 +72,7 @@ export class ProductsService {
     // category 내역에 있는 품목만 가져오는 것으로 만들기
     try {
       const product = await this.products.findOne(productId, {
-        relations: ['provider','category'],
+        relations: ['provider', 'category'],
       });
 
       return {

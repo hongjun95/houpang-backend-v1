@@ -18,6 +18,10 @@ import { Review } from 'src/reviews/entities/review.entity';
 @InputType('InfoItemInputType', { isAbstract: true })
 @ObjectType()
 export class InfoItem {
+  @Field((type) => Int)
+  @IsNumber()
+  id: number;
+
   @Field((type) => String)
   @IsString()
   key: string;
