@@ -40,7 +40,7 @@ export class Order extends CoreEntity {
   consumer: User;
 
   @RelationId((order: Order) => order.consumer)
-  customerId: number;
+  consumerId: number;
 
   @Field((type) => [OrderItem])
   @OneToMany((type) => OrderItem, (orderItem) => orderItem.order)

@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Roles } from 'src/auth/roles.decorator';
 import { User } from 'src/users/entities/user.entity';
-import { CreateOrderInput, CreateOrderOutput } from './dtos/create-order.dto';
+import { CreateOrderOutput } from './dtos/create-order.dto';
 import {
   GetOrdersFromProviderInput,
   GetOrdersFromProviderOutput,
