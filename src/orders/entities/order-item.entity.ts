@@ -19,7 +19,7 @@ export class OrderItem extends CoreEntity {
 
   @Field((type) => Product)
   @ManyToOne((type) => Product, (product) => product.orderItems, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
   })
   product: Product;
 
