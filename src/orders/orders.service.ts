@@ -270,8 +270,16 @@ export class OrdersService {
           status: OrderStatus.Checking,
           destination,
           deliverRequest,
+          orderedAt: '',
         }),
       );
+
+      const orderedAt = `${order.createdAt.getFullYear()}. ${
+        order.createdAt.getMonth() + 1
+      }. ${order.createdAt.getDate()}`;
+
+      order.orderedAt = orderedAt;
+      await this.orders.save(order);
 
       return {
         ok: true,

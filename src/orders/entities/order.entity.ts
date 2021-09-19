@@ -65,4 +65,8 @@ export class Order extends CoreEntity {
   @Field((type) => OrderStatus)
   @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.Checking })
   status: OrderStatus;
+
+  @Field((type) => String)
+  @Column()
+  orderedAt: string;
 }
