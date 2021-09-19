@@ -22,6 +22,8 @@ import { Review } from './reviews/entities/review.entity';
 import { LikesModule } from './likes/likes.module';
 import { TOKEN_KEY } from './common/common.constants';
 import { UploadsModule } from './uploads/uploads.module';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
@@ -84,6 +86,10 @@ import { UploadsModule } from './uploads/uploads.module';
     JwtModule.forRoot({
       privateKey: process.env.PRIVATE_KEY,
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+    }),
+
     AuthModule,
     UsersModule,
     CommonModule,

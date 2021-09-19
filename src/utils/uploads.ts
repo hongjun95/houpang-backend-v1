@@ -7,5 +7,5 @@ export const parseUuidFileName = (file: Express.Multer.File) => {
 };
 
 export const createImageURL = (file): string => {
-  return `http://localhost:4000/public/${file.filename}`;
+  return `http://localhost:4000/${file.filename}`;
 };
