@@ -87,6 +87,7 @@ export class OrdersController {
     @Param() cancelOrderItemInput: CancelOrderItemInput,
     @AuthUser() consumer: User,
   ): Promise<CancelOrderItemOutput> {
+    console.log(cancelOrderItemInput);
     return this.ordersService.cancelOrderItem(cancelOrderItemInput, consumer);
   }
 }

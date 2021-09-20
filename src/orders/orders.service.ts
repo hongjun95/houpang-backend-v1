@@ -300,19 +300,21 @@ export class OrdersService {
       const orderItem = await this.orderItems.findOne({
         where: {
           id: orderItemId,
-          orderId,
+          order: {
+            id: orderId,
+          },
         },
-        relations: ['product'],
+        relations: ['product', 'order', 'order.consumer'],
       });
 
-      if (orderItem.order.consumer !== consumer) {
+      if (!orderItem) {
         return {
           ok: false,
           error: '주문을 찾을 수가 없습니다.',
         };
       }
 
-      if (!orderItem) {
+      if (orderItem.order.consumer.id !== consumer.id) {
         return {
           ok: false,
           error: '주문을 찾을 수가 없습니다.',
