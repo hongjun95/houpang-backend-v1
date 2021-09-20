@@ -69,6 +69,9 @@ export class OrdersService {
           'orderItems.product.category',
           'orderItems.product.provider',
         ],
+        order: {
+          createdAt: 'DESC',
+        },
       });
 
       return {
