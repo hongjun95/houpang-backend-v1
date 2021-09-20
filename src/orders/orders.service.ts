@@ -293,16 +293,13 @@ export class OrdersService {
   }
 
   async cancelOrderItem(
-    { orderId, orderItemId }: CancelOrderItemInput,
+    { orderItemId }: CancelOrderItemInput,
     consumer: User,
   ): Promise<CancelOrderItemOutput> {
     try {
       const orderItem = await this.orderItems.findOne({
         where: {
           id: orderItemId,
-          order: {
-            id: orderId,
-          },
         },
         relations: ['product', 'order', 'order.consumer'],
       });

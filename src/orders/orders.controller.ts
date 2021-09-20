@@ -20,7 +20,6 @@ import {
   FindOrderItemByIdInput,
   FindOrderItemByIdOutput,
 } from './dtos/find-order-item-by-id';
-import { CancelOrderInput, CancelOrderOutput } from './dtos/cancel-order.dto';
 import {
   CancelOrderItemInput,
   CancelOrderItemOutput,
@@ -81,7 +80,7 @@ export class OrdersController {
     return this.ordersService.createOrder(createOrderInput, consumer);
   }
 
-  @Post('/:orderId/order-item/:orderItemId')
+  @Post('/order-item/:orderItemId')
   @Roles(['Any'])
   async cancelOrderItem(
     @Param() cancelOrderItemInput: CancelOrderItemInput,

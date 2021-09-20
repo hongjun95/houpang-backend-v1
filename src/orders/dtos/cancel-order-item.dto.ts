@@ -5,9 +5,6 @@ import { OrderItem } from '../entities/order-item.entity';
 @InputType()
 export class CancelOrderItemInput {
   @Field((type) => String)
-  orderId: string;
-
-  @Field((type) => String)
   orderItemId: string;
 }
 
