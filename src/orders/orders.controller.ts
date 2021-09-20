@@ -21,6 +21,10 @@ import {
   FindOrderItemByIdOutput,
 } from './dtos/find-order-item-by-id';
 import { CancelOrderInput, CancelOrderOutput } from './dtos/cancel-order.dto';
+import {
+  CancelOrderItemInput,
+  CancelOrderItemOutput,
+} from './dtos/cancel-order-item.dto';
 
 @Controller('/orders')
 export class OrdersController {
@@ -74,17 +78,15 @@ export class OrdersController {
     @Body() createOrderInput,
     @AuthUser() consumer: User,
   ): Promise<CreateOrderOutput> {
-    console.log('create-order');
-    console.log(createOrderInput);
     return this.ordersService.createOrder(createOrderInput, consumer);
   }
 
-  @Post('/:orderId')
+  @Post('/:orderId/order-item/:orderItemId')
   @Roles(['Any'])
-  async cancelOrder(
-    @Param() cancelOrderInput: CancelOrderInput,
+  async cancelOrderItem(
+    @Param() cancelOrderItemInput: CancelOrderItemInput,
     @AuthUser() consumer: User,
-  ): Promise<CancelOrderOutput> {
-    return this.ordersService.cancelOrder(cancelOrderInput, consumer);
+  ): Promise<CancelOrderItemOutput> {
+    return this.ordersService.cancelOrderItem(cancelOrderItemInput, consumer);
   }
 }

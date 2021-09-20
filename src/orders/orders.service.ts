@@ -12,8 +12,8 @@ import {
   GetOrdersFromConsumerInput,
   GetOrdersFromConsumerOutput,
 } from './dtos/get-orders-from-consumer.dto';
-import { OrderItem } from './entities/order-item.entity';
-import { Order, OrderStatus } from './entities/order.entity';
+import { OrderItem, OrderStatus } from './entities/order-item.entity';
+import { Order } from './entities/order.entity';
 import {
   FindOrderByIdInput,
   FindOrderByIdOutput,
@@ -22,8 +22,11 @@ import {
   FindOrderItemByIdInput,
   FindOrderItemByIdOutput,
 } from './dtos/find-order-item-by-id';
-import { CancelOrderInput, CancelOrderOutput } from './dtos/cancel-order.dto';
 import { formmatOrderedAt } from 'src/utils/orderUtils';
+import {
+  CancelOrderItemInput,
+  CancelOrderItemOutput,
+} from './dtos/cancel-order-item.dto';
 
 @Injectable()
 export class OrdersService {
@@ -42,7 +45,6 @@ export class OrdersService {
   ) {}
 
   async getOrdersFromConsumer({
-    status,
     consumerId,
   }: GetOrdersFromConsumerInput): Promise<GetOrdersFromConsumerOutput> {
     try {
@@ -60,7 +62,6 @@ export class OrdersService {
       const orders = await this.orders.find({
         where: {
           consumer,
-          ...(status && { status }),
         },
         relations: [
           'orderItems',
@@ -84,7 +85,6 @@ export class OrdersService {
   }
 
   async getOrdersFromProvider({
-    status,
     providerId,
   }: GetOrdersFromProviderInput): Promise<GetOrdersFromProviderOutput> {
     try {
@@ -103,9 +103,6 @@ export class OrdersService {
         where: {
           product: {
             provider,
-          },
-          order: {
-            ...(status && { status }),
           },
         },
         relations: ['product', 'product.provider', 'product.category', 'order'],
@@ -268,7 +265,6 @@ export class OrdersService {
           consumer,
           orderItems,
           total: orderFinalPrice,
-          status: OrderStatus.Checking,
           destination,
           deliverRequest,
           orderedAt: '',
@@ -293,45 +289,50 @@ export class OrdersService {
     }
   }
 
-  async cancelOrder(
-    { orderId }: CancelOrderInput,
+  async cancelOrderItem(
+    { orderId, orderItemId }: CancelOrderItemInput,
     consumer: User,
-  ): Promise<CancelOrderOutput> {
+  ): Promise<CancelOrderItemOutput> {
     try {
-      const order = await this.orders.findOne({
+      const orderItem = await this.orderItems.findOne({
         where: {
-          id: orderId,
-          consumer,
+          id: orderItemId,
+          orderId,
         },
-        relations: ['orderItems', 'orderItems.product'],
+        relations: ['product'],
       });
 
-      if (!order) {
+      if (orderItem.order.consumer !== consumer) {
         return {
           ok: false,
           error: '주문을 찾을 수가 없습니다.',
         };
       }
 
-      if (order.status !== OrderStatus.Checking) {
+      if (!orderItem) {
+        return {
+          ok: false,
+          error: '주문을 찾을 수가 없습니다.',
+        };
+      }
+
+      if (orderItem.status !== OrderStatus.Checking) {
         return {
           ok: false,
           error: '주문을 취소할 수 없습니다.',
         };
       }
 
-      order.status = OrderStatus.Canceled;
+      orderItem.status = OrderStatus.Canceled;
 
-      for (const orderItem of order.orderItems) {
-        orderItem.product.stock += orderItem.count;
-        await this.products.save(orderItem.product);
-      }
+      orderItem.product.stock += orderItem.count;
+      await this.products.save(orderItem.product);
 
-      const newOrder = await this.orders.save(order);
+      const newOrderItem = await this.orderItems.save(orderItem);
 
       return {
         ok: true,
-        order: newOrder,
+        orderItem: newOrderItem,
       };
     } catch (error) {
       console.error(error);

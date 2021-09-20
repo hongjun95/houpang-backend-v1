@@ -3,13 +3,16 @@ import { CoreOutput } from 'src/common/dtos/output.dto';
 import { OrderItem } from '../entities/order-item.entity';
 
 @InputType()
-export class GetOrdersFromProviderInput {
+export class CancelOrderItemInput {
   @Field((type) => String)
-  providerId: string;
+  orderId: string;
+
+  @Field((type) => String)
+  orderItemId: string;
 }
 
 @ObjectType()
-export class GetOrdersFromProviderOutput extends CoreOutput {
-  @Field((type) => [OrderItem], { nullable: true })
-  orderItems?: OrderItem[];
+export class CancelOrderItemOutput extends CoreOutput {
+  @Field((type) => OrderItem, { nullable: true })
+  orderItem?: OrderItem;
 }

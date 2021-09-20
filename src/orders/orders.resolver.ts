@@ -20,7 +20,11 @@ import {
   FindOrderItemByIdInput,
   FindOrderItemByIdOutput,
 } from './dtos/find-order-item-by-id';
-import { CancelOrderInput, CancelOrderOutput } from './dtos/cancel-order.dto';
+import { CancelOrderOutput } from './dtos/cancel-order.dto';
+import {
+  CancelOrderItemInput,
+  CancelOrderItemOutput,
+} from './dtos/cancel-order-item.dto';
 
 @Resolver()
 export class OrdersResolver {
@@ -70,9 +74,9 @@ export class OrdersResolver {
   @Mutation((returns) => CancelOrderOutput)
   @Roles(['Consumer', 'Admin'])
   async cancelOrder(
-    @Args('input') cancelOrderInput: CancelOrderInput,
+    @Args('input') cancelOrderItemInput: CancelOrderItemInput,
     @AuthUser() consumer: User,
-  ): Promise<CancelOrderOutput> {
-    return this.ordersService.cancelOrder(cancelOrderInput,consumer);
+  ): Promise<CancelOrderItemOutput> {
+    return this.ordersService.cancelOrderItem(cancelOrderItemInput, consumer);
   }
 }
