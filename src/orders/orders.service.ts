@@ -23,6 +23,7 @@ import {
   FindOrderItemByIdOutput,
 } from './dtos/find-order-item-by-id';
 import { CancelOrderInput, CancelOrderOutput } from './dtos/cancel-order.dto';
+import { formmatOrderedAt } from 'src/utils/orderUtils';
 
 @Injectable()
 export class OrdersService {
@@ -274,9 +275,7 @@ export class OrdersService {
         }),
       );
 
-      const orderedAt = `${order.createdAt.getFullYear()}. ${
-        order.createdAt.getMonth() + 1
-      }. ${order.createdAt.getDate()}`;
+      const orderedAt = formmatOrderedAt(order.createdAt);
 
       order.orderedAt = orderedAt;
       await this.orders.save(order);
