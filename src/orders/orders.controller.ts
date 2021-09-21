@@ -30,7 +30,7 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Get('/consumer')
-  @Roles(['Consumer', 'Admin'])
+  @Roles(['Any'])
   async getOrdersFromConsumer(
     @Query() getOrdersInput: GetOrdersFromConsumerInput,
   ): Promise<GetOrdersFromConsumerOutput> {
@@ -46,7 +46,7 @@ export class OrdersController {
   }
 
   @Get('/:orderId')
-  @Roles(['Consumer', 'Admin'])
+  @Roles(['Any'])
   async findOrderById(
     @Param('orderId') orderId: string,
     @Query('consumerId') consumerId: string,
