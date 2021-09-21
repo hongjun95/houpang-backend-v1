@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Roles } from 'src/auth/roles.decorator';
 import { User } from 'src/users/entities/user.entity';
@@ -80,13 +80,12 @@ export class OrdersController {
     return this.ordersService.createOrder(createOrderInput, consumer);
   }
 
-  @Post('/order-item/:orderItemId')
+  @Put('/order-item/:orderItemId')
   @Roles(['Any'])
   async cancelOrderItem(
     @Param() cancelOrderItemInput: CancelOrderItemInput,
     @AuthUser() consumer: User,
   ): Promise<CancelOrderItemOutput> {
-    console.log(cancelOrderItemInput);
     return this.ordersService.cancelOrderItem(cancelOrderItemInput, consumer);
   }
 }
