@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product';
-import { User } from 'src/users/entities/user.entity';
+import { User, UserRole } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateOrderInput, CreateOrderOutput } from './dtos/create-order.dto';
 import {
@@ -27,6 +27,10 @@ import {
   CancelOrderItemInput,
   CancelOrderItemOutput,
 } from './dtos/cancel-order-item.dto';
+import {
+  UpdateOrerStatusInput,
+  UpdateOrerStatusOutput,
+} from './dtos/update-order-status.dto';
 
 @Injectable()
 export class OrdersService {
@@ -341,6 +345,80 @@ export class OrdersService {
       return {
         ok: false,
         error: '주문을 취소할 수 없습니다.',
+      };
+    }
+  }
+
+  async updateOrderStatus(
+    { orderItemId, orderStatus }: UpdateOrerStatusInput,
+    user: User,
+  ): Promise<UpdateOrerStatusOutput> {
+    try {
+      if (user.role === UserRole.Consumer) {
+        return {
+          ok: false,
+          error: '주문 상태를 변경할 수 없습니다.',
+        };
+      }
+
+      const orderItem = await this.orderItems.findOne({
+        where: {
+          id: orderItemId,
+        },
+        relations: ['product', 'order', 'order.consumer'],
+      });
+
+      if (!orderItem) {
+        return {
+          ok: false,
+          error: '주문을 찾을 수가 없습니다.',
+        };
+      }
+
+      if (orderItem.status === OrderStatus.Canceled) {
+        return {
+          ok: false,
+          error: '주문을 변경할 수 없습니다.',
+        };
+      }
+
+      console.log(orderItem);
+
+      let canEdit = true;
+      if (user.role === UserRole.Provider) {
+        if (orderStatus !== OrderStatus.Received) {
+          canEdit = false;
+        }
+      } else if (user.role === UserRole.Admin) {
+        if (
+          orderStatus !== OrderStatus.Delivering &&
+          orderStatus !== OrderStatus.Delivered
+        ) {
+          canEdit = false;
+        }
+      }
+
+      if (!canEdit) {
+        return {
+          ok: false,
+          error: '주문 상태를 변경할 수 없습니다.',
+        };
+      }
+
+      const newOrderItem = await this.orderItems.save({
+        id: orderItemId,
+        status: orderStatus,
+      });
+
+      return {
+        ok: true,
+        orderItem: newOrderItem,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '주문 상태를 변경할 수 없습니다.',
       };
     }
   }

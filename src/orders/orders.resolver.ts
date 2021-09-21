@@ -20,7 +20,6 @@ import {
   FindOrderItemByIdInput,
   FindOrderItemByIdOutput,
 } from './dtos/find-order-item-by-id';
-import { CancelOrderOutput } from './dtos/cancel-order.dto';
 import {
   CancelOrderItemInput,
   CancelOrderItemOutput,
@@ -31,7 +30,7 @@ export class OrdersResolver {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Query((returns) => GetOrdersFromConsumerOutput)
-  @Roles(['Consumer', 'Admin'])
+  @Roles(['Any'])
   async getOrdersFromConsumer(
     @Args('input') getOrdersInput: GetOrdersFromConsumerInput,
   ): Promise<GetOrdersFromConsumerOutput> {
@@ -47,7 +46,7 @@ export class OrdersResolver {
   }
 
   @Query((returns) => FindOrderByIdOutput)
-  @Roles(['Consumer', 'Admin'])
+  @Roles(['Any'])
   async findOrderById(
     @Args('input') findOrderByIdInput: FindOrderByIdInput,
   ): Promise<FindOrderByIdOutput> {
@@ -63,7 +62,7 @@ export class OrdersResolver {
   }
 
   @Mutation((returns) => CreateOrderOutput)
-  @Roles(['Consumer', 'Admin'])
+  @Roles(['Any'])
   async createOrder(
     @Args('input') createOrderInput: CreateOrderInput,
     @AuthUser() consumer: User,
@@ -71,9 +70,9 @@ export class OrdersResolver {
     return this.ordersService.createOrder(createOrderInput, consumer);
   }
 
-  @Mutation((returns) => CancelOrderOutput)
-  @Roles(['Consumer', 'Admin'])
-  async cancelOrder(
+  @Mutation((returns) => CancelOrderItemOutput)
+  @Roles(['Any'])
+  async cancelOrderItem(
     @Args('input') cancelOrderItemInput: CancelOrderItemInput,
     @AuthUser() consumer: User,
   ): Promise<CancelOrderItemOutput> {

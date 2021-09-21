@@ -24,6 +24,11 @@ import {
   CancelOrderItemInput,
   CancelOrderItemOutput,
 } from './dtos/cancel-order-item.dto';
+import {
+  UpdateOrerStatusInput,
+  UpdateOrerStatusOutput,
+} from './dtos/update-order-status.dto';
+import { OrderStatus } from './entities/order-item.entity';
 
 @Controller('/orders')
 export class OrdersController {
@@ -87,5 +92,19 @@ export class OrdersController {
     @AuthUser() consumer: User,
   ): Promise<CancelOrderItemOutput> {
     return this.ordersService.cancelOrderItem(cancelOrderItemInput, consumer);
+  }
+
+  @Put('/order-item/:orderItemId/update')
+  @Roles(['Provider', 'Admin'])
+  async updateOrderStatus(
+    @Param('orderItemId') orderItemId: string,
+    @Query('orderStatus') orderStatus: OrderStatus,
+    @AuthUser() user: User,
+  ): Promise<UpdateOrerStatusOutput> {
+    const updateOrerStatusInput: UpdateOrerStatusInput = {
+      orderItemId,
+      orderStatus,
+    };
+    return this.ordersService.updateOrderStatus(updateOrerStatusInput, user);
   }
 }
