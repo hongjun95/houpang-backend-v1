@@ -16,6 +16,8 @@ export enum OrderStatus {
   Delivering = '배달중',
   Delivered = '배달 완료',
   Canceled = '주문 취소',
+  Exchanged = '교환',
+  Returned = '환불',
 }
 
 registerEnumType(OrderStatus, { name: 'OrderStatus' });
@@ -49,12 +51,4 @@ export class OrderItem extends CoreEntity {
   @Field((type) => OrderStatus)
   @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.Checking })
   status: OrderStatus;
-
-  @Field((type) => String, { nullable: true })
-  @Column({ nullable: true })
-  problemTitle?: string;
-
-  @Field((type) => String, { nullable: true })
-  @Column({ nullable: true })
-  problemDescription?: string;
 }

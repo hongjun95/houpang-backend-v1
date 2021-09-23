@@ -31,6 +31,11 @@ import {
   UpdateOrerStatusInput,
   UpdateOrerStatusOutput,
 } from './dtos/update-order-status.dto';
+import {
+  ReturnProductInput,
+  ReturnProductOutput,
+} from './dtos/return-product.dto';
+import { Return, ReturnStatus } from './entities/return.entity';
 
 @Injectable()
 export class OrdersService {
@@ -40,6 +45,9 @@ export class OrdersService {
 
     @InjectRepository(OrderItem)
     private readonly orderItems: Repository<OrderItem>,
+
+    @InjectRepository(Return)
+    private readonly returns: Repository<Return>,
 
     @InjectRepository(Product)
     private readonly products: Repository<Product>,
@@ -419,6 +427,69 @@ export class OrdersService {
       return {
         ok: false,
         error: '주문 상태를 변경할 수 없습니다.',
+      };
+    }
+  }
+
+  async requestReturn(
+    {
+      orderItemId,
+      problemTitle,
+      problemDescription,
+      count,
+      status,
+    }: ReturnProductInput,
+    user: User,
+  ): Promise<ReturnProductOutput> {
+    try {
+      if (user.role !== UserRole.Consumer) {
+        return {
+          ok: false,
+          error: '환불할 수 없습니다.',
+        };
+      }
+
+      const orderItem = await this.orderItems.findOne({
+        where: {
+          id: orderItemId,
+        },
+        relations: ['product', 'product.provider', 'product.category', 'order'],
+      });
+
+      if (!orderItem) {
+        return {
+          ok: false,
+          error: '해당 품목에 대한 주문이 없습니다.',
+        };
+      }
+
+      await this.returns.save(
+        this.returns.create({
+          count,
+          orderItem,
+          problemDescription,
+          problemTitle,
+          status,
+        }),
+      );
+
+      if (status === ReturnStatus.Exchanged) {
+        orderItem.status = OrderStatus.Exchanged;
+      } else if (status === ReturnStatus.Returned) {
+        orderItem.status = OrderStatus.Returned;
+      }
+
+      await this.orderItems.save(orderItem);
+
+      return {
+        ok: true,
+        orderItem,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '상품 품목들을 가져올 수 없습니다.',
       };
     }
   }

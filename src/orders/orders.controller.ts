@@ -28,6 +28,10 @@ import {
   UpdateOrerStatusInput,
   UpdateOrerStatusOutput,
 } from './dtos/update-order-status.dto';
+import {
+  ReturnProductInput,
+  ReturnProductOutput,
+} from './dtos/return-product.dto';
 import { OrderStatus } from './entities/order-item.entity';
 
 @Controller('/orders')
@@ -106,5 +110,21 @@ export class OrdersController {
       orderStatus,
     };
     return this.ordersService.updateOrderStatus(updateOrerStatusInput, user);
+  }
+
+  @Post('/order-item/:orderItemId/return')
+  @Roles(['Consumer', 'Admin'])
+  async requestReturn(
+    @Param('orderItemId') orderItemId: string,
+    @Query('status') status,
+    @Body() body,
+    @AuthUser() user: User,
+  ): Promise<ReturnProductOutput> {
+    const returnProductInput: ReturnProductInput = {
+      orderItemId,
+      status,
+      ...body,
+    };
+    return this.ordersService.requestReturn(returnProductInput, user);
   }
 }

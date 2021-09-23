@@ -24,6 +24,7 @@ import { TOKEN_KEY } from './common/common.constants';
 import { UploadsModule } from './uploads/uploads.module';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { Return } from './orders/entities/return.entity';
 
 @Module({
   imports: [
@@ -81,7 +82,16 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       // DB에 무슨 일이 일어나는지 콘솔에 표시하는 거다.
       logging:
         process.env.NODE_ENV !== 'prod' && process.env.NODE_ENV !== 'test',
-      entities: [User, Product, Category, Order, OrderItem, Like, Review],
+      entities: [
+        User,
+        Product,
+        Category,
+        Order,
+        OrderItem,
+        Like,
+        Review,
+        Return,
+      ],
     }),
     JwtModule.forRoot({
       privateKey: process.env.PRIVATE_KEY,
