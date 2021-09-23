@@ -49,4 +49,12 @@ export class OrderItem extends CoreEntity {
   @Field((type) => OrderStatus)
   @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.Checking })
   status: OrderStatus;
+
+  @Field((type) => String, { nullable: true })
+  @Column({ nullable: true })
+  problemTitle?: string;
+
+  @Field((type) => String, { nullable: true })
+  @Column({ nullable: true })
+  problemDescription?: string;
 }
