@@ -22,7 +22,7 @@ import {
   FindOrderItemByIdInput,
   FindOrderItemByIdOutput,
 } from './dtos/find-order-item-by-id';
-import { formmatOrderedAt } from 'src/utils/orderUtils';
+import { formmatDay } from 'src/utils/dayUtils';
 import {
   CancelOrderItemInput,
   CancelOrderItemOutput,
@@ -311,7 +311,7 @@ export class OrdersService {
         }),
       );
 
-      const orderedAt = formmatOrderedAt(order.createdAt);
+      const orderedAt = formmatDay(order.createdAt);
 
       order.orderedAt = orderedAt;
       await this.orders.save(order);

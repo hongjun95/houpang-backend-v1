@@ -16,6 +16,7 @@ import {
   GetRefundsFromProviderInput,
   GetRefundsFromProviderOutput,
 } from './dtos/get-refunds-from-provider.dto';
+import { formmatDay } from 'src/utils/dayUtils';
 
 @Injectable()
 export class RefundsService {
@@ -87,13 +88,19 @@ export class RefundsService {
         };
       }
 
-      await this.refunds.save(
+      const refund =  await this.refunds.save(
         this.refunds.create({
           ...refundProductInput,
           refundee: user,
           orderItem,
+          refundedAt: '',
         }),
       );
+
+      const refundedAt = formmatDay(refund.createdAt);
+
+      refund.refundedAt = refundedAt;
+      await this.refunds.save(refund);
 
       if (refundProductInput.status === RefundStatus.Exchanged) {
         orderItem.status = OrderStatus.Exchanged;
@@ -142,7 +149,7 @@ export class RefundsService {
         order: {
           createdAt: 'DESC',
         },
-        relations: ['orderItem'],
+        relations: ['orderItem', 'orderItem.product'],
       });
       return {
         ok: true,

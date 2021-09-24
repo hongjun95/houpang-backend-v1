@@ -21,6 +21,10 @@ registerEnumType(RefundStatus, { name: 'RefundStatus' });
 @ObjectType()
 @Entity()
 export class Refund extends CoreEntity {
+  @Field((type) => String)
+  @Column({ default: '2021.9.24' })
+  refundedAt: string;
+
   @OneToOne(() => OrderItem, {
     onDelete: 'CASCADE',
   })
