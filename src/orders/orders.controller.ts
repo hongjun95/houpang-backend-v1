@@ -28,11 +28,8 @@ import {
   UpdateOrerStatusInput,
   UpdateOrerStatusOutput,
 } from './dtos/update-order-status.dto';
-import {
-  ReturnProductInput,
-  ReturnProductOutput,
-} from './dtos/return-product.dto';
 import { OrderStatus } from './entities/order-item.entity';
+import { RefundProductInput, RefundProductOutput } from './dtos/refund-product.dto';
 
 @Controller('/orders')
 export class OrdersController {
@@ -114,17 +111,17 @@ export class OrdersController {
 
   @Post('/order-item/:orderItemId/return')
   @Roles(['Consumer', 'Admin'])
-  async requestReturn(
+  async requestRefund(
     @Param('orderItemId') orderItemId: string,
     @Query('status') status,
     @Body() body,
     @AuthUser() user: User,
-  ): Promise<ReturnProductOutput> {
-    const returnProductInput: ReturnProductInput = {
+  ): Promise<RefundProductOutput> {
+    const refundProductInput: RefundProductInput = {
       orderItemId,
       status,
       ...body,
     };
-    return this.ordersService.requestReturn(returnProductInput, user);
+    return this.ordersService.requestRefund(refundProductInput, user);
   }
 }

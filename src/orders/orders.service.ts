@@ -32,9 +32,9 @@ import {
   UpdateOrerStatusOutput,
 } from './dtos/update-order-status.dto';
 import {
-  ReturnProductInput,
-  ReturnProductOutput,
-} from './dtos/return-product.dto';
+  RefundProductInput,
+  RefundProductOutput,
+} from './dtos/refund-product.dto';
 import { Refund, RefundStatus } from './entities/refund.entity';
 
 @Injectable()
@@ -431,16 +431,10 @@ export class OrdersService {
     }
   }
 
-  async requestReturn(
-    {
-      orderItemId,
-      problemTitle,
-      problemDescription,
-      count,
-      status,
-    }: ReturnProductInput,
+  async requestRefund(
+    refundProductInput: RefundProductInput,
     user: User,
-  ): Promise<ReturnProductOutput> {
+  ): Promise<RefundProductOutput> {
     try {
       if (user.role !== UserRole.Consumer) {
         return {
@@ -449,11 +443,32 @@ export class OrdersService {
         };
       }
 
+      if (
+        refundProductInput.status == RefundStatus.Exchanged &&
+        refundProductInput.refundPay &&
+        !!!refundProductInput.sendDay &&
+        !!!refundProductInput.sendPlace
+      ) {
+        return {
+          ok: false,
+          error: '교환 신청을 하셨습니다.',
+        };
+      } else if (
+        refundProductInput.status == RefundStatus.Refunded &&
+        refundProductInput.sendDay &&
+        refundProductInput.sendPlace &&
+        !!!refundProductInput.refundPay
+      ) {
+        return {
+          ok: false,
+          error: '환불 신청을 하셨습니다.',
+        };
+      }
+
       const orderItem = await this.orderItems.findOne({
         where: {
-          id: orderItemId,
+          id: refundProductInput.orderItemId,
         },
-        relations: ['product', 'product.provider', 'product.category', 'order'],
       });
 
       if (!orderItem) {
@@ -463,19 +478,27 @@ export class OrdersService {
         };
       }
 
+      if (
+        orderItem.status === OrderStatus.Exchanged ||
+        orderItem.status === OrderStatus.Refunded
+      ) {
+        return {
+          ok: false,
+          error: '이미 교환이나 환불을 하셨습니다.',
+        };
+      }
+
       await this.refunds.save(
         this.refunds.create({
-          count,
+          ...refundProductInput,
+          refundee: user,
           orderItem,
-          problemDescription,
-          problemTitle,
-          status,
         }),
       );
 
-      if (status === RefundStatus.Exchanged) {
+      if (refundProductInput.status === RefundStatus.Exchanged) {
         orderItem.status = OrderStatus.Exchanged;
-      } else if (status === RefundStatus.Refunded) {
+      } else if (refundProductInput.status === RefundStatus.Refunded) {
         orderItem.status = OrderStatus.Refunded;
       }
 

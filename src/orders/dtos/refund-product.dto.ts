@@ -4,18 +4,25 @@ import { OrderItem, OrderStatus } from '../entities/order-item.entity';
 import { Refund } from '../entities/refund.entity';
 
 @InputType()
-export class ReturnProductInput extends PickType(Refund, [
+export class RefundProductInput extends PickType(Refund, [
   'count',
   'problemDescription',
   'problemTitle',
   'status',
+  'recallPlace',
+  'recallDay',
+  'recallTitle',
+  'recallDescription',
+  'sendPlace',
+  'sendDay',
+  'refundPay',
 ]) {
   @Field((type) => String)
   orderItemId: string;
 }
 
 @ObjectType()
-export class ReturnProductOutput extends CoreOutput {
+export class RefundProductOutput extends CoreOutput {
   @Field((type) => OrderItem, { nullable: true })
   orderItem?: OrderItem;
 }

@@ -54,9 +54,9 @@ export class Refund extends CoreEntity {
   @Column()
   recallPlace: string;
 
-  @Field((type) => String)
+  @Field((type) => Date)
   @Column()
-  recallDay: string;
+  recallDay: Date;
 
   @Field((type) => String)
   @Column()
@@ -64,15 +64,15 @@ export class Refund extends CoreEntity {
 
   @Field((type) => String)
   @Column()
-  recallDescription: string;
+  recallDescription?: string;
 
   @Field((type) => String)
   @Column()
   sendPlace?: string;
 
-  @Field((type) => String)
+  @Field((type) => Date)
   @Column()
-  sendDay?: string;
+  sendDay?: Date;
 
   @Field((type) => Int)
   @Column()
