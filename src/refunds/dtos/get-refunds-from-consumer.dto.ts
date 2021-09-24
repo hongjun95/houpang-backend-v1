@@ -7,10 +7,13 @@ import {
 import { Refund } from '../entities/refund.entity';
 
 @InputType()
-export class GetRefundsInput extends PaginationInput {}
+export class GetRefundsFromConsumerInput extends PaginationInput {
+  @Field((type) => String)
+  consumerId: string;
+}
 
 @ObjectType()
-export class GetRefundsOutput extends PaginationOutput {
+export class GetRefundsFromConsumerOutput extends PaginationOutput {
   @Field((type) => [Refund], { nullable: true })
   refundItems?: Refund[];
 }

@@ -1,2 +1,2 @@
-export const formmatOrderedAt = (date: Date) =>
+export const formmatDay = (date: Date) =>
   `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;

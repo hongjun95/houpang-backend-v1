@@ -2,7 +2,14 @@ import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Roles } from 'src/auth/roles.decorator';
 import { User } from 'src/users/entities/user.entity';
-import { GetRefundsOutput } from './dtos/get-refunds.dto';
+import {
+  GetRefundsFromConsumerInput,
+  GetRefundsFromConsumerOutput,
+} from './dtos/get-refunds-from-consumer.dto';
+import {
+  GetRefundsFromProviderInput,
+  GetRefundsFromProviderOutput,
+} from './dtos/get-refunds-from-provider.dto';
 import {
   RefundProductInput,
   RefundProductOutput,
@@ -13,13 +20,24 @@ import { RefundsService } from './refunds.service';
 export class RefundsController {
   constructor(private readonly refundsService: RefundsService) {}
 
-  @Get('')
+  @Get('/consumer')
   @Roles(['Any'])
-  async getRefunds(
-    @Query('page') page, //
-    @AuthUser() user: User,
-  ): Promise<GetRefundsOutput> {
-    return this.refundsService.getRefunds({ page }, user);
+  async getRefundsFromConsumer(
+    @Query() GetRefundsFromConsumerInput: GetRefundsFromConsumerInput,
+  ): Promise<GetRefundsFromConsumerOutput> {
+    return this.refundsService.getRefundsFromConsumer(
+      GetRefundsFromConsumerInput,
+    );
+  }
+
+  @Get('/provider')
+  @Roles(['Provider', 'Admin'])
+  async getRefundsFromProvider(
+    @Query() getRefundsFromProviderInput: GetRefundsFromProviderInput,
+  ): Promise<GetRefundsFromProviderOutput> {
+    return this.refundsService.getRefundsFromProvider(
+      getRefundsFromProviderInput,
+    );
   }
 
   @Post('/order-item/:orderItemId/refund')

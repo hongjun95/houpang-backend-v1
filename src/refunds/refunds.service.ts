@@ -7,8 +7,16 @@ import {
   RefundProductInput,
   RefundProductOutput,
 } from './dtos/refund-product.dto';
-import { GetRefundsInput, GetRefundsOutput } from './dtos/get-refunds.dto';
+import {
+  GetRefundsFromConsumerInput,
+  GetRefundsFromConsumerOutput,
+} from './dtos/get-refunds-from-consumer.dto';
 import { Refund, RefundStatus } from './entities/refund.entity';
+import {
+  GetRefundsFromProviderInput,
+  GetRefundsFromProviderOutput,
+} from './dtos/get-refunds-from-provider.dto';
+import { formmatDay } from 'src/utils/dayUtils';
 
 @Injectable()
 export class RefundsService {
@@ -18,6 +26,9 @@ export class RefundsService {
 
     @InjectRepository(OrderItem)
     private readonly orderItems: Repository<OrderItem>,
+
+    @InjectRepository(User)
+    private readonly users: Repository<User>,
   ) {}
 
   async requestRefund(
@@ -77,13 +88,19 @@ export class RefundsService {
         };
       }
 
-      await this.refunds.save(
+      const refund =  await this.refunds.save(
         this.refunds.create({
           ...refundProductInput,
           refundee: user,
           orderItem,
+          refundedAt: '',
         }),
       );
+
+      const refundedAt = formmatDay(refund.createdAt);
+
+      refund.refundedAt = refundedAt;
+      await this.refunds.save(refund);
 
       if (refundProductInput.status === RefundStatus.Exchanged) {
         orderItem.status = OrderStatus.Exchanged;
@@ -106,28 +123,100 @@ export class RefundsService {
     }
   }
 
-  async getRefunds(
-    { page }: GetRefundsInput,
-    user: User,
-  ): Promise<GetRefundsOutput> {
+  async getRefundsFromConsumer({
+    page = 1,
+    consumerId,
+  }: GetRefundsFromConsumerInput): Promise<GetRefundsFromConsumerOutput> {
     try {
+      const consumer = await this.users.findOne({
+        id: consumerId,
+      });
+
+      if (!consumer) {
+        return {
+          ok: false,
+          error: '고객이 존재하지 않습니다.',
+        };
+      }
+
       const takePages = 10;
       const [refundItems, totalRefundItems] = await this.refunds.findAndCount({
         where: {
-          refundee: user,
+          refundee: consumer,
         },
         skip: (page - 1) * takePages,
         take: takePages,
         order: {
           createdAt: 'DESC',
         },
-        relations: ['orderItem'],
+        relations: ['orderItem', 'orderItem.product'],
       });
       return {
         ok: true,
         refundItems,
         totalPages: Math.ceil(totalRefundItems / takePages),
         totalResults: totalRefundItems,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '교환이나 환불된 주문 목록을 찾을 수가 없습니다.',
+      };
+    }
+  }
+
+  async getRefundsFromProvider({
+    page = 1,
+    providerId,
+  }: GetRefundsFromProviderInput): Promise<GetRefundsFromProviderOutput> {
+    try {
+      const provider = await this.users.findOne({
+        id: providerId,
+      });
+
+      if (!provider) {
+        return {
+          ok: false,
+          error: '공급자가 존재하지 않습니다.',
+        };
+      }
+
+      const takePages = 10;
+      const [orderItems, totalOrderItems] = await this.orderItems.findAndCount({
+        where: [
+          {
+            product: {
+              provider,
+            },
+            status: OrderStatus.Canceled,
+          },
+          {
+            product: {
+              provider,
+            },
+            status: OrderStatus.Exchanged,
+          },
+          {
+            product: {
+              provider,
+            },
+            status: OrderStatus.Refunded,
+          },
+        ],
+        skip: (page - 1) * takePages,
+        take: takePages,
+        relations: ['product', 'product.provider', 'product.category', 'order'],
+        order: {
+          createdAt: 'ASC',
+        },
+      });
+
+      return {
+        ok: true,
+        orderItems,
+        totalPages: Math.ceil(totalOrderItems / takePages),
+        totalResults: totalOrderItems,
       };
     } catch (error) {
       console.error(error);
