@@ -16,6 +16,8 @@ export enum OrderStatus {
   Delivering = '배달중',
   Delivered = '배달 완료',
   Canceled = '주문 취소',
+  Exchanged = '교환',
+  Refunded = '환불',
 }
 
 registerEnumType(OrderStatus, { name: 'OrderStatus' });
