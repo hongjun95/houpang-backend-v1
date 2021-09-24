@@ -7,7 +7,10 @@ import {
   RefundProductInput,
   RefundProductOutput,
 } from './dtos/refund-product.dto';
-import { GetRefundsInput, GetRefundsOutput } from './dtos/get-refunds.dto';
+import {
+  GetRefundsFromConsumerInput,
+  GetRefundsFromConsumerOutput,
+} from './dtos/get-refunds-from-consumer.dto';
 import { Refund, RefundStatus } from './entities/refund.entity';
 
 @Injectable()
@@ -18,6 +21,9 @@ export class RefundsService {
 
     @InjectRepository(OrderItem)
     private readonly orderItems: Repository<OrderItem>,
+
+    @InjectRepository(User)
+    private readonly users: Repository<User>,
   ) {}
 
   async requestRefund(
@@ -106,15 +112,26 @@ export class RefundsService {
     }
   }
 
-  async getRefunds(
-    { page }: GetRefundsInput,
-    user: User,
-  ): Promise<GetRefundsOutput> {
+  async getRefundsFromConsumer({
+    page,
+    consumerId,
+  }: GetRefundsFromConsumerInput): Promise<GetRefundsFromConsumerOutput> {
     try {
+      const consumer = await this.users.findOne({
+        id: consumerId,
+      });
+
+      if (!consumer) {
+        return {
+          ok: false,
+          error: '고객이 존재하지 않습니다.',
+        };
+      }
+
       const takePages = 10;
       const [refundItems, totalRefundItems] = await this.refunds.findAndCount({
         where: {
-          refundee: user,
+          refundee: consumer,
         },
         skip: (page - 1) * takePages,
         take: takePages,

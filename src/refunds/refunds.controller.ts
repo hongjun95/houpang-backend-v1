@@ -2,7 +2,10 @@ import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Roles } from 'src/auth/roles.decorator';
 import { User } from 'src/users/entities/user.entity';
-import { GetRefundsOutput } from './dtos/get-refunds.dto';
+import {
+  GetRefundsFromConsumerInput,
+  GetRefundsFromConsumerOutput,
+} from './dtos/get-refunds-from-consumer.dto';
 import {
   RefundProductInput,
   RefundProductOutput,
@@ -13,13 +16,14 @@ import { RefundsService } from './refunds.service';
 export class RefundsController {
   constructor(private readonly refundsService: RefundsService) {}
 
-  @Get('')
+  @Get('/consumer')
   @Roles(['Any'])
-  async getRefunds(
-    @Query('page') page, //
-    @AuthUser() user: User,
-  ): Promise<GetRefundsOutput> {
-    return this.refundsService.getRefunds({ page }, user);
+  async getRefundsFromConsumer(
+    @Query('page') GetRefundsFromConsumerInput: GetRefundsFromConsumerInput,
+  ): Promise<GetRefundsFromConsumerOutput> {
+    return this.refundsService.getRefundsFromConsumer(
+      GetRefundsFromConsumerInput,
+    );
   }
 
   @Post('/order-item/:orderItemId/refund')
