@@ -115,11 +115,32 @@ export class OrdersService {
 
       const takePages = 10;
       const [orderItems, totalOrderItems] = await this.orderItems.findAndCount({
-        where: {
-          product: {
-            provider,
+        where: [
+          {
+            product: {
+              provider,
+            },
+            status: OrderStatus.Checking,
           },
-        },
+          {
+            product: {
+              provider,
+            },
+            status: OrderStatus.Delivering,
+          },
+          {
+            product: {
+              provider,
+            },
+            status: OrderStatus.Delivered,
+          },
+          {
+            product: {
+              provider,
+            },
+            status: OrderStatus.Received,
+          },
+        ],
         skip: (page - 1) * takePages,
         take: takePages,
         relations: ['product', 'product.provider', 'product.category', 'order'],
