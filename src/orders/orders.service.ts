@@ -35,7 +35,7 @@ import {
   ReturnProductInput,
   ReturnProductOutput,
 } from './dtos/return-product.dto';
-import { Return, ReturnStatus } from './entities/return.entity';
+import { Refund, RefundStatus } from './entities/refund.entity';
 
 @Injectable()
 export class OrdersService {
@@ -46,8 +46,8 @@ export class OrdersService {
     @InjectRepository(OrderItem)
     private readonly orderItems: Repository<OrderItem>,
 
-    @InjectRepository(Return)
-    private readonly returns: Repository<Return>,
+    @InjectRepository(Refund)
+    private readonly refunds: Repository<Refund>,
 
     @InjectRepository(Product)
     private readonly products: Repository<Product>,
@@ -463,8 +463,8 @@ export class OrdersService {
         };
       }
 
-      await this.returns.save(
-        this.returns.create({
+      await this.refunds.save(
+        this.refunds.create({
           count,
           orderItem,
           problemDescription,
@@ -473,10 +473,10 @@ export class OrdersService {
         }),
       );
 
-      if (status === ReturnStatus.Exchanged) {
+      if (status === RefundStatus.Exchanged) {
         orderItem.status = OrderStatus.Exchanged;
-      } else if (status === ReturnStatus.Returned) {
-        orderItem.status = OrderStatus.Returned;
+      } else if (status === RefundStatus.Refunded) {
+        orderItem.status = OrderStatus.Refunded;
       }
 
       await this.orderItems.save(orderItem);

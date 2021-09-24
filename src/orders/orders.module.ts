@@ -7,11 +7,11 @@ import { Order } from './entities/order.entity';
 import { OrdersResolver } from './orders.resolver';
 import { OrdersService } from './orders.service';
 import { OrdersController } from './orders.controller';
-import { Return } from './entities/return.entity';
+import { Refund } from './entities/refund.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Order, OrderItem, Product, User, Return]),
+    TypeOrmModule.forFeature([Order, OrderItem, Product, User, Refund]),
   ],
   providers: [OrdersResolver, OrdersService],
   controllers: [OrdersController],

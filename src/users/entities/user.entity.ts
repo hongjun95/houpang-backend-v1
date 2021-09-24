@@ -19,6 +19,7 @@ import { InternalServerErrorException } from '@nestjs/common';
 import { Product } from 'src/products/entities/product';
 import { Order } from 'src/orders/entities/order.entity';
 import { Review } from 'src/reviews/entities/review.entity';
+import { Refund } from 'src/orders/entities/refund.entity';
 
 export enum UserRole {
   Consumer = 'Consumer',
@@ -94,6 +95,10 @@ export class User extends CoreEntity {
   @OneToMany((type) => Order, (order) => order.consumer)
   @Field((type) => [Order])
   orders: Order[];
+
+  @OneToMany((type) => Refund, (refund) => refund.refundee)
+  @Field((type) => [Refund])
+  refunds: Refund[];
 
   @OneToMany((type) => Review, (review) => review.commenter)
   @Field((type) => [Review])

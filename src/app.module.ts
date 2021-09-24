@@ -24,7 +24,7 @@ import { TOKEN_KEY } from './common/common.constants';
 import { UploadsModule } from './uploads/uploads.module';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { Return } from './orders/entities/return.entity';
+import { Refund } from './orders/entities/refund.entity';
 
 @Module({
   imports: [
@@ -90,7 +90,7 @@ import { Return } from './orders/entities/return.entity';
         OrderItem,
         Like,
         Review,
-        Return,
+        Refund,
       ],
     }),
     JwtModule.forRoot({

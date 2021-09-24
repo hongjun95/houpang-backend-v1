@@ -1,10 +1,10 @@
 import { Field, InputType, Int, ObjectType, PickType } from '@nestjs/graphql';
 import { CoreOutput } from 'src/common/dtos/output.dto';
 import { OrderItem, OrderStatus } from '../entities/order-item.entity';
-import { Return } from '../entities/return.entity';
+import { Refund } from '../entities/refund.entity';
 
 @InputType()
-export class ReturnProductInput extends PickType(Return, [
+export class ReturnProductInput extends PickType(Refund, [
   'count',
   'problemDescription',
   'problemTitle',
