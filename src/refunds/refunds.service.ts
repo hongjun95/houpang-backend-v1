@@ -12,6 +12,10 @@ import {
   GetRefundsFromConsumerOutput,
 } from './dtos/get-refunds-from-consumer.dto';
 import { Refund, RefundStatus } from './entities/refund.entity';
+import {
+  GetRefundsFromProviderInput,
+  GetRefundsFromProviderOutput,
+} from './dtos/get-refunds-from-provider.dto';
 
 @Injectable()
 export class RefundsService {
@@ -113,7 +117,7 @@ export class RefundsService {
   }
 
   async getRefundsFromConsumer({
-    page,
+    page = 1,
     consumerId,
   }: GetRefundsFromConsumerInput): Promise<GetRefundsFromConsumerOutput> {
     try {
@@ -145,6 +149,67 @@ export class RefundsService {
         refundItems,
         totalPages: Math.ceil(totalRefundItems / takePages),
         totalResults: totalRefundItems,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '교환이나 환불된 주문 목록을 찾을 수가 없습니다.',
+      };
+    }
+  }
+
+  async getRefundsFromProvider({
+    page = 1,
+    providerId,
+  }: GetRefundsFromProviderInput): Promise<GetRefundsFromProviderOutput> {
+    try {
+      const provider = await this.users.findOne({
+        id: providerId,
+      });
+
+      if (!provider) {
+        return {
+          ok: false,
+          error: '공급자가 존재하지 않습니다.',
+        };
+      }
+
+      const takePages = 10;
+      const [orderItems, totalOrderItems] = await this.orderItems.findAndCount({
+        where: [
+          {
+            product: {
+              provider,
+            },
+            status: OrderStatus.Canceled,
+          },
+          {
+            product: {
+              provider,
+            },
+            status: OrderStatus.Exchanged,
+          },
+          {
+            product: {
+              provider,
+            },
+            status: OrderStatus.Refunded,
+          },
+        ],
+        skip: (page - 1) * takePages,
+        take: takePages,
+        relations: ['product', 'product.provider', 'product.category', 'order'],
+        order: {
+          createdAt: 'ASC',
+        },
+      });
+
+      return {
+        ok: true,
+        orderItems,
+        totalPages: Math.ceil(totalOrderItems / takePages),
+        totalResults: totalOrderItems,
       };
     } catch (error) {
       console.error(error);

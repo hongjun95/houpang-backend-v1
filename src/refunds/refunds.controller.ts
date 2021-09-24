@@ -7,6 +7,10 @@ import {
   GetRefundsFromConsumerOutput,
 } from './dtos/get-refunds-from-consumer.dto';
 import {
+  GetRefundsFromProviderInput,
+  GetRefundsFromProviderOutput,
+} from './dtos/get-refunds-from-provider.dto';
+import {
   RefundProductInput,
   RefundProductOutput,
 } from './dtos/refund-product.dto';
@@ -19,10 +23,20 @@ export class RefundsController {
   @Get('/consumer')
   @Roles(['Any'])
   async getRefundsFromConsumer(
-    @Query('page') GetRefundsFromConsumerInput: GetRefundsFromConsumerInput,
+    @Query() GetRefundsFromConsumerInput: GetRefundsFromConsumerInput,
   ): Promise<GetRefundsFromConsumerOutput> {
     return this.refundsService.getRefundsFromConsumer(
       GetRefundsFromConsumerInput,
+    );
+  }
+
+  @Get('/provider')
+  @Roles(['Provider', 'Admin'])
+  async getRefundsFromProvider(
+    @Query() getRefundsFromProviderInput: GetRefundsFromProviderInput,
+  ): Promise<GetRefundsFromProviderOutput> {
+    return this.refundsService.getRefundsFromProvider(
+      getRefundsFromProviderInput,
     );
   }
 
