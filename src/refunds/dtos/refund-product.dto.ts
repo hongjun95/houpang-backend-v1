@@ -1,6 +1,6 @@
 import { Field, InputType, Int, ObjectType, PickType } from '@nestjs/graphql';
 import { CoreOutput } from 'src/common/dtos/output.dto';
-import { OrderItem, OrderStatus } from '../entities/order-item.entity';
+import { OrderItem, OrderStatus } from '../../orders/entities/order-item.entity';
 import { Refund } from '../entities/refund.entity';
 
 @InputType()

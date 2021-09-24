@@ -24,7 +24,8 @@ import { TOKEN_KEY } from './common/common.constants';
 import { UploadsModule } from './uploads/uploads.module';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { Refund } from './orders/entities/refund.entity';
+import { Refund } from './refunds/entities/refund.entity';
+import { RefundsModule } from './refunds/refunds.module';
 
 @Module({
   imports: [
@@ -109,6 +110,7 @@ import { Refund } from './orders/entities/refund.entity';
     LikesModule,
     ReviewsModule,
     UploadsModule,
+    RefundsModule,
   ],
   controllers: [],
   providers: [],

@@ -7,7 +7,7 @@ import { Order } from './entities/order.entity';
 import { OrdersResolver } from './orders.resolver';
 import { OrdersService } from './orders.service';
 import { OrdersController } from './orders.controller';
-import { Refund } from './entities/refund.entity';
+import { Refund } from '../refunds/entities/refund.entity';
 
 @Module({
   imports: [

@@ -19,7 +19,7 @@ import { InternalServerErrorException } from '@nestjs/common';
 import { Product } from 'src/products/entities/product';
 import { Order } from 'src/orders/entities/order.entity';
 import { Review } from 'src/reviews/entities/review.entity';
-import { Refund } from 'src/orders/entities/refund.entity';
+import { Refund } from 'src/refunds/entities/refund.entity';
 
 export enum UserRole {
   Consumer = 'Consumer',

@@ -8,7 +8,7 @@ import {
 import { CoreEntity } from 'src/common/entities/common.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
-import { OrderItem } from './order-item.entity';
+import { OrderItem } from '../../orders/entities/order-item.entity';
 
 export enum RefundStatus {
   Exchanged = '교환',
