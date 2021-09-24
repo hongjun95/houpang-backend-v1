@@ -1,15 +1,18 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { CoreOutput } from 'src/common/dtos/output.dto';
+import {
+  PaginationInput,
+  PaginationOutput,
+} from 'src/common/dtos/pagination.dto';
 import { Order } from '../entities/order.entity';
 
 @InputType()
-export class GetOrdersFromConsumerInput {
+export class GetOrdersFromConsumerInput extends PaginationInput {
   @Field((type) => String)
   consumerId: string;
 }
 
 @ObjectType()
-export class GetOrdersFromConsumerOutput extends CoreOutput {
+export class GetOrdersFromConsumerOutput extends PaginationOutput {
   @Field((type) => [Order], { nullable: true })
   orders?: Order[];
 }

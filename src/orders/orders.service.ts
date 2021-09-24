@@ -50,6 +50,7 @@ export class OrdersService {
 
   async getOrdersFromConsumer({
     consumerId,
+    page,
   }: GetOrdersFromConsumerInput): Promise<GetOrdersFromConsumerOutput> {
     try {
       const consumer = await this.users.findOne({
@@ -63,10 +64,13 @@ export class OrdersService {
         };
       }
 
-      const orders = await this.orders.find({
+      const takePages = 10;
+      const [orders, totalOrders] = await this.orders.findAndCount({
         where: {
           consumer,
         },
+        skip: (page - 1) * takePages,
+        take: takePages,
         relations: [
           'orderItems',
           'orderItems.product',
@@ -81,6 +85,8 @@ export class OrdersService {
       return {
         ok: true,
         orders,
+        totalPages: Math.ceil(totalOrders / takePages),
+        totalResults: totalOrders,
       };
     } catch (error) {
       console.error(error);
