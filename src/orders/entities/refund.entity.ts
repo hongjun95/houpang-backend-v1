@@ -62,19 +62,19 @@ export class Refund extends CoreEntity {
   @Column()
   recallTitle: string;
 
-  @Field((type) => String)
-  @Column()
+  @Field((type) => String, { nullable: true })
+  @Column({ nullable: true })
   recallDescription?: string;
 
-  @Field((type) => String)
-  @Column()
+  @Field((type) => String, { nullable: true })
+  @Column({ nullable: true })
   sendPlace?: string;
 
-  @Field((type) => Date)
-  @Column()
+  @Field((type) => Date, { nullable: true })
+  @Column({ nullable: true })
   sendDay?: Date;
 
-  @Field((type) => Int)
-  @Column()
+  @Field((type) => Int, { nullable: true })
+  @Column({ nullable: true })
   refundPay?: number;
 }
