@@ -7,6 +7,7 @@ import {
   RefundProductInput,
   RefundProductOutput,
 } from './dtos/refund-product.dto';
+import { GetRefundsInput, GetRefundsOutput } from './dtos/get-refunds.dto';
 import { Refund, RefundStatus } from './entities/refund.entity';
 
 @Injectable()
@@ -100,7 +101,39 @@ export class RefundsService {
       console.error(error);
       return {
         ok: false,
-        error: '상품 품목들을 가져올 수 없습니다.',
+        error: '교환이나 환불을 할 수 없습니다.',
+      };
+    }
+  }
+
+  async getRefunds(
+    { page }: GetRefundsInput,
+    user: User,
+  ): Promise<GetRefundsOutput> {
+    try {
+      const takePages = 10;
+      const [refundItems, totalRefundItems] = await this.refunds.findAndCount({
+        where: {
+          refundee: user,
+        },
+        skip: (page - 1) * takePages,
+        take: takePages,
+        order: {
+          createdAt: 'DESC',
+        },
+        relations: ['orderItem'],
+      });
+      return {
+        ok: true,
+        refundItems,
+        totalPages: Math.ceil(totalRefundItems / takePages),
+        totalResults: totalRefundItems,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        ok: false,
+        error: '교환이나 환불된 주문 목록을 찾을 수가 없습니다.',
       };
     }
   }

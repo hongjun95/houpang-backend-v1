@@ -28,8 +28,8 @@ export class Refund extends CoreEntity {
   @Field((type) => OrderItem)
   orderItem: OrderItem;
 
-  @Column()
   @Field((type) => Int, { defaultValue: 1 })
+  @Column()
   count: number;
 
   @Field((type) => String)
