@@ -4,7 +4,7 @@ import {
   PaginationInput,
   PaginationOutput,
 } from 'src/common/dtos/pagination.dto';
-import { Product } from 'src/products/entities/product';
+import { Product } from 'src/products/entities/product.entity';
 
 @InputType()
 export class GetProductsOnCategoryInput extends PaginationInput {

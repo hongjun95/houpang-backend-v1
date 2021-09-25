@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { LikeResolver } from './likes.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Product } from 'src/products/entities/product';
+import { Product } from 'src/products/entities/product.entity';
 import { LikesController } from './likes.controller';
 import { LikesService } from './likes.service';
 import { Like } from './entities/likes.entity';

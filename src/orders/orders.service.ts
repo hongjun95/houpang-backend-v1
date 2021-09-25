@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from 'src/products/entities/product';
+import { Product } from 'src/products/entities/product.entity';
 import { User, UserRole } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateOrderInput, CreateOrderOutput } from './dtos/create-order.dto';
