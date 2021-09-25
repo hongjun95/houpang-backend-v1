@@ -16,7 +16,7 @@ import * as bcrypt from 'bcrypt';
 
 import { CoreEntity } from 'src/common/entities/common.entity';
 import { InternalServerErrorException } from '@nestjs/common';
-import { Product } from 'src/products/entities/product';
+import { Product } from 'src/products/entities/product.entity';
 import { Order } from 'src/orders/entities/order.entity';
 import { Review } from 'src/reviews/entities/review.entity';
 import { Refund } from 'src/refunds/entities/refund.entity';

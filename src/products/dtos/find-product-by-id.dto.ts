@@ -1,7 +1,7 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { CoreOutput } from 'src/common/dtos/output.dto';
 
-import { Product } from '../entities/product';
+import { Product } from '../entities/product.entity';
 
 @InputType()
 export class FindProductByIdInput {

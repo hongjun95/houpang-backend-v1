@@ -20,7 +20,7 @@ import {
   GetAllProductsInput,
   GetAllProductsOutput,
 } from './dtos/get-all-products.dto';
-import { Product } from './entities/product';
+import { Product } from './entities/product.entity';
 import { CategoryRepository } from 'src/categories/repositories/category.repository';
 import {
   GetProductsFromProviderInput,
