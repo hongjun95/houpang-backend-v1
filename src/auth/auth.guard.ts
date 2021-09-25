@@ -1,9 +1,9 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { TOKEN_KEY } from 'src/common/common.constants';
+import { TOKEN_KEY } from 'src/apis/common/common.constants';
 import { JwtService } from 'src/jwt/jwt.service';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from 'src/apis/users/users.service';
 import { AllowedRoles } from './roles.decorator';
 
 @Injectable()

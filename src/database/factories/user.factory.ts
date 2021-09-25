@@ -1,6 +1,6 @@
 import * as Faker from 'faker';
 
-import { Language, User, UserRole } from '../../users/entities/user.entity';
+import { Language, User, UserRole } from '../../apis/users/entities/user.entity';
 import { define } from 'typeorm-seeding';
 
 define(User, (faker: typeof Faker) => {

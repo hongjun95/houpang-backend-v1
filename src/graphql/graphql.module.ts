@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule as NestGraphQLModule } from '@nestjs/graphql';
-import { TOKEN_KEY } from 'src/common/common.constants';
+
+import { TOKEN_KEY } from 'src/apis/common/common.constants';
 
 @Module({
   imports: [

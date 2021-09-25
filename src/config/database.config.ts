@@ -1,13 +1,14 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { join } from 'path';
-import { Category } from 'src/categories/entities/category.entity';
-import { Like } from 'src/likes/entities/likes.entity';
-import { OrderItem } from 'src/orders/entities/order-item.entity';
-import { Order } from 'src/orders/entities/order.entity';
-import { Product } from 'src/products/entities/product.entity';
-import { Refund } from 'src/refunds/entities/refund.entity';
-import { Review } from 'src/reviews/entities/review.entity';
-import { User } from 'src/users/entities/user.entity';
+
+import { Category } from 'src/apis/categories/entities/category.entity';
+import { Like } from 'src/apis/likes/entities/likes.entity';
+import { OrderItem } from 'src/apis/orders/entities/order-item.entity';
+import { Order } from 'src/apis/orders/entities/order.entity';
+import { Product } from 'src/apis/products/entities/product.entity';
+import { Refund } from 'src/apis/refunds/entities/refund.entity';
+import { Review } from 'src/apis/reviews/entities/review.entity';
+import { User } from 'src/apis/users/entities/user.entity';
 
 export default () =>
   ({
