@@ -1,8 +1,9 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { CoreEntity } from 'src/common/entities/common.entity';
-import { Product } from 'src/products/entities/product.entity';
-import { User } from 'src/users/entities/user.entity';
 import { Entity, JoinColumn, JoinTable, ManyToMany, OneToOne } from 'typeorm';
+
+import { CoreEntity } from '../../common/entities/common.entity';
+import { Product } from '../../products/entities/product.entity';
+import { User } from '../../users/entities/user.entity';
 
 @InputType('LikeInputType', { isAbstract: true })
 @ObjectType()

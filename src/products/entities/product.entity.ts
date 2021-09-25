@@ -9,11 +9,11 @@ import {
   RelationId,
 } from 'typeorm';
 
-import { CoreEntity } from 'src/common/entities/common.entity';
-import { User } from 'src/users/entities/user.entity';
-import { Category } from 'src/categories/entities/category.entity';
-import { OrderItem } from 'src/orders/entities/order-item.entity';
-import { Review } from 'src/reviews/entities/review.entity';
+import { CoreEntity } from '../../common/entities/common.entity';
+import { User } from '../../users/entities/user.entity';
+import { Category } from '../../categories/entities/category.entity';
+import { OrderItem } from '../../orders/entities/order-item.entity';
+import { Review } from '../../reviews/entities/review.entity';
 
 @InputType('InfoItemInputType', { isAbstract: true })
 @ObjectType()

@@ -5,9 +5,10 @@ import {
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { CoreEntity } from 'src/common/entities/common.entity';
-import { Product } from 'src/products/entities/product.entity';
 import { Column, Entity, ManyToOne, RelationId } from 'typeorm';
+
+import { CoreEntity } from '../../common/entities/common.entity';
+import { Product } from '../../products/entities/product.entity';
 import { Order } from './order.entity';
 
 export enum OrderStatus {

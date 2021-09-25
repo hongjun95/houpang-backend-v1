@@ -1,7 +1,5 @@
 import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { IsNumber, IsString } from 'class-validator';
-import { CoreEntity } from 'src/common/entities/common.entity';
-import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
@@ -10,6 +8,9 @@ import {
   OneToMany,
   RelationId,
 } from 'typeorm';
+
+import { CoreEntity } from '../../common/entities/common.entity';
+import { User } from '../../users/entities/user.entity';
 import { OrderItem } from './order-item.entity';
 
 // payment_method

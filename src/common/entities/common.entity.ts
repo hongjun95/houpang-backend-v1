@@ -6,7 +6,7 @@ import {
 } from 'typeorm';
 
 @ObjectType()
-export class CoreEntity {
+export abstract class CoreEntity {
   @PrimaryGeneratedColumn('uuid')
   @Field((type) => String)
   id: string;

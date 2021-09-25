@@ -4,6 +4,7 @@ import {
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
+import { InternalServerErrorException } from '@nestjs/common';
 import {
   IsBoolean,
   IsEmail,
@@ -14,12 +15,11 @@ import {
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
-import { CoreEntity } from 'src/common/entities/common.entity';
-import { InternalServerErrorException } from '@nestjs/common';
-import { Product } from 'src/products/entities/product.entity';
-import { Order } from 'src/orders/entities/order.entity';
-import { Review } from 'src/reviews/entities/review.entity';
-import { Refund } from 'src/refunds/entities/refund.entity';
+import { CoreEntity } from '../../common/entities/common.entity';
+import { Product } from '../../products/entities/product.entity';
+import { Order } from '../../orders/entities/order.entity';
+import { Review } from '../../reviews/entities/review.entity';
+import { Refund } from '../../refunds/entities/refund.entity';
 
 export enum UserRole {
   Consumer = 'Consumer',
@@ -27,7 +27,7 @@ export enum UserRole {
   Admin = 'Admin',
 }
 
-enum Language {
+export enum Language {
   Korean = 'Korean',
   English = 'English',
 }

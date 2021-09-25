@@ -1,0 +1,22 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "hongjun",
+  "password": "12345",
+  "database": "houpang-v1",
+  "synchronize": false,
+  "logging": true,
+  "subscribers": ["src/subscribers/**/*.ts"],
+  "migrations": ["src/databases/migrations/**/*.ts"],
+  "migrationsTableName": "migrations",
+  "entities": ["src/**/entities/**/*.entity.ts"],
+  "cli": {
+    "entitiesDir": "src/**/entities",
+    "subscribersDir": "src/subscribers",
+    "migrationsDir": "src/databases/migrations"
+  },
+  "seeds": ["src/database/seeds/**/*.ts"],
+  "factories": ["src/database/factories/**/*.ts"],
+  "baseUrl": "./"
+}
