@@ -78,14 +78,18 @@ export class Product extends CoreEntity {
   @Column({ nullable: true, type: 'json' })
   infos?: InfoItem[];
 
-  @Field((type) => [OrderItem])
-  @OneToMany((type) => OrderItem, (orderItem) => orderItem.order)
+  @OneToMany((type) => OrderItem, (orderItem) => orderItem.order, {
+    onDelete: 'CASCADE',
+    nullable: true,
+  })
   @JoinTable()
-  orderItems: OrderItem[];
+  @Field((type) => [OrderItem], { nullable: true })
+  orderItems?: OrderItem[];
 
   @OneToMany((type) => Review, (reviews) => reviews.product, {
     onDelete: 'CASCADE',
+    nullable: true,
   })
-  @Field((type) => [Review])
-  reviews: Review[];
+  @Field((type) => [Review], { nullable: true })
+  reviews?: Review[];
 }
