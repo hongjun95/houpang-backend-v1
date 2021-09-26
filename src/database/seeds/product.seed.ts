@@ -3,6 +3,6 @@ import { Factory, Seeder } from 'typeorm-seeding';
 
 export class CreateProducts implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    await factory(Product)().createMany(2);
+    await factory(Product)().createMany(100);
   }
 }
