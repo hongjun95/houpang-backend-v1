@@ -29,7 +29,7 @@ import {
 } from './dtos/get-reviews-on-products.dto';
 import { ReviewsService } from './reviews.service';
 
-@Controller('reviews')
+@Controller('/reviews')
 export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
 
