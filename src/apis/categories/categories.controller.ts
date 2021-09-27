@@ -55,13 +55,10 @@ export class CategoriesController {
     @Param('categoryId') categoryId: string,
     @Query() query,
   ): Promise<GetProductsByCategoryIdOutput> {
-    console.log('Hello');
-    console.log(query);
     const getProductsByCategoryIdInput: GetProductsByCategoryIdInput = {
       categoryId,
       ...query,
     };
-    console.log(getProductsByCategoryIdInput);
     return this.categoriesService.getProductsByCategoryId(
       getProductsByCategoryIdInput,
     );

@@ -57,7 +57,7 @@ export class ProductsService {
         totalPages: Math.ceil(totalProducts / takePages),
         totalResults:
           takePages * page < totalProducts ? takePages * page : totalProducts,
-        nextPage: takePages * page < totalProducts ? page + 1 : null,
+        nextPage: takePages * page < totalProducts ? +page + 1 : null,
         hasNextPage: takePages * page <= totalProducts ?? false,
         prevtPage: page <= 1 ? null : page - 1,
         hasPrevtPage: page <= 1 ? false : true,
@@ -151,7 +151,7 @@ export class ProductsService {
         totalPages: Math.ceil(totalProducts / takePages),
         totalResults:
           takePages * page < totalProducts ? takePages * page : totalProducts,
-        nextPage: takePages * page < totalProducts ? page + 1 : null,
+        nextPage: takePages * page < totalProducts ? +page + 1 : null,
         hasNextPage: takePages * page <= totalProducts ?? false,
         prevtPage: page <= 1 ? null : page - 1,
         hasPrevtPage: page <= 1 ? false : true,
