@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Product } from 'src/apis/products/entities/product.entity';
 import { User, UserRole } from 'src/apis/users/entities/user.entity';
-import { Repository } from 'typeorm';
+import { Any, Repository } from 'typeorm';
 import { CreateOrderInput, CreateOrderOutput } from './dtos/create-order.dto';
 import {
   GetOrdersFromProviderInput,
@@ -126,25 +126,12 @@ export class OrdersService {
             product: {
               provider,
             },
-            status: OrderStatus.Checking,
-          },
-          {
-            product: {
-              provider,
-            },
-            status: OrderStatus.Delivering,
-          },
-          {
-            product: {
-              provider,
-            },
-            status: OrderStatus.Delivered,
-          },
-          {
-            product: {
-              provider,
-            },
-            status: OrderStatus.Received,
+            status: Any([
+              OrderStatus.Checking,
+              OrderStatus.Delivering,
+              OrderStatus.Delivered,
+              OrderStatus.Received,
+            ]),
           },
         ],
         skip: (page - 1) * takePages,
@@ -160,7 +147,9 @@ export class OrdersService {
         orderItems,
         totalPages: Math.ceil(totalOrderItems / takePages),
         totalResults:
-          takePages * page < totalOrderItems ? takePages * page : totalOrderItems,
+          takePages * page < totalOrderItems
+            ? takePages * page
+            : totalOrderItems,
         nextPage: takePages * page < totalOrderItems ? page + 1 : null,
         hasNextPage: takePages * page <= totalOrderItems ?? false,
         prevtPage: page <= 1 ? null : page - 1,

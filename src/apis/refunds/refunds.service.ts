@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Any, Repository } from 'typeorm';
 
 import {
   OrderItem,
@@ -200,19 +200,11 @@ export class RefundsService {
             product: {
               provider,
             },
-            status: OrderStatus.Canceled,
-          },
-          {
-            product: {
-              provider,
-            },
-            status: OrderStatus.Exchanged,
-          },
-          {
-            product: {
-              provider,
-            },
-            status: OrderStatus.Refunded,
+            status: Any([
+              OrderStatus.Canceled,
+              OrderStatus.Exchanged,
+              OrderStatus.Refunded,
+            ]),
           },
         ],
         skip: (page - 1) * takePages,
