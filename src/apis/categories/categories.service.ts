@@ -120,50 +120,36 @@ export class CategoriesService {
         };
       }
 
-      let products: Product[], totalProducts: number;
+      let order = {};
       switch (sort) {
         case 'createdAt desc':
-          [products, totalProducts] = await this.products.findAndCount({
-            where: {
-              category,
-            },
-            relations: ['provider'],
-            order: {
-              createdAt: 'DESC',
-            },
-            skip: (page - 1) * takePages,
-            take: takePages,
-          });
+          order = {
+            createdAt: 'DESC',
+          };
           break;
         case 'price desc':
-          [products, totalProducts] = await this.products.findAndCount({
-            where: {
-              category,
-            },
-            relations: ['provider'],
-            order: {
-              price: 'DESC',
-            },
-            skip: (page - 1) * takePages,
-            take: takePages,
-          });
+          order = {
+            price: 'DESC',
+          };
           break;
         case 'price asc':
-          [products, totalProducts] = await this.products.findAndCount({
-            where: {
-              category,
-            },
-            relations: ['provider'],
-            order: {
-              price: 'ASC',
-            },
-            skip: (page - 1) * takePages,
-            take: takePages,
-          });
+          order = {
+            price: 'ASC',
+          };
           break;
         default:
           throw new Error('상품이 존재하지 않습니다.');
       }
+
+      const [products, totalProducts] = await this.products.findAndCount({
+        where: {
+          category,
+        },
+        relations: ['provider'],
+        order,
+        skip: (page - 1) * takePages,
+        take: takePages,
+      });
 
       const currentCounts = takePages * page;
 
