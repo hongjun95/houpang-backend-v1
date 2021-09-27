@@ -83,9 +83,14 @@ export class CategoriesService {
       return {
         ok: true,
         products,
-        totalPages: Math.ceil(totalProducts / takePages),
-        totalResults: totalProducts,
         categoryName: category.name,
+        totalPages: Math.ceil(totalProducts / takePages),
+        totalResults:
+          takePages * page < totalProducts ? takePages * page : totalProducts,
+        nextPage: takePages * page < totalProducts ? page + 1 : null,
+        hasNextPage: takePages * page <= totalProducts ?? false,
+        prevtPage: page <= 1 ? null : page - 1,
+        hasPrevtPage: page <= 1 ? false : true,
       };
     } catch (error) {
       console.error(error);
@@ -99,7 +104,7 @@ export class CategoriesService {
   async getProductsByCategoryId({
     categoryId,
     page = 1,
-    order = 'createdAt desc',
+    sort = 'createdAt desc',
   }: GetProductsByCategoryIdInput): Promise<GetProductsByCategoryIdOutput> {
     try {
       const takePages = 10;
@@ -113,7 +118,7 @@ export class CategoriesService {
       }
 
       let products: Product[], totalProducts: number;
-      switch (order) {
+      switch (sort) {
         case 'createdAt desc':
           [products, totalProducts] = await this.products.findAndCount({
             where: {
@@ -160,9 +165,14 @@ export class CategoriesService {
       return {
         ok: true,
         products,
-        totalPages: Math.ceil(totalProducts / takePages),
-        totalResults: totalProducts,
         categoryName: category.name,
+        totalPages: Math.ceil(totalProducts / takePages),
+        totalResults:
+          takePages * page < totalProducts ? takePages * page : totalProducts,
+        nextPage: takePages * page < totalProducts ? page + 1 : null,
+        hasNextPage: takePages * page <= totalProducts ?? false,
+        prevtPage: page <= 1 ? null : page - 1,
+        hasPrevtPage: page <= 1 ? false : true,
       };
     } catch (error) {
       console.error(error);

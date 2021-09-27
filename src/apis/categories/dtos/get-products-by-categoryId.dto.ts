@@ -14,7 +14,7 @@ export class GetProductsByCategoryIdInput extends PaginationInput {
   categoryId: string;
 
   @Field((type) => String, { defaultValue: 'created_at desc' })
-  order?: SortState;
+  sort?: SortState;
 }
 
 @ObjectType()

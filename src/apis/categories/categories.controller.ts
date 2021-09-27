@@ -29,7 +29,7 @@ import {
   GetProductsOnCategoryOutput,
 } from './dtos/get-products-on-category.dto';
 
-@Controller('categories/')
+@Controller('/categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
@@ -39,7 +39,7 @@ export class CategoriesController {
     return this.categoriesService.getAllCategories();
   }
 
-  @Get('products/:slug')
+  @Get('/products/:slug')
   @Roles(['Any'])
   async getProductsOnCategory(
     @Param() getProductsOnCategoryInput: GetProductsOnCategoryInput,
@@ -53,12 +53,15 @@ export class CategoriesController {
   @Roles(['Any'])
   async getProductsByCategoryId(
     @Param('categoryId') categoryId: string,
-    @Query() order,
+    @Query() query,
   ): Promise<GetProductsByCategoryIdOutput> {
+    console.log('Hello');
+    console.log(query);
     const getProductsByCategoryIdInput: GetProductsByCategoryIdInput = {
       categoryId,
-      ...order,
+      ...query,
     };
+    console.log(getProductsByCategoryIdInput);
     return this.categoriesService.getProductsByCategoryId(
       getProductsByCategoryIdInput,
     );
@@ -72,7 +75,7 @@ export class CategoriesController {
     return this.categoriesService.createCategory(createCategoryInput);
   }
 
-  @Put(':categoryId/')
+  @Put('/:categoryId')
   @Roles(['Admin'])
   async editCategory(
     @Body() body,
@@ -85,7 +88,7 @@ export class CategoriesController {
     return this.categoriesService.editCategory(editCategoryInput);
   }
 
-  @Delete(':categoryId/')
+  @Delete('/:categoryId')
   @Roles(['Admin'])
   async deleteCategory(
     @Param('categoryId') categoryId,

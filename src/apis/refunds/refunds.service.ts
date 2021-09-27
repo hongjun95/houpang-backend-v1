@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { OrderItem, OrderStatus } from 'src/apis/orders/entities/order-item.entity';
+import {
+  OrderItem,
+  OrderStatus,
+} from 'src/apis/orders/entities/order-item.entity';
 import { User, UserRole } from 'src/apis/users/entities/user.entity';
 import {
   RefundProductInput,
@@ -89,7 +92,7 @@ export class RefundsService {
         };
       }
 
-      const refund =  await this.refunds.save(
+      const refund = await this.refunds.save(
         this.refunds.create({
           ...refundProductInput,
           refundee: user,
@@ -156,7 +159,14 @@ export class RefundsService {
         ok: true,
         refundItems,
         totalPages: Math.ceil(totalRefundItems / takePages),
-        totalResults: totalRefundItems,
+        totalResults:
+          takePages * page < totalRefundItems
+            ? takePages * page
+            : totalRefundItems,
+        nextPage: takePages * page < totalRefundItems ? page + 1 : null,
+        hasNextPage: takePages * page <= totalRefundItems ?? false,
+        prevtPage: page <= 1 ? null : page - 1,
+        hasPrevtPage: page <= 1 ? false : true,
       };
     } catch (error) {
       console.error(error);
@@ -217,7 +227,14 @@ export class RefundsService {
         ok: true,
         orderItems,
         totalPages: Math.ceil(totalOrderItems / takePages),
-        totalResults: totalOrderItems,
+        totalResults:
+          takePages * page < totalOrderItems
+            ? takePages * page
+            : totalOrderItems,
+        nextPage: takePages * page < totalOrderItems ? page + 1 : null,
+        hasNextPage: takePages * page <= totalOrderItems ?? false,
+        prevtPage: page <= 1 ? null : page - 1,
+        hasPrevtPage: page <= 1 ? false : true,
       };
     } catch (error) {
       console.error(error);

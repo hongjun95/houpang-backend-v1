@@ -87,7 +87,12 @@ export class OrdersService {
         ok: true,
         orders,
         totalPages: Math.ceil(totalOrders / takePages),
-        totalResults: totalOrders,
+        totalResults:
+          takePages * page < totalOrders ? takePages * page : totalOrders,
+        nextPage: takePages * page < totalOrders ? page + 1 : null,
+        hasNextPage: takePages * page <= totalOrders ?? false,
+        prevtPage: page <= 1 ? null : page - 1,
+        hasPrevtPage: page <= 1 ? false : true,
       };
     } catch (error) {
       console.error(error);
@@ -154,7 +159,12 @@ export class OrdersService {
         ok: true,
         orderItems,
         totalPages: Math.ceil(totalOrderItems / takePages),
-        totalResults: totalOrderItems,
+        totalResults:
+          takePages * page < totalOrderItems ? takePages * page : totalOrderItems,
+        nextPage: takePages * page < totalOrderItems ? page + 1 : null,
+        hasNextPage: takePages * page <= totalOrderItems ?? false,
+        prevtPage: page <= 1 ? null : page - 1,
+        hasPrevtPage: page <= 1 ? false : true,
       };
     } catch (error) {
       console.error(error);
