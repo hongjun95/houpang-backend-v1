@@ -80,15 +80,18 @@ export class CategoriesService {
         skip: (page - 1) * takePages,
         take: takePages,
       });
+
+      const currentCounts = takePages * page;
+
       return {
         ok: true,
         products,
         categoryName: category.name,
         totalPages: Math.ceil(totalProducts / takePages),
         totalResults:
-          takePages * page < totalProducts ? takePages * page : totalProducts,
-        nextPage: takePages * page < totalProducts ? page + 1 : null,
-        hasNextPage: takePages * page <= totalProducts ?? false,
+          currentCounts < totalProducts ? currentCounts : totalProducts,
+        nextPage: currentCounts < totalProducts ? +page + 1 : null,
+        hasNextPage: currentCounts <= totalProducts ?? false,
         prevtPage: page <= 1 ? null : page - 1,
         hasPrevtPage: page <= 1 ? false : true,
       };
@@ -162,15 +165,17 @@ export class CategoriesService {
           throw new Error('상품이 존재하지 않습니다.');
       }
 
+      const currentCounts = takePages * page;
+
       return {
         ok: true,
         products,
         categoryName: category.name,
         totalPages: Math.ceil(totalProducts / takePages),
         totalResults:
-          takePages * page < totalProducts ? takePages * page : totalProducts,
-        nextPage: takePages * page < totalProducts ? page + 1 : null,
-        hasNextPage: takePages * page <= totalProducts ?? false,
+          currentCounts < totalProducts ? currentCounts : totalProducts,
+        nextPage: currentCounts < totalProducts ? +page + 1 : null,
+        hasNextPage: currentCounts <= totalProducts ?? false,
         prevtPage: page <= 1 ? null : page - 1,
         hasPrevtPage: page <= 1 ? false : true,
       };
