@@ -38,7 +38,7 @@ export class Review extends CoreEntity {
   @Column()
   @Min(1)
   @Max(5)
-  grade: number;
+  rating: number;
 
   @Column('text', { array: true })
   @Field((type) => [String])

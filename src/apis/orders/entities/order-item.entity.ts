@@ -5,6 +5,7 @@ import {
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
+import { User } from 'src/apis/users/entities/user.entity';
 import { Column, Entity, ManyToOne, RelationId } from 'typeorm';
 
 import { CoreEntity } from '../../common/entities/common.entity';
@@ -52,4 +53,13 @@ export class OrderItem extends CoreEntity {
   @Field((type) => OrderStatus)
   @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.Checking })
   status: OrderStatus;
+
+  @Field((type) => User)
+  @ManyToOne((type) => User, (user) => user.orderItems, {
+    onDelete: 'CASCADE',
+  })
+  consumer: User;
+
+  @RelationId((orderItem: OrderItem) => orderItem.consumer)
+  consumerId: number;
 }

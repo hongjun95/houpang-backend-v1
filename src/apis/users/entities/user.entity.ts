@@ -20,6 +20,7 @@ import { Product } from '../../products/entities/product.entity';
 import { Order } from '../../orders/entities/order.entity';
 import { Review } from '../../reviews/entities/review.entity';
 import { Refund } from '../../refunds/entities/refund.entity';
+import { OrderItem } from 'src/apis/orders/entities/order-item.entity';
 
 export enum UserRole {
   Consumer = 'Consumer',
@@ -99,6 +100,10 @@ export class User extends CoreEntity {
   @OneToMany((type) => Refund, (refund) => refund.refundee)
   @Field((type) => [Refund])
   refunds: Refund[];
+
+  @OneToMany((type) => OrderItem, (orderItem) => orderItem.consumer)
+  @Field((type) => [OrderItem])
+  orderItems: OrderItem[];
 
   @OneToMany((type) => Review, (review) => review.commenter)
   @Field((type) => [Review])

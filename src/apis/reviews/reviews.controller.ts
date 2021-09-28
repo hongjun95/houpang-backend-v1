@@ -53,17 +53,16 @@ export class ReviewsController {
     );
   }
 
-  @Post('/orderItem/:orderItemId')
+  @Post('/products/:productId')
   @Roles(['Any'])
   async createReview(
-    @Param('orderItemId') orderItemId: string,
+    @Param('productId') productId: string,
     @Body() body: any,
     @AuthUser() commenter: User,
   ): Promise<CreateReviewOutput> {
-    console.log(orderItemId);
     const createReviewInput: CreateReviewInput = {
       ...body,
-      orderItemId,
+      productId,
     };
     return this.reviewsService.createReview(createReviewInput, commenter);
   }

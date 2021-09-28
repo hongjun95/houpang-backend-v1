@@ -108,25 +108,31 @@ export class ReviewsService {
   }
 
   async createReview(
-    { orderItemId, content }: CreateReviewInput,
+    createReviewInput: CreateReviewInput,
     commenter: User,
   ): Promise<CreateReviewOutput> {
     try {
-      const orderItem = await this.orderItems.findOne(
-        { id: orderItemId },
-        {
-          relations: ['product', 'order', 'order.consumer'],
-        },
+      const product = await this.products.findOne(
+        { id: createReviewInput.productId },
+        {},
       );
 
-      if (!orderItem) {
+      if (!product) {
         return {
           ok: false,
-          error: '해당 상품을 주문하지 않았습니다.',
+          error: '해당 상품이 존재하지 않습니다.',
         };
       }
 
-      if (commenter.id !== orderItem.order.consumer.id) {
+      const orderItem = await this.orderItems.findOne({
+        where: {
+          consumer: commenter,
+          product,
+        },
+        relations: ['consumer'],
+      });
+
+      if (commenter.id !== orderItem.consumer.id) {
         return {
           ok: false,
           error: '댓글을 다실 수가 없습니다.',
@@ -135,9 +141,9 @@ export class ReviewsService {
 
       const review = await this.reviews.save(
         this.reviews.create({
+          ...createReviewInput,
           commenter,
-          content,
-          product: orderItem.product,
+          product,
         }),
       );
 
@@ -214,9 +220,6 @@ export class ReviewsService {
           error: '해당 댓글이 존재하지 않습니다.',
         };
       }
-
-      console.log(commenter.id);
-      console.log(review.commenter.id);
 
       if (review.commenter.id !== commenter.id) {
         return {
