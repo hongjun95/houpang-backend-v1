@@ -4,7 +4,7 @@ import { define } from 'typeorm-seeding';
 import { Order } from '../../apis/orders/entities/order.entity';
 import { formmatDay } from '../../utils/dayUtils';
 
-const orderFaker = async (faker: typeof Faker) => {
+const orderFaker = (faker: typeof Faker) => {
   const order = new Order();
 
   order.deliverRequest = faker.lorem.paragraph();
@@ -16,4 +16,4 @@ const orderFaker = async (faker: typeof Faker) => {
   return order;
 };
 
-define<Promise<Order>, unknown>(Order, orderFaker);
+define(Order, orderFaker);

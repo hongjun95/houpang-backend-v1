@@ -5,9 +5,9 @@ import {
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { User } from 'src/apis/users/entities/user.entity';
 import { Column, Entity, ManyToOne, RelationId } from 'typeorm';
 
+import { User } from '../../users/entities/user.entity';
 import { CoreEntity } from '../../common/entities/common.entity';
 import { Product } from '../../products/entities/product.entity';
 import { Order } from './order.entity';

@@ -28,6 +28,6 @@ export class CreateLikes implements Seeder {
         like.products = pushedProducts;
         return like;
       })
-      .createMany(10);
+      .createMany(100);
   }
 }
