@@ -144,7 +144,7 @@ export class CategoriesService {
         where: {
           category,
         },
-        relations: ['provider'],
+        relations: ['provider', 'reviews'],
         order,
         skip: (page - 1) * takePages,
         take: takePages,
@@ -155,6 +155,7 @@ export class CategoriesService {
         page,
         totalData: totalProducts,
       });
+      
 
       return {
         ok: true,

@@ -139,10 +139,9 @@ export class ReviewsService {
     commenter: User,
   ): Promise<CreateReviewOutput> {
     try {
-      const product = await this.products.findOne(
-        { id: createReviewInput.productId },
-        {},
-      );
+      const product = await this.products.findOne({
+        id: createReviewInput.productId,
+      });
 
       if (!product) {
         return {
@@ -179,6 +178,21 @@ export class ReviewsService {
 
       review.reviewedAt = reviewedAt;
       await this.reviews.save(review);
+
+      let totalRating = 0;
+      let avgRating = 0;
+
+      if (product.reviews.length > 0) {
+        const totalReviews = product.reviews.length;
+        totalRating =
+          product.avgRating * totalReviews + createReviewInput.rating;
+        // for (const review of product.reviews) {
+        //   totalRating += review.rating;
+        // }
+        avgRating = totalRating / totalReviews;
+      }
+
+      product.avgRating = avgRating;
 
       return {
         ok: true,
