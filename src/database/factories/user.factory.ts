@@ -20,7 +20,10 @@ const userFaker = (faker: typeof Faker) => {
 
   user.bio = faker.lorem.paragraph();
   user.phoneNumber = faker.phone.phoneNumber();
-  user.userImg = 'https://source.unsplash.com/500x603/?woman';
+  user.userImg = `https:source.unsplash.com/6${faker.random.number({
+    min: 10,
+    max: 99,
+  })}x603`;
   user.address = faker.address.streetAddress();
 
   return user;

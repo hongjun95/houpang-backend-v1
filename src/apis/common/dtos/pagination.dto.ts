@@ -43,9 +43,9 @@ export const createPaginationObj = ({
 
   const paginationObj = {
     totalPages: Math.ceil(totalData / takePages),
-    totalResults: currentCounts < totalData ? currentCounts : totalData,
+    totalResults: totalData,
     nextPage: currentCounts < totalData ? +page + 1 : null,
-    hasNextPage: currentCounts <= totalData ? false : true,
+    hasNextPage: currentCounts < totalData ? true : false,
     prevtPage: page <= 1 ? null : page - 1,
     hasPrevtPage: page <= 1 ? false : true,
   };

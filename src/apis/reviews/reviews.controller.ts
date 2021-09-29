@@ -6,6 +6,7 @@ import {
   Param,
   Body,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Roles } from 'src/auth/roles.decorator';
@@ -36,8 +37,13 @@ export class ReviewsController {
   @Get('/product/:productId')
   @Roles(['Any'])
   async getReviewOnProduct(
-    @Param() getReviewsOnProductInput: GetReviewsOnProductInput,
+    @Param('productId') productId: string,
+    @Query() query,
   ): Promise<GetReviewsOnProductOutput> {
+    const getReviewsOnProductInput: GetReviewsOnProductInput = {
+      productId,
+      ...query,
+    };
     return this.reviewsService.getReviewsOnProduct(getReviewsOnProductInput);
   }
 
