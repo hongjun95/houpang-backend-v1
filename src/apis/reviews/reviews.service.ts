@@ -46,12 +46,7 @@ export class ReviewsService {
     page = 1,
   }: GetReviewsOnProductInput): Promise<GetReviewsOnProductOutput> {
     try {
-      const product = await this.products.findOne(
-        { id: productId },
-        {
-          relations: ['reviews', 'reviews.commenter'],
-        },
-      );
+      const product = await this.products.findOne({ id: productId });
 
       if (!product) {
         return {
@@ -60,7 +55,7 @@ export class ReviewsService {
         };
       }
 
-      const takePages = 10;
+      const takePages = 8;
       const [reviews, totalReviews] = await this.reviews.findAndCount({
         where: {
           product,
@@ -70,8 +65,18 @@ export class ReviewsService {
         order: {
           createdAt: 'DESC',
         },
-        relations: ['product'],
+        relations: ['product', 'commenter'],
       });
+
+      let totalRating = 0;
+      let avgRating = 0;
+
+      if (totalReviews > 0) {
+        for (const review of reviews) {
+          totalRating += review.rating;
+        }
+        avgRating = totalRating / totalReviews;
+      }
 
       const paginationObj = createPaginationObj({
         takePages,
@@ -82,6 +87,7 @@ export class ReviewsService {
       return {
         ok: true,
         reviews,
+        avgRating,
         ...paginationObj,
       };
     } catch (error) {

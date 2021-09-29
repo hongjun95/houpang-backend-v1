@@ -1,4 +1,4 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, Float, InputType, ObjectType } from '@nestjs/graphql';
 
 import {
   PaginationInput,
@@ -16,4 +16,7 @@ export class GetReviewsOnProductInput extends PaginationInput {
 export class GetReviewsOnProductOutput extends PaginationOutput {
   @Field((type) => [Review])
   reviews?: Review[];
+
+  @Field((type) => Float)
+  avgRating?: number;
 }
