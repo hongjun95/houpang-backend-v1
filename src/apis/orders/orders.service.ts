@@ -32,6 +32,7 @@ import {
   UpdateOrerStatusInput,
   UpdateOrerStatusOutput,
 } from './dtos/update-order-status.dto';
+import { createPaginationObj } from '../common/dtos/pagination.dto';
 
 @Injectable()
 export class OrdersService {
@@ -83,16 +84,16 @@ export class OrdersService {
         },
       });
 
+      const paginationObj = createPaginationObj({
+        takePages,
+        page,
+        totalData: totalOrders,
+      });
+
       return {
         ok: true,
         orders,
-        totalPages: Math.ceil(totalOrders / takePages),
-        totalResults:
-          takePages * page < totalOrders ? takePages * page : totalOrders,
-        nextPage: takePages * page < totalOrders ? page + 1 : null,
-        hasNextPage: takePages * page <= totalOrders ?? false,
-        prevtPage: page <= 1 ? null : page - 1,
-        hasPrevtPage: page <= 1 ? false : true,
+        ...paginationObj,
       };
     } catch (error) {
       console.error(error);
@@ -142,18 +143,16 @@ export class OrdersService {
         },
       });
 
+      const paginationObj = createPaginationObj({
+        takePages,
+        page,
+        totalData: totalOrderItems,
+      });
+
       return {
         ok: true,
         orderItems,
-        totalPages: Math.ceil(totalOrderItems / takePages),
-        totalResults:
-          takePages * page < totalOrderItems
-            ? takePages * page
-            : totalOrderItems,
-        nextPage: takePages * page < totalOrderItems ? page + 1 : null,
-        hasNextPage: takePages * page <= totalOrderItems ?? false,
-        prevtPage: page <= 1 ? null : page - 1,
-        hasPrevtPage: page <= 1 ? false : true,
+        ...paginationObj,
       };
     } catch (error) {
       console.error(error);

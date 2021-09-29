@@ -39,11 +39,13 @@ export const createPaginationObj = ({
   takePages,
   page,
 }: paginationObj) => {
+  const currentCounts = takePages * page;
+
   const paginationObj = {
     totalPages: Math.ceil(totalData / takePages),
-    totalResults: takePages * page < totalData ? takePages * page : totalData,
-    nextPage: takePages * page < totalData ? +page + 1 : null,
-    hasNextPage: takePages * page <= totalData ? false : true,
+    totalResults: currentCounts < totalData ? currentCounts : totalData,
+    nextPage: currentCounts < totalData ? +page + 1 : null,
+    hasNextPage: currentCounts <= totalData ? false : true,
     prevtPage: page <= 1 ? null : page - 1,
     hasPrevtPage: page <= 1 ? false : true,
   };
