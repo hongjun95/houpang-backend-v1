@@ -23,6 +23,7 @@ import {
   GetReviewsOnProductOutput,
 } from './dtos/get-reviews-on-products.dto';
 import { Review } from './entities/review.entity';
+import { createPaginationObj } from '../common/dtos/pagination.dto';
 
 @Injectable()
 export class ReviewsService {
@@ -59,34 +60,29 @@ export class ReviewsService {
         };
       }
 
-      const reviews: Review[] = product.reviews;
+      const takePages = 10;
+      const [reviews, totalReviews] = await this.reviews.findAndCount({
+        where: {
+          product,
+        },
+        skip: (page - 1) * takePages,
+        take: takePages,
+        order: {
+          createdAt: 'DESC',
+        },
+        relations: ['product'],
+      });
 
-      //
-
-      // const takePages = 10;
-      // const [products, totalProducts] = await this.products.findAndCount({
-      //   skip: (page - 1) * takePages,
-      //   take: takePages,
-      //   order: {
-      //     createdAt: 'DESC',
-      //   },
-      //   relations: ['provider'],
-      // });
-      // return {
-      //   ok: true,
-      //   products,
-      //   totalPages: Math.ceil(totalProducts / takePages),
-      //   totalResults:
-      //     takePages * page < totalProducts ? takePages * page : totalProducts,
-      //   nextPage: takePages * page < totalProducts ? +page + 1 : null,
-      //   hasNextPage: takePages * page <= totalProducts ?? false,
-      //   prevtPage: page <= 1 ? null : page - 1,
-      //   hasPrevtPage: page <= 1 ? false : true,
-      // };
+      const paginationObj = createPaginationObj({
+        takePages,
+        page,
+        totalData: totalReviews,
+      });
 
       return {
         ok: true,
         reviews,
+        ...paginationObj,
       };
     } catch (error) {
       console.error(error);

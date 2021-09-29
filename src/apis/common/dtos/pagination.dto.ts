@@ -27,3 +27,25 @@ export class PaginationOutput extends CoreOutput {
   @Field((type) => Boolean, { nullable: true })
   hasNextPage?: boolean;
 }
+
+type paginationObj = {
+  totalData: number;
+  takePages: number;
+  page: number;
+};
+
+export const createPaginationObj = ({
+  totalData,
+  takePages,
+  page,
+}: paginationObj) => {
+  const paginationObj = {
+    totalPages: Math.ceil(totalData / takePages),
+    totalResults: takePages * page < totalData ? takePages * page : totalData,
+    nextPage: takePages * page < totalData ? +page + 1 : null,
+    hasNextPage: takePages * page <= totalData ? false : true,
+    prevtPage: page <= 1 ? null : page - 1,
+    hasPrevtPage: page <= 1 ? false : true,
+  };
+  return paginationObj;
+};

@@ -12,6 +12,9 @@ import {
   Refund,
   RefundStatus,
 } from '../../apis/refunds/entities/refund.entity';
+import { Review } from '../../apis/reviews/entities/review.entity';
+
+// Create order, orderItem, refund, review instance
 
 export class CreateOrders implements Seeder {
   public async run(factory: Factory): Promise<void> {
@@ -20,10 +23,9 @@ export class CreateOrders implements Seeder {
       role: UserRole.Consumer,
     });
 
-    const consumer = Faker.random.arrayElement(users);
-
     await factory(Order)()
       .map(async (order: Order) => {
+        const consumer = Faker.random.arrayElement(users);
         const orderItems = await factory(OrderItem)() //
           .map(async (orderItem: OrderItem) => {
             if (
@@ -57,6 +59,15 @@ export class CreateOrders implements Seeder {
                 })
                 .create();
             }
+            orderItem.consumer = consumer;
+            await factory(Review)() //
+              .map(async (review: Review) => {
+                review.commenter = consumer;
+                review.product = orderItem.product;
+
+                return review;
+              })
+              .create();
             return orderItem;
           })
           .createMany(Faker.random.number({ min: 1, max: 5 }));
@@ -65,7 +76,7 @@ export class CreateOrders implements Seeder {
         order.orderItems = orderItems;
         return order;
       })
-      .createMany(50);
+      .createMany(100);
   }
 }
 

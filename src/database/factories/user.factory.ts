@@ -1,13 +1,17 @@
+import { define } from 'typeorm-seeding';
 import * as Faker from 'faker';
 
-import { Language, User, UserRole } from '../../apis/users/entities/user.entity';
-import { define } from 'typeorm-seeding';
+import {
+  Language,
+  User,
+  UserRole,
+} from '../../apis/users/entities/user.entity';
 
-define(User, (faker: typeof Faker) => {
+const userFaker = (faker: typeof Faker) => {
   const user = new User();
   const firstName = faker.name.firstName();
   const lastName = faker.name.lastName();
-  
+
   user.username = `${firstName} ${lastName}`;
   user.email = faker.internet.email();
   user.password = faker.internet.password();
@@ -20,4 +24,6 @@ define(User, (faker: typeof Faker) => {
   user.address = faker.address.streetAddress();
 
   return user;
-});
+};
+
+define(User, userFaker);

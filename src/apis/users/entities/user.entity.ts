@@ -20,7 +20,7 @@ import { Product } from '../../products/entities/product.entity';
 import { Order } from '../../orders/entities/order.entity';
 import { Review } from '../../reviews/entities/review.entity';
 import { Refund } from '../../refunds/entities/refund.entity';
-import { OrderItem } from 'src/apis/orders/entities/order-item.entity';
+import { OrderItem } from '../../orders/entities/order-item.entity';
 
 export enum UserRole {
   Consumer = 'Consumer',
