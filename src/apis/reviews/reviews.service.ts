@@ -24,6 +24,7 @@ import {
 } from './dtos/get-reviews-on-products.dto';
 import { Review } from './entities/review.entity';
 import { createPaginationObj } from '../common/dtos/pagination.dto';
+import { formmatDay } from 'src/utils/dayUtils';
 
 @Injectable()
 export class ReviewsService {
@@ -170,8 +171,14 @@ export class ReviewsService {
           ...createReviewInput,
           commenter,
           product,
+          reviewedAt: '',
         }),
       );
+
+      const reviewedAt = formmatDay(review.createdAt);
+
+      review.reviewedAt = reviewedAt;
+      await this.reviews.save(review);
 
       return {
         ok: true,

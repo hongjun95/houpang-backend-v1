@@ -2,9 +2,13 @@ import { define } from 'typeorm-seeding';
 import * as Faker from 'faker';
 
 import { Review } from '../../apis/reviews/entities/review.entity';
+import { formmatDay } from '../../utils/dayUtils';
 
 const reviewFaker = (faker: typeof Faker) => {
   const review = new Review();
+  const date = new Date();
+  date.setDate(date.getDate() + faker.random.number({ min: -20, max: 20 }));
+
   review.content = faker.lorem.paragraph();
   review.rating = faker.random.number({ min: 1, max: 5 });
   review.images = [
@@ -21,7 +25,7 @@ const reviewFaker = (faker: typeof Faker) => {
       max: 99,
     })}x603`,
   ];
-
+  review.reviewedAt = formmatDay(date);
   return review;
 };
 

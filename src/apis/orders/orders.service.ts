@@ -316,8 +316,6 @@ export class OrdersService {
       order.orderedAt = orderedAt;
       await this.orders.save(order);
 
-      console.log(order);
-
       return {
         ok: true,
         orderId: order.id,
