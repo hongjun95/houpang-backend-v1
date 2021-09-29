@@ -1,5 +1,5 @@
-import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
-import { IsNumber, IsString, Min } from 'class-validator';
+import { Field, Float, InputType, Int, ObjectType } from '@nestjs/graphql';
+import { IsNumber, IsString, Max, Min } from 'class-validator';
 import {
   Column,
   Entity,
@@ -92,4 +92,10 @@ export class Product extends CoreEntity {
   })
   @Field((type) => [Review], { nullable: true })
   reviews?: Review[];
+
+  @Field((type) => Float, { defaultValue: 0 })
+  @Column({ default: 0 })
+  @Min(0)
+  @Max(5)
+  avgRating?: number;
 }

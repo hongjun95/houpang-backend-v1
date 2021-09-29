@@ -25,6 +25,7 @@ import {
   GetProductsOnCategoryOutput,
 } from './dtos/get-products-on-category.dto';
 import { Category } from './entities/category.entity';
+import { createPaginationObj } from '../common/dtos/pagination.dto';
 
 @Injectable()
 export class CategoriesService {
@@ -81,19 +82,17 @@ export class CategoriesService {
         take: takePages,
       });
 
-      const currentCounts = takePages * page;
+      const paginationObj = createPaginationObj({
+        takePages,
+        page,
+        totalData: totalProducts,
+      });
 
       return {
         ok: true,
         products,
         categoryName: category.name,
-        totalPages: Math.ceil(totalProducts / takePages),
-        totalResults:
-          currentCounts < totalProducts ? currentCounts : totalProducts,
-        nextPage: currentCounts < totalProducts ? +page + 1 : null,
-        hasNextPage: currentCounts <= totalProducts ?? false,
-        prevtPage: page <= 1 ? null : page - 1,
-        hasPrevtPage: page <= 1 ? false : true,
+        ...paginationObj,
       };
     } catch (error) {
       console.error(error);
@@ -145,25 +144,24 @@ export class CategoriesService {
         where: {
           category,
         },
-        relations: ['provider'],
+        relations: ['provider', 'reviews'],
         order,
         skip: (page - 1) * takePages,
         take: takePages,
       });
 
-      const currentCounts = takePages * page;
+      const paginationObj = createPaginationObj({
+        takePages,
+        page,
+        totalData: totalProducts,
+      });
+      
 
       return {
         ok: true,
         products,
         categoryName: category.name,
-        totalPages: Math.ceil(totalProducts / takePages),
-        totalResults:
-          currentCounts < totalProducts ? currentCounts : totalProducts,
-        nextPage: currentCounts < totalProducts ? +page + 1 : null,
-        hasNextPage: currentCounts <= totalProducts ?? false,
-        prevtPage: page <= 1 ? null : page - 1,
-        hasPrevtPage: page <= 1 ? false : true,
+        ...paginationObj,
       };
     } catch (error) {
       console.error(error);

@@ -43,4 +43,8 @@ export class Review extends CoreEntity {
   @Column('text', { array: true })
   @Field((type) => [String])
   images: string[];
+
+  @Field((type) => String)
+  @Column()
+  reviewedAt: string;
 }

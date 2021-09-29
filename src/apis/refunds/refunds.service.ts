@@ -21,6 +21,7 @@ import {
   GetRefundsFromProviderOutput,
 } from './dtos/get-refunds-from-provider.dto';
 import { formmatDay } from 'src/utils/dayUtils';
+import { createPaginationObj } from '../common/dtos/pagination.dto';
 
 @Injectable()
 export class RefundsService {
@@ -155,18 +156,17 @@ export class RefundsService {
         },
         relations: ['orderItem', 'orderItem.product'],
       });
+
+      const paginationObj = createPaginationObj({
+        takePages,
+        page,
+        totalData: totalRefundItems,
+      });
+
       return {
         ok: true,
         refundItems,
-        totalPages: Math.ceil(totalRefundItems / takePages),
-        totalResults:
-          takePages * page < totalRefundItems
-            ? takePages * page
-            : totalRefundItems,
-        nextPage: takePages * page < totalRefundItems ? page + 1 : null,
-        hasNextPage: takePages * page <= totalRefundItems ?? false,
-        prevtPage: page <= 1 ? null : page - 1,
-        hasPrevtPage: page <= 1 ? false : true,
+        ...paginationObj,
       };
     } catch (error) {
       console.error(error);
@@ -215,18 +215,16 @@ export class RefundsService {
         },
       });
 
+      const paginationObj = createPaginationObj({
+        takePages,
+        page,
+        totalData: totalOrderItems,
+      });
+
       return {
         ok: true,
         orderItems,
-        totalPages: Math.ceil(totalOrderItems / takePages),
-        totalResults:
-          takePages * page < totalOrderItems
-            ? takePages * page
-            : totalOrderItems,
-        nextPage: takePages * page < totalOrderItems ? page + 1 : null,
-        hasNextPage: takePages * page <= totalOrderItems ?? false,
-        prevtPage: page <= 1 ? null : page - 1,
-        hasPrevtPage: page <= 1 ? false : true,
+        ...paginationObj,
       };
     } catch (error) {
       console.error(error);

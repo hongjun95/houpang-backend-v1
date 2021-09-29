@@ -13,12 +13,14 @@ import {
   RefundStatus,
 } from '../../apis/refunds/entities/refund.entity';
 import { Review } from '../../apis/reviews/entities/review.entity';
+import { Product } from '../../apis/products/entities/product.entity';
 
 // Create order, orderItem, refund, review instance
 
 export class CreateOrders implements Seeder {
   public async run(factory: Factory): Promise<void> {
     const userRepository = getRepository(User);
+    const productRepository = getRepository(Product);
     const users = await userRepository.find({
       role: UserRole.Consumer,
     });
@@ -60,7 +62,7 @@ export class CreateOrders implements Seeder {
                 .create();
             }
             orderItem.consumer = consumer;
-            await factory(Review)() //
+            const review = await factory(Review)() //
               .map(async (review: Review) => {
                 review.commenter = consumer;
                 review.product = orderItem.product;
@@ -68,6 +70,22 @@ export class CreateOrders implements Seeder {
                 return review;
               })
               .create();
+
+            let totalRating = 0;
+            let avgRating = 0;
+
+            if (!!orderItem.product.reviews) {
+              const totalReviews = orderItem.product.reviews.length;
+              totalRating =
+                orderItem.product.avgRating * totalReviews + review.rating;
+              avgRating = totalRating / totalReviews;
+            } else {
+              avgRating = review.rating;
+            }
+
+            orderItem.product.avgRating = avgRating;
+            productRepository.save(orderItem.product);
+
             return orderItem;
           })
           .createMany(Faker.random.number({ min: 1, max: 5 }));
@@ -76,7 +94,7 @@ export class CreateOrders implements Seeder {
         order.orderItems = orderItems;
         return order;
       })
-      .createMany(100);
+      .createMany(400);
   }
 }
 

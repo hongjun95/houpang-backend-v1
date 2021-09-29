@@ -27,6 +27,7 @@ import {
   GetProductsFromProviderInput,
   GetProductsFromProviderOutput,
 } from './dtos/get-products-from-provider.dto';
+import { createPaginationObj } from '../common/dtos/pagination.dto';
 
 @Injectable()
 export class ProductsService {
@@ -51,16 +52,17 @@ export class ProductsService {
         },
         relations: ['provider'],
       });
+
+      const paginationObj = createPaginationObj({
+        takePages,
+        page,
+        totalData: totalProducts,
+      });
+
       return {
         ok: true,
         products,
-        totalPages: Math.ceil(totalProducts / takePages),
-        totalResults:
-          takePages * page < totalProducts ? takePages * page : totalProducts,
-        nextPage: takePages * page < totalProducts ? +page + 1 : null,
-        hasNextPage: takePages * page <= totalProducts ?? false,
-        prevtPage: page <= 1 ? null : page - 1,
-        hasPrevtPage: page <= 1 ? false : true,
+        ...paginationObj,
       };
     } catch (error) {
       console.error(error);
@@ -131,18 +133,16 @@ export class ProductsService {
         take: takePages,
       });
 
-      const currentCounts = takePages * page;
+      const paginationObj = createPaginationObj({
+        takePages,
+        page,
+        totalData: totalProducts,
+      });
 
       return {
         ok: true,
         products,
-        totalPages: Math.ceil(totalProducts / takePages),
-        totalResults:
-          currentCounts < totalProducts ? currentCounts : totalProducts,
-        nextPage: currentCounts < totalProducts ? +page + 1 : null,
-        hasNextPage: currentCounts <= totalProducts ?? false,
-        prevtPage: page <= 1 ? null : page - 1,
-        hasPrevtPage: page <= 1 ? false : true,
+        ...paginationObj,
       };
     } catch (error) {
       console.error(error);

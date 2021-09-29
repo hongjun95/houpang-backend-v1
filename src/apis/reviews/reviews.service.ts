@@ -24,6 +24,7 @@ import {
 } from './dtos/get-reviews-on-products.dto';
 import { Review } from './entities/review.entity';
 import { createPaginationObj } from '../common/dtos/pagination.dto';
+import { formmatDay } from 'src/utils/dayUtils';
 
 @Injectable()
 export class ReviewsService {
@@ -46,12 +47,7 @@ export class ReviewsService {
     page = 1,
   }: GetReviewsOnProductInput): Promise<GetReviewsOnProductOutput> {
     try {
-      const product = await this.products.findOne(
-        { id: productId },
-        {
-          relations: ['reviews', 'reviews.commenter'],
-        },
-      );
+      const product = await this.products.findOne({ id: productId });
 
       if (!product) {
         return {
@@ -60,7 +56,7 @@ export class ReviewsService {
         };
       }
 
-      const takePages = 10;
+      const takePages = 8;
       const [reviews, totalReviews] = await this.reviews.findAndCount({
         where: {
           product,
@@ -70,8 +66,18 @@ export class ReviewsService {
         order: {
           createdAt: 'DESC',
         },
-        relations: ['product'],
+        relations: ['product', 'commenter'],
       });
+
+      let totalRating = 0;
+      let avgRating = 0;
+
+      if (totalReviews > 0) {
+        for (const review of reviews) {
+          totalRating += review.rating;
+        }
+        avgRating = totalRating / totalReviews;
+      }
 
       const paginationObj = createPaginationObj({
         takePages,
@@ -82,6 +88,7 @@ export class ReviewsService {
       return {
         ok: true,
         reviews,
+        avgRating,
         ...paginationObj,
       };
     } catch (error) {
@@ -132,10 +139,9 @@ export class ReviewsService {
     commenter: User,
   ): Promise<CreateReviewOutput> {
     try {
-      const product = await this.products.findOne(
-        { id: createReviewInput.productId },
-        {},
-      );
+      const product = await this.products.findOne({
+        id: createReviewInput.productId,
+      });
 
       if (!product) {
         return {
@@ -164,8 +170,29 @@ export class ReviewsService {
           ...createReviewInput,
           commenter,
           product,
+          reviewedAt: '',
         }),
       );
+
+      const reviewedAt = formmatDay(review.createdAt);
+
+      review.reviewedAt = reviewedAt;
+      await this.reviews.save(review);
+
+      let totalRating = 0;
+      let avgRating = 0;
+
+      if (product.reviews.length > 0) {
+        const totalReviews = product.reviews.length;
+        totalRating =
+          product.avgRating * totalReviews + createReviewInput.rating;
+        // for (const review of product.reviews) {
+        //   totalRating += review.rating;
+        // }
+        avgRating = totalRating / totalReviews;
+      }
+
+      product.avgRating = avgRating;
 
       return {
         ok: true,
