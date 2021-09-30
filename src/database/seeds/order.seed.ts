@@ -99,6 +99,6 @@ export class CreateOrders implements Seeder {
         order.orderItems = orderItems;
         return order;
       })
-      .createMany(400);
+      .createMany(100);
   }
 }

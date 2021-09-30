@@ -3,7 +3,7 @@ import {
   PaginationInput,
   PaginationOutput,
 } from 'src/apis/common/dtos/pagination.dto';
-import { OrderItem } from 'src/apis/orders/entities/order-item.entity';
+import { Refund } from '../entities/refund.entity';
 
 @InputType()
 export class GetRefundsFromProviderInput extends PaginationInput {
@@ -13,6 +13,6 @@ export class GetRefundsFromProviderInput extends PaginationInput {
 
 @ObjectType()
 export class GetRefundsFromProviderOutput extends PaginationOutput {
-  @Field((type) => [OrderItem], { nullable: true })
-  orderItems?: OrderItem[];
+  @Field((type) => [Refund], { nullable: true })
+  refundItems?: Refund[];
 }

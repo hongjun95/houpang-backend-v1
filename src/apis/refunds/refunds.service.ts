@@ -194,9 +194,9 @@ export class RefundsService {
       }
 
       const takePages = 10;
-      const [orderItems, totalOrderItems] = await this.orderItems.findAndCount({
-        where: [
-          {
+      const [refundItems, totalRefundItems] = await this.refunds.findAndCount({
+        where: {
+          orderItem: {
             product: {
               provider,
             },
@@ -206,24 +206,25 @@ export class RefundsService {
               OrderStatus.Refunded,
             ]),
           },
-        ],
+        },
+
         skip: (page - 1) * takePages,
         take: takePages,
-        relations: ['product', 'product.provider', 'product.category', 'order'],
         order: {
-          createdAt: 'ASC',
+          createdAt: 'DESC',
         },
+        relations: ['orderItem', 'orderItem.product'],
       });
 
       const paginationObj = createPaginationObj({
         takePages,
         page,
-        totalData: totalOrderItems,
+        totalData: totalRefundItems,
       });
 
       return {
         ok: true,
-        orderItems,
+        refundItems,
         ...paginationObj,
       };
     } catch (error) {
