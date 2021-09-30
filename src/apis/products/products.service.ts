@@ -127,7 +127,7 @@ export class ProductsService {
         where: {
           provider,
         },
-        relations: ['provider'],
+        relations: ['provider', 'reviews'],
         order,
         skip: (page - 1) * takePages,
         take: takePages,
