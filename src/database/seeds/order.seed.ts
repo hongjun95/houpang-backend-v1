@@ -1,6 +1,6 @@
 import * as Faker from 'faker';
 import { Factory, Seeder } from 'typeorm-seeding';
-import { getRepository } from 'typeorm';
+import { Any, getRepository } from 'typeorm';
 
 import {
   OrderItem,
@@ -21,8 +21,11 @@ export class CreateOrders implements Seeder {
   public async run(factory: Factory): Promise<void> {
     const userRepository = getRepository(User);
     const productRepository = getRepository(Product);
+    const orderItemRepository = getRepository(OrderItem);
     const users = await userRepository.find({
-      role: UserRole.Consumer,
+      where: {
+        role: Any([UserRole.Consumer, UserRole.Provider]),
+      },
     });
 
     await factory(Order)()
@@ -38,6 +41,8 @@ export class CreateOrders implements Seeder {
                 .map(async (refund: Refund) => {
                   const recallDay = new Date();
                   recallDay.setDate(recallDay.getDate() + 1);
+
+                  await orderItemRepository.save(orderItem);
 
                   refund.orderItem = orderItem;
                   refund.count = Faker.random.number({
@@ -95,20 +100,5 @@ export class CreateOrders implements Seeder {
         return order;
       })
       .createMany(400);
-  }
-}
-
-export class CreateOrder implements Seeder {
-  public async run(factory: Factory): Promise<void> {
-    await factory(Order)()
-      .map(async (order: Order) => {
-        const orderItems = await factory(OrderItem)().createMany(
-          Faker.random.number({ min: 1, max: 5 }),
-        );
-
-        order.orderItems = orderItems;
-        return order;
-      })
-      .create();
   }
 }
