@@ -18,24 +18,34 @@ import {
 import { DeleteProductOutput } from './dtos/delete-product.dto';
 import { EditProductInput, EditProductOutput } from './dtos/edit-product.dto';
 import { FindProductByIdOutput } from './dtos/find-product-by-id.dto';
-import { GetAllProductsOutput } from './dtos/get-all-products.dto';
 import {
   GetProductsFromProviderInput,
   GetProductsFromProviderOutput,
   GetProductsFromProviderQuery,
 } from './dtos/get-products-from-provider.dto';
 import { ProductsService } from './products.service';
+import {
+  GetProductsBySearchTermInput,
+  GetProductsBySearchTermOutput,
+} from './dtos/get-products-by-name.dto';
 
 @Controller('/products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Get('')
+  @Get('/')
   @Roles(['Any'])
-  async getAllProducts(
+  async getProductsBySearchTerm(
     @Query('page') page, //
-  ): Promise<GetAllProductsOutput> {
-    return this.productsService.getAllProducts({ page });
+    @Query('q') q,
+  ): Promise<GetProductsBySearchTermOutput> {
+    const getProductsBySearchTermInput: GetProductsBySearchTermInput = {
+      page,
+      q,
+    };
+    return this.productsService.getProductsBySearchTerm(
+      getProductsBySearchTermInput,
+    );
   }
 
   @Get('/provider')

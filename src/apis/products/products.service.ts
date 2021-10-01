@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { User } from 'src/apis/users/entities/user.entity';
-import { Repository } from 'typeorm';
+import { ILike, Raw, Repository } from 'typeorm';
 
 import {
   CreateProductInput,
@@ -17,10 +17,6 @@ import {
   FindProductByIdInput,
   FindProductByIdOutput,
 } from './dtos/find-product-by-id.dto';
-import {
-  GetAllProductsInput,
-  GetAllProductsOutput,
-} from './dtos/get-all-products.dto';
 import { Product } from './entities/product.entity';
 import { CategoryRepository } from 'src/apis/categories/repositories/category.repository';
 import {
@@ -28,6 +24,10 @@ import {
   GetProductsFromProviderOutput,
 } from './dtos/get-products-from-provider.dto';
 import { createPaginationObj } from '../common/dtos/pagination.dto';
+import {
+  GetProductsBySearchTermInput,
+  GetProductsBySearchTermOutput,
+} from './dtos/get-products-by-name.dto';
 
 @Injectable()
 export class ProductsService {
@@ -38,13 +38,18 @@ export class ProductsService {
     private readonly categories: CategoryRepository,
   ) {}
 
-  // Deprecated
-  async getAllProducts({
+  async getProductsBySearchTerm({
     page,
-  }: GetAllProductsInput): Promise<GetAllProductsOutput> {
+    q,
+  }: GetProductsBySearchTermInput): Promise<GetProductsBySearchTermOutput> {
     try {
       const takePages = 10;
       const [products, totalProducts] = await this.products.findAndCount({
+        where: {
+          // RAW : raw sql query를 실행할 수 있도록 해준다.
+          // %${query}%는 query가 포함된 값을 찾아준다.
+          name: Raw((name) => `${name} ILIKE '%${q}%'`),
+        },
         skip: (page - 1) * takePages,
         take: takePages,
         order: {

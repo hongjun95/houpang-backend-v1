@@ -17,23 +17,23 @@ import {
   FindProductByIdInput,
   FindProductByIdOutput,
 } from './dtos/find-product-by-id.dto';
-import {
-  GetAllProductsInput,
-  GetAllProductsOutput,
-} from './dtos/get-all-products.dto';
 
 import { ProductsService } from './products.service';
+import {
+  GetProductsBySearchTermInput,
+  GetProductsBySearchTermOutput,
+} from './dtos/get-products-by-name.dto';
 
 @Resolver()
 export class ProductsResolver {
   constructor(private readonly productService: ProductsService) {}
 
-  @Query((returns) => GetAllProductsOutput)
+  @Query((returns) => GetProductsBySearchTermOutput)
   @Roles(['Any'])
-  async getAllProducts(
-    @Args('input') getAllProductsInput: GetAllProductsInput,
-  ): Promise<GetAllProductsOutput> {
-    return this.productService.getAllProducts(getAllProductsInput);
+  async getProductsBySearchTerm(
+    @Args('input') getAllProductsInput: GetProductsBySearchTermInput,
+  ): Promise<GetProductsBySearchTermOutput> {
+    return this.productService.getProductsBySearchTerm(getAllProductsInput);
   }
 
   @Query((returns) => FindProductByIdOutput)
