@@ -213,7 +213,7 @@ export class RefundsService {
         order: {
           createdAt: 'DESC',
         },
-        relations: ['orderItem', 'orderItem.product'],
+        relations: ['orderItem', 'orderItem.product', 'refundee'],
       });
 
       const paginationObj = createPaginationObj({
