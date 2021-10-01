@@ -28,6 +28,7 @@ import {
   GetProductsBySearchTermInput,
   GetProductsBySearchTermOutput,
 } from './dtos/get-products-by-name.dto';
+import { SortState } from '../categories/dtos/get-products-by-categoryId.dto';
 
 @Controller('/products')
 export class ProductsController {
@@ -37,11 +38,13 @@ export class ProductsController {
   @Roles(['Any'])
   async getProductsBySearchTerm(
     @Query('page') page, //
-    @Query('q') q,
+    @Query('query') query,
+    @Query('sort') sort: SortState,
   ): Promise<GetProductsBySearchTermOutput> {
     const getProductsBySearchTermInput: GetProductsBySearchTermInput = {
       page,
-      q,
+      query,
+      sort,
     };
     return this.productsService.getProductsBySearchTerm(
       getProductsBySearchTermInput,

@@ -23,6 +23,7 @@ import { GetAllCategoriesOutput } from './dtos/get-all-categories.dto';
 import {
   GetProductsByCategoryIdInput,
   GetProductsByCategoryIdOutput,
+  SortState,
 } from './dtos/get-products-by-categoryId.dto';
 import {
   GetProductsOnCategoryInput,
@@ -53,11 +54,13 @@ export class CategoriesController {
   @Roles(['Any'])
   async getProductsByCategoryId(
     @Param('categoryId') categoryId: string,
-    @Query() query,
+    @Query('sort') sort: SortState,
+    @Query('page') page: string,
   ): Promise<GetProductsByCategoryIdOutput> {
     const getProductsByCategoryIdInput: GetProductsByCategoryIdInput = {
       categoryId,
-      ...query,
+      sort,
+      page: +page,
     };
     return this.categoriesService.getProductsByCategoryId(
       getProductsByCategoryIdInput,

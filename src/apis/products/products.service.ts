@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { User } from 'src/apis/users/entities/user.entity';
-import { ILike, Raw, Repository } from 'typeorm';
+import { Raw, Repository } from 'typeorm';
 
 import {
   CreateProductInput,
@@ -40,22 +40,42 @@ export class ProductsService {
 
   async getProductsBySearchTerm({
     page,
-    q,
+    query,
+    sort = 'createdAt desc',
   }: GetProductsBySearchTermInput): Promise<GetProductsBySearchTermOutput> {
     try {
       const takePages = 10;
+      let order = {};
+      switch (sort) {
+        case 'createdAt desc':
+          order = {
+            createdAt: 'DESC',
+          };
+          break;
+        case 'price desc':
+          order = {
+            price: 'DESC',
+          };
+          break;
+        case 'price asc':
+          order = {
+            price: 'ASC',
+          };
+          break;
+        default:
+          throw new Error('상품이 존재하지 않습니다.');
+      }
+
       const [products, totalProducts] = await this.products.findAndCount({
         where: {
           // RAW : raw sql query를 실행할 수 있도록 해준다.
           // %${query}%는 query가 포함된 값을 찾아준다.
-          name: Raw((name) => `${name} ILIKE '%${q}%'`),
+          name: Raw((name) => `${name} ILIKE '%${query}%'`),
         },
         skip: (page - 1) * takePages,
         take: takePages,
-        order: {
-          createdAt: 'DESC',
-        },
-        relations: ['provider'],
+        order,
+        relations: ['provider', 'reviews'],
       });
 
       const paginationObj = createPaginationObj({
