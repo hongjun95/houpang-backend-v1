@@ -15,13 +15,13 @@ export class LikesController {
   constructor(private readonly LikesService: LikesService) {}
 
   @Get('')
-  @Roles(['Consumer'])
+  @Roles(['Any'])
   async findLikeList(@AuthUser() user: User): Promise<FindLikeListOutput> {
     return this.LikesService.findLikeList(user);
   }
 
   @Put('/products/:productId/add')
-  @Roles(['Consumer'])
+  @Roles(['Any'])
   async likeProduct(
     @Param() likeProductInput: LikeProductInput,
     @AuthUser() consumer: User,
@@ -30,7 +30,7 @@ export class LikesController {
   }
 
   @Put('/products/:productId/remove')
-  @Roles(['Consumer'])
+  @Roles(['Any'])
   async unlikeProduct(
     @Param() removeProductInput: UnlikeProductInput,
     @AuthUser() consumer: User,
