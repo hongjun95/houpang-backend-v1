@@ -415,8 +415,6 @@ export class OrdersService {
         };
       }
 
-      console.log(orderItem);
-
       let canEdit = true;
       if (user.role === UserRole.Provider) {
         if (orderStatus !== OrderStatus.Received) {

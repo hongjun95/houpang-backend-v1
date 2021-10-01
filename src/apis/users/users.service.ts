@@ -64,8 +64,6 @@ export class UsersService {
         /(?=.*[!@#$%^&\*\(\)_\+\-=\[\]\{\};\':\"\\\|,\.<>\/\?]+)(?=.*[a-zA-Z]+)(?=.*\d+)/,
       );
 
-      console.log(password);
-
       const passwordTestPass = passwordRegex.test(password);
 
       if (!passwordTestPass) {

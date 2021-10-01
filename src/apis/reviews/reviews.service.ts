@@ -140,7 +140,10 @@ export class ReviewsService {
   ): Promise<CreateReviewOutput> {
     try {
       const product = await this.products.findOne({
-        id: createReviewInput.productId,
+        where: {
+          id: createReviewInput.productId,
+        },
+        relations: ['reviews'],
       });
 
       if (!product) {
