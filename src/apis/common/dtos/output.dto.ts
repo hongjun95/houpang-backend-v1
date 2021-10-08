@@ -7,4 +7,7 @@ export class CoreOutput {
 
   @Field((type) => String, { nullable: true })
   error?: string;
+
+  @Field((type) => Error, { nullable: true })
+  errorObj?: Error;
 }

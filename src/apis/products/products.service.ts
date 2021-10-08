@@ -91,9 +91,14 @@ export class ProductsService {
       };
     } catch (error) {
       console.error(error);
+      // return {
+      //   ok: false,
+      //   error: '상품 품목들을 가져올 수 없습니다.',
+      // };
+
       return {
         ok: false,
-        error: '상품 품목들을 가져올 수 없습니다.',
+        errorObj: new Error(error),
       };
     }
   }

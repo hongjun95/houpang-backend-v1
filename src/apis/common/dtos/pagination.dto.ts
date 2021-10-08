@@ -46,8 +46,8 @@ export const createPaginationObj = ({
     totalResults: totalData,
     nextPage: currentCounts < totalData ? +page + 1 : null,
     hasNextPage: currentCounts < totalData ? true : false,
-    prevtPage: page <= 1 ? null : page - 1,
-    hasPrevtPage: page <= 1 ? false : true,
+    prevPage: page <= 1 ? null : page - 1,
+    hasPrevPage: page <= 1 ? false : true,
   };
   return paginationObj;
 };
