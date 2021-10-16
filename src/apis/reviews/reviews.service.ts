@@ -186,13 +186,12 @@ export class ReviewsService {
       let avgRating = 0;
 
       if (product.reviews.length > 0) {
-        const totalReviews = product.reviews.length;
+        const totalReviews = product.reviews.length - 1;
         totalRating =
           product.avgRating * totalReviews + createReviewInput.rating;
-        // for (const review of product.reviews) {
-        //   totalRating += review.rating;
-        // }
-        avgRating = totalRating / totalReviews;
+        avgRating = !!totalReviews
+          ? totalRating
+          : totalRating / (totalReviews + 1);
       }
 
       product.avgRating = avgRating;
