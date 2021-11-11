@@ -1,1 +1,1 @@
-export type SortState = 'createdAt desc' | 'price desc' | 'price asc';
+export type SortState = 'createdAt_desc' | 'price_desc' | 'price_asc';

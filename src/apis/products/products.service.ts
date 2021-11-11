@@ -42,28 +42,29 @@ export class ProductsService {
   async getProductsBySearchTerm({
     page,
     query,
-    sort = 'createdAt desc',
+    sort = 'createdAt_desc',
   }: GetProductsBySearchTermInput): Promise<GetProductsBySearchTermOutput> {
     try {
       const takePages = 10;
       let order = {};
       switch (sort) {
-        case 'createdAt desc':
+        case 'createdAt_desc':
           order = {
             createdAt: 'DESC',
           };
           break;
-        case 'price desc':
+        case 'price_desc':
           order = {
             price: 'DESC',
           };
           break;
-        case 'price asc':
+        case 'price_asc':
           order = {
             price: 'ASC',
           };
           break;
         default:
+          console.log(sort);
           throw new Error('상품이 존재하지 않습니다.');
       }
 
@@ -136,17 +137,17 @@ export class ProductsService {
     const takePages = 10;
     try {
       switch (sort) {
-        case 'createdAt desc':
+        case 'createdAt_desc':
           order = {
             createdAt: 'DESC',
           };
           break;
-        case 'price desc':
+        case 'price_desc':
           order = {
             price: 'DESC',
           };
           break;
-        case 'price asc':
+        case 'price_asc':
           order = {
             price: 'ASC',
           };

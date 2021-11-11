@@ -107,7 +107,7 @@ export class CategoriesService {
   async getProductsByCategoryId({
     categoryId,
     page = 1,
-    sort = 'createdAt desc',
+    sort = 'createdAt_desc',
   }: GetProductsByCategoryIdInput): Promise<GetProductsByCategoryIdOutput> {
     try {
       const takePages = 10;
@@ -122,17 +122,17 @@ export class CategoriesService {
 
       let order = {};
       switch (sort) {
-        case 'createdAt desc':
+        case 'createdAt_desc':
           order = {
             createdAt: 'DESC',
           };
           break;
-        case 'price desc':
+        case 'price_desc':
           order = {
             price: 'DESC',
           };
           break;
-        case 'price asc':
+        case 'price_asc':
           order = {
             price: 'ASC',
           };
