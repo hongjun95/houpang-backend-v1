@@ -28,7 +28,7 @@ import {
   GetProductsBySearchTermInput,
   GetProductsBySearchTermOutput,
 } from './dtos/get-products-by-name.dto';
-import { SortState } from '../categories/dtos/get-products-by-categoryId.dto';
+import { SortState } from '../common/common';
 
 @Controller('/products')
 export class ProductsController {
@@ -58,7 +58,7 @@ export class ProductsController {
     @AuthUser() provider: User,
   ): Promise<GetProductsFromProviderOutput> {
     const getProductsFromProviderInput: GetProductsFromProviderInput = {
-      sort: query?.sort || 'createdAt desc',
+      sort: query?.sort,
       page: +query?.page || 1,
     };
     return this.productsService.getProductsFromProvider(

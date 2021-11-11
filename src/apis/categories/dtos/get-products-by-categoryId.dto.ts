@@ -1,4 +1,5 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { SortState } from 'src/apis/common/common';
 
 import {
   PaginationInput,
@@ -6,14 +7,12 @@ import {
 } from 'src/apis/common/dtos/pagination.dto';
 import { Product } from 'src/apis/products/entities/product.entity';
 
-export type SortState = 'createdAt desc' | 'price desc' | 'price asc';
-
 @InputType()
 export class GetProductsByCategoryIdInput extends PaginationInput {
   @Field((type) => String)
   categoryId: string;
 
-  @Field((type) => String, { defaultValue: 'created_at desc' })
+  @Field((type) => String, { defaultValue: 'createdAt desc' })
   sort?: SortState;
 }
 

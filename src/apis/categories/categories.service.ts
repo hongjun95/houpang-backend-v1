@@ -26,6 +26,7 @@ import {
 } from './dtos/get-products-on-category.dto';
 import { Category } from './entities/category.entity';
 import { createPaginationObj } from '../common/dtos/pagination.dto';
+import { SortState } from '../common/common';
 
 @Injectable()
 export class CategoriesService {
@@ -155,7 +156,6 @@ export class CategoriesService {
         page,
         totalData: totalProducts,
       });
-      
 
       return {
         ok: true,

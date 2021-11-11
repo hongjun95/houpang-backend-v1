@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res, UseFilters } from '@nestjs/common';
 import { Response } from 'express';
 
 import { AuthUser } from 'src/auth/auth-user.decorator';
@@ -16,8 +16,10 @@ import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile.dto';
 import { LoginInput, LoginOutput } from './dtos/login.dto';
 import { UserProfileOutput } from './dtos/user-profile.dto';
 import { UsersService } from './users.service';
+import { HttpExceptionFilter } from './exceptions/users.filter';
 
 @Controller('')
+@UseFilters(HttpExceptionFilter)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -74,5 +76,11 @@ export class UsersController {
   @Roles(['Any'])
   async userProfile(@AuthUser() user: User): Promise<UserProfileOutput> {
     return this.usersService.findUserById(user.id);
+  }
+
+  @Get('/productsuser')
+  @Roles(['Any'])
+  async getProducts(@AuthUser() user: User) {
+    return this.usersService.getProducts(user.id);
   }
 }

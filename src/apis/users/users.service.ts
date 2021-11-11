@@ -1,7 +1,7 @@
 import { Response } from 'express';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Raw, Repository } from 'typeorm';
 
 import { Like } from 'src/apis/likes/entities/likes.entity';
 import { JwtService } from 'src/jwt/jwt.service';
@@ -245,57 +245,97 @@ export class UsersService {
     { currentPassword, newPassword, verifyPassword }: ChangePasswordInput,
     userId: string,
   ): Promise<ChangePasswordOutput> {
-    try {
-      if (newPassword !== verifyPassword) {
-        return {
-          ok: false,
-          error: '비밀번호가 같지 않습니다.',
-        };
-      }
-
-      const user = await this.users.findOne(userId);
-
-      const passwordCorrect = await user.checkPassowrd(currentPassword);
-      if (!passwordCorrect) {
-        return {
-          ok: false,
-          error: '현재 비밀번호가 틀립니다.',
-        };
-      }
-
-      if (currentPassword === newPassword) {
-        return {
-          ok: false,
-          error: '새 비밀번호가 현재 비밀번호와 같습니다.',
-        };
-      }
-
-      const regex = new RegExp(
-        /(?=.*[!@#$%^&\*\(\)_\+\-=\[\]\{\};\':\"\\\|,\.<>\/\?]+)(?=.*[a-zA-Z]+)(?=.*\d+)/,
+    if (newPassword !== verifyPassword) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: "Password doesn't match",
+        },
+        HttpStatus.BAD_REQUEST,
       );
-
-      const passwordTestPass = regex.test(newPassword);
-
-      if (!passwordTestPass) {
-        return {
-          ok: false,
-          error: '비밀번호는 문자, 숫자, 특수문자를 1개 이상 포함해야 합니다.',
-        };
-      }
-
-      user.password = newPassword;
-
-      await this.users.save(user);
-
-      return {
-        ok: true,
-      };
-    } catch (e) {
-      console.error(e);
-      return {
-        ok: false,
-        error: '사용자 프로파일 수정할 수 없습니다.',
-      };
     }
+
+    const user = await this.users.findOne(userId);
+
+    const passwordCorrect = await user.checkPassowrd(currentPassword);
+    if (!passwordCorrect) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Current password is wrong',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (currentPassword === newPassword) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'New password is same current password',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const regex = new RegExp(
+      /(?=.*[!@#$%^&\*\(\)_\+\-=\[\]\{\};\':\"\\\|,\.<>\/\?]+)(?=.*[a-zA-Z]+)(?=.*\d+)/,
+    );
+
+    const passwordTestPass = regex.test(newPassword);
+
+    if (!passwordTestPass) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error:
+            'Password must include at least one letter, number and special character',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    user.password = newPassword;
+
+    await this.users.save(user);
+
+    return {
+      ok: true,
+    };
+
+    // console.error(e);
+    // throw new HttpException(
+    //   {
+    //     status: HttpStatus.BAD_REQUEST,
+    //     error: "Can't change the password",
+    //   },
+    //   HttpStatus.BAD_REQUEST,
+    // );
+  }
+
+  async getProducts(userId: string): Promise<ChangePasswordOutput> {
+    const users = await this.users.find({
+      // where: {
+      //   products: [
+      //     {
+      //       id: '',
+      //     },
+      //   ],
+      // },
+      where: {
+        // RAW : raw sql query를 실행할 수 있도록 해준다.
+        // %${query}%는 query가 포함된 값을 찾아준다.
+        products: [
+          {
+            id: Raw(
+              (id) => `${id} ILIKE '%4de9b66c-0618-4852-9cb7-873ca7466448%'`,
+            ),
+          },
+        ],
+      },
+    });
+    return {
+      ok: true,
+    };
   }
 }

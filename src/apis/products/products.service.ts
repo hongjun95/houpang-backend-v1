@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
 import { User } from 'src/apis/users/entities/user.entity';
 import { Raw, Repository } from 'typeorm';
+
+import { SortState } from 'src/apis/common/common';
 
 import {
   CreateProductInput,
@@ -131,6 +132,7 @@ export class ProductsService {
     provider: User,
   ): Promise<GetProductsFromProviderOutput> {
     let order = {};
+    console.log(sort);
     const takePages = 10;
     try {
       switch (sort) {

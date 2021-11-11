@@ -9,6 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { Roles } from 'src/auth/roles.decorator';
+import { SortState } from '../common/common';
 import { CategoriesService } from './categories.service';
 import {
   CreateCategoryInput,
@@ -23,7 +24,6 @@ import { GetAllCategoriesOutput } from './dtos/get-all-categories.dto';
 import {
   GetProductsByCategoryIdInput,
   GetProductsByCategoryIdOutput,
-  SortState,
 } from './dtos/get-products-by-categoryId.dto';
 import {
   GetProductsOnCategoryInput,

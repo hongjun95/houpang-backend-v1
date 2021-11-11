@@ -1,5 +1,5 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { SortState } from 'src/apis/categories/dtos/get-products-by-categoryId.dto';
+import { SortState } from 'src/apis/common/common';
 import {
   PaginationInput,
   PaginationOutput,
