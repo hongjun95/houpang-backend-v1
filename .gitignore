@@ -91,7 +91,7 @@ web_modules/
 
 .env
 .env.test
-.env.dev
+.env.development
 
 # parcel-bundler cache (https://parceljs.org/)
 
