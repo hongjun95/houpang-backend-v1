@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { LikeResolver } from './likes.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { Product } from 'src/apis/products/entities/product.entity';
-import { LikesController } from './likes.controller';
-import { LikesService } from './likes.service';
-import { Like } from './entities/likes.entity';
+import { Product } from '@apis/products/entities/product.entity';
+import { LikeResolver } from '@apis/likes/likes.resolver';
+import { LikesController } from '@apis/likes/likes.controller';
+import { LikesService } from '@apis/likes/likes.service';
+import { Like } from '@apis/likes/entities/likes.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Like, Product])],

@@ -1,7 +1,7 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 
-import { CoreOutput } from 'src/apis/common/dtos/output.dto';
-import { User } from '../entities/user.entity';
+import { CoreOutput } from '@apis/common/dtos/output.dto';
+import { User } from '@apis/users/entities/user.entity';
 
 @InputType()
 export class UserProfileInput {

@@ -8,27 +8,28 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { Roles } from 'src/auth/roles.decorator';
-import { SortState } from '../common/common';
+
+import { Roles } from '@auth/roles.decorator';
+import { SortState } from '@apis/common/common';
 import { CategoriesService } from './categories.service';
 import {
   CreateCategoryInput,
   CreateCategoryOutput,
-} from './dtos/create-category.dto';
-import { DeleteCategoryOutput } from './dtos/delete-category.dto';
+} from '@apis/categories/dtos/create-category.dto';
+import { DeleteCategoryOutput } from '@apis/categories/dtos/delete-category.dto';
 import {
   EditCategoryInput,
   EditCategoryOutput,
-} from './dtos/edit-category.dto';
-import { GetAllCategoriesOutput } from './dtos/get-all-categories.dto';
+} from '@apis/categories/dtos/edit-category.dto';
+import { GetAllCategoriesOutput } from '@apis/categories/dtos/get-all-categories.dto';
 import {
   GetProductsByCategoryIdInput,
   GetProductsByCategoryIdOutput,
-} from './dtos/get-products-by-categoryId.dto';
+} from '@apis/categories/dtos/get-products-by-categoryId.dto';
 import {
   GetProductsOnCategoryInput,
   GetProductsOnCategoryOutput,
-} from './dtos/get-products-on-category.dto';
+} from '@apis/categories/dtos/get-products-on-category.dto';
 
 @Controller('/categories')
 export class CategoriesController {

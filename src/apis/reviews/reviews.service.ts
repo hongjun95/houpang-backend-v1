@@ -2,29 +2,32 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { OrderItem } from 'src/apis/orders/entities/order-item.entity';
-import { Product } from 'src/apis/products/entities/product.entity';
-import { User, UserRole } from 'src/apis/users/entities/user.entity';
+import { OrderItem } from '@apis/orders/entities/order-item.entity';
+import { Product } from '@apis/products/entities/product.entity';
+import { User, UserRole } from '@apis/users/entities/user.entity';
 import {
   CreateReviewInput,
   CreateReviewOutput,
-} from './dtos/create-review.dto';
+} from '@apis/reviews/dtos/create-review.dto';
 import {
   DeleteReviewInput,
   DeleteReviewOutput,
-} from './dtos/delete-review.dto';
-import { EditReviewInput, EditReviewOutput } from './dtos/edit-review.dto';
+} from '@apis/reviews/dtos/delete-review.dto';
+import {
+  EditReviewInput,
+  EditReviewOutput,
+} from '@apis/reviews/dtos/edit-review.dto';
 import {
   GetReviewsOnConsumerInput,
   GetReviewsOnConsumerOutput,
-} from './dtos/get-reviews-on-consumer.dto';
+} from '@apis/reviews/dtos/get-reviews-on-consumer.dto';
 import {
   GetReviewsOnProductInput,
   GetReviewsOnProductOutput,
-} from './dtos/get-reviews-on-products.dto';
-import { Review } from './entities/review.entity';
-import { createPaginationObj } from '../common/dtos/pagination.dto';
-import { formmatDay } from 'src/utils/dayUtils';
+} from '@apis/reviews/dtos/get-reviews-on-products.dto';
+import { Review } from '@apis/reviews/entities/review.entity';
+import { createPaginationObj } from '@apis/common/dtos/pagination.dto';
+import { formmatDay } from '@utils/dayUtils';
 
 @Injectable()
 export class ReviewsService {

@@ -1,14 +1,14 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Entity, JoinColumn, JoinTable, ManyToMany, OneToOne } from 'typeorm';
 
-import { CoreEntity } from '../../common/entities/common.entity';
-import { Product } from '../../products/entities/product.entity';
-import { User } from '../../users/entities/user.entity';
+import { CommonEntity } from '@apis/common/entities/common.entity';
+import { Product } from '@apis/products/entities/product.entity';
+import { User } from '@apis/users/entities/user.entity';
 
 @InputType('LikeInputType', { isAbstract: true })
 @ObjectType()
 @Entity()
-export class Like extends CoreEntity {
+export class Like extends CommonEntity {
   @OneToOne(() => User, {
     onDelete: 'CASCADE',
   })

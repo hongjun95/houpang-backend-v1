@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { OrderItem } from 'src/apis/orders/entities/order-item.entity';
-import { Product } from 'src/apis/products/entities/product.entity';
-import { User } from 'src/apis/users/entities/user.entity';
-import { Review } from './entities/review.entity';
-import { ReviewsResolver } from './reviews.resolver';
-import { ReviewsService } from './reviews.service';
-import { ReviewsController } from './reviews.controller';
+import { OrderItem } from '@apis/orders/entities/order-item.entity';
+import { Product } from '@apis/products/entities/product.entity';
+import { User } from '@apis/users/entities/user.entity';
+import { Review } from '@apis/reviews/entities/review.entity';
+import { ReviewsResolver } from '@apis/reviews/reviews.resolver';
+import { ReviewsService } from '@apis/reviews/reviews.service';
+import { ReviewsController } from '@apis/reviews/reviews.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Review, Product, OrderItem, User])],

@@ -1,8 +1,8 @@
 import { define } from 'typeorm-seeding';
 import * as Faker from 'faker';
 
-import { Review } from '../../apis/reviews/entities/review.entity';
-import { formmatDay } from '../../utils/dayUtils';
+import { Review } from '@apis/reviews/entities/review.entity';
+import { formmatDay } from '@utils/dayUtils';
 
 const reviewFaker = (faker: typeof Faker) => {
   const review = new Review();

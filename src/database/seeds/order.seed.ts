@@ -5,15 +5,12 @@ import { Any, getRepository } from 'typeorm';
 import {
   OrderItem,
   OrderStatus,
-} from '../../apis/orders/entities/order-item.entity';
-import { Order } from '../../apis/orders/entities/order.entity';
-import { User, UserRole } from '../../apis/users/entities/user.entity';
-import {
-  Refund,
-  RefundStatus,
-} from '../../apis/refunds/entities/refund.entity';
-import { Review } from '../../apis/reviews/entities/review.entity';
-import { Product } from '../../apis/products/entities/product.entity';
+} from '@apis/orders/entities/order-item.entity';
+import { Order } from '@apis/orders/entities/order.entity';
+import { User, UserRole } from '@apis/users/entities/user.entity';
+import { Refund, RefundStatus } from '@apis/refunds/entities/refund.entity';
+import { Review } from '@apis/reviews/entities/review.entity';
+import { Product } from '@apis/products/entities/product.entity';
 
 // Create order, orderItem, refund, review instance
 

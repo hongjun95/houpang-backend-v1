@@ -1,19 +1,22 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { AuthUser } from 'src/auth/auth-user.decorator';
-import { Roles } from 'src/auth/roles.decorator';
+import { AuthUser } from '@auth/auth-user.decorator';
+import { Roles } from '@auth/roles.decorator';
 import {
   ChangePasswordInput,
   ChangePasswordOutput,
-} from './dtos/change-password.dto';
+} from '@apis/users/dtos/change-password.dto';
 import {
   CreateAccountInput,
   CreateAccountOutput,
-} from './dtos/create-account.dto';
-import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile.dto';
-import { LoginInput, LoginOutput } from './dtos/login.dto';
-import { UserProfileOutput } from './dtos/user-profile.dto';
-import { User } from './entities/user.entity';
-import { UsersService } from './users.service';
+} from '@apis/users/dtos/create-account.dto';
+import {
+  EditProfileInput,
+  EditProfileOutput,
+} from '@apis/users/dtos/edit-profile.dto';
+import { LoginInput, LoginOutput } from '@apis/users/dtos/login.dto';
+import { UserProfileOutput } from '@apis/users/dtos/user-profile.dto';
+import { User } from '@apis/users/entities/user.entity';
+import { UsersService } from '@apis/users/users.service';
 
 @Resolver((of) => User)
 export class UsersResolver {

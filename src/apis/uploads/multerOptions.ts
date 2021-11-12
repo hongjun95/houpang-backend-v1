@@ -1,7 +1,8 @@
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { existsSync, mkdirSync } from 'fs';
 import { diskStorage } from 'multer';
-import { parseUuidFileName } from 'src/utils/uploads';
+
+import { parseUuidFileName } from '@utils/uploads';
 // import { existsSync, mkdirSync } from 'fs';
 // import { diskStorage } from 'multer';
 // import getProcessEnv from './getProcessEnv';

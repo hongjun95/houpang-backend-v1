@@ -1,15 +1,18 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { AuthUser } from 'src/auth/auth-user.decorator';
-import { Roles } from 'src/auth/roles.decorator';
-import { User } from 'src/apis/users/entities/user.entity';
-import { FindLikeListOutput } from './dtos/find-like-list.dto';
-import { LikeProductInput, LikeProductOutput } from './dtos/like-product.dto';
+import { AuthUser } from '@auth/auth-user.decorator';
+import { Roles } from '@auth/roles.decorator';
+import { User } from '@apis/users/entities/user.entity';
+import { FindLikeListOutput } from '@apis/likes/dtos/find-like-list.dto';
+import {
+  LikeProductInput,
+  LikeProductOutput,
+} from '@apis/likes/dtos/like-product.dto';
 import {
   UnlikeProductInput,
   UnlikeProductOutput,
-} from './dtos/unlike-product.dto';
-import { LikesService } from './likes.service';
+} from '@apis/likes/dtos/unlike-product.dto';
+import { LikesService } from '@apis/likes/likes.service';
 
 @Resolver()
 export class LikeResolver {

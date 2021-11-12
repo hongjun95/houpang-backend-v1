@@ -1,6 +1,6 @@
 import { Factory, Seeder } from 'typeorm-seeding';
 
-import { User } from '../../apis/users/entities/user.entity';
+import { User } from '@apis/users/entities/user.entity';
 
 // like seeder를 이용하세요!!
 // like seeder를 이용하면 user도 자동적으로 생성됩니다.

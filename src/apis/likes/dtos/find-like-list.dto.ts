@@ -1,7 +1,7 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 
-import { CoreOutput } from 'src/apis/common/dtos/output.dto';
-import { Like } from '../entities/likes.entity';
+import { CoreOutput } from '@apis/common/dtos/output.dto';
+import { Like } from '@apis/likes/entities/likes.entity';
 
 @ObjectType()
 export class FindLikeListOutput extends CoreOutput {

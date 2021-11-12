@@ -2,14 +2,14 @@ import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { IsNumber, IsString, Max, Min } from 'class-validator';
 import { Column, Entity, ManyToOne, RelationId } from 'typeorm';
 
-import { CoreEntity } from '../../common/entities/common.entity';
-import { Product } from '../../products/entities/product.entity';
-import { User } from '../../users/entities/user.entity';
+import { CommonEntity } from '@apis/common/entities/common.entity';
+import { Product } from '@apis/products/entities/product.entity';
+import { User } from '@apis/users/entities/user.entity';
 
 @InputType('ReviewInputType', { isAbstract: true })
 @ObjectType()
 @Entity()
-export class Review extends CoreEntity {
+export class Review extends CommonEntity {
   @Field((type) => User)
   @ManyToOne((type) => User, (user) => user.reviews, {
     onDelete: 'CASCADE',

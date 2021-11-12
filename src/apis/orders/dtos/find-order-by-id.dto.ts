@@ -1,7 +1,7 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 
-import { CoreOutput } from 'src/apis/common/dtos/output.dto';
-import { Order } from '../entities/order.entity';
+import { CoreOutput } from '@src/apis/common/dtos/output.dto';
+import { Order } from '@apis/orders/entities/order.entity';
 
 @InputType()
 export class FindOrderByIdInput {

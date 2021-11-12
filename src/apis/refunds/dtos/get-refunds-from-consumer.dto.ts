@@ -2,9 +2,9 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import {
   PaginationInput,
   PaginationOutput,
-} from 'src/apis/common/dtos/pagination.dto';
+} from '@apis/common/dtos/pagination.dto';
 
-import { Refund } from '../entities/refund.entity';
+import { Refund } from '@apis/refunds/entities/refund.entity';
 
 @InputType()
 export class GetRefundsFromConsumerInput extends PaginationInput {

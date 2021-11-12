@@ -1,7 +1,7 @@
 import { InputType, ObjectType, PartialType, PickType } from '@nestjs/graphql';
 
-import { CoreOutput } from 'src/apis/common/dtos/output.dto';
-import { User } from '../entities/user.entity';
+import { CoreOutput } from '@apis/common/dtos/output.dto';
+import { User } from '@apis/users/entities/user.entity';
 
 @InputType()
 export class EditProfileInput extends PickType(PartialType(User), [
@@ -11,7 +11,7 @@ export class EditProfileInput extends PickType(PartialType(User), [
   'bio',
   'phoneNumber',
   'address',
-  'userImg'
+  'userImg',
 ]) {}
 
 @ObjectType()

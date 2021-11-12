@@ -1,11 +1,11 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { SortState } from 'src/apis/common/common';
+import { SortState } from '@apis/common/common';
 
 import {
   PaginationInput,
   PaginationOutput,
-} from 'src/apis/common/dtos/pagination.dto';
-import { Product } from 'src/apis/products/entities/product.entity';
+} from '@apis/common/dtos/pagination.dto';
+import { Product } from '@apis/products/entities/product.entity';
 
 @InputType()
 export class GetProductsByCategoryIdInput extends PaginationInput {

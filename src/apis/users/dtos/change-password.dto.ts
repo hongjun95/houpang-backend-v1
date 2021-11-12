@@ -1,7 +1,7 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { MinLength } from 'class-validator';
 
-import { CoreOutput } from 'src/apis/common/dtos/output.dto';
+import { CoreOutput } from '@apis/common/dtos/output.dto';
 
 @InputType()
 export class ChangePasswordInput {

@@ -1,35 +1,35 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 
-import { AuthUser } from 'src/auth/auth-user.decorator';
-import { Roles } from 'src/auth/roles.decorator';
-import { User } from 'src/apis/users/entities/user.entity';
-import { CreateOrderOutput } from './dtos/create-order.dto';
+import { AuthUser } from '@auth/auth-user.decorator';
+import { Roles } from '@auth/roles.decorator';
+import { User } from '@apis/users/entities/user.entity';
+import { CreateOrderOutput } from '@apis/orders/dtos/create-order.dto';
 import {
   GetOrdersFromProviderInput,
   GetOrdersFromProviderOutput,
-} from './dtos/get-orders-from-provider.dto';
+} from '@apis/orders/dtos/get-orders-from-provider.dto';
 import {
   GetOrdersFromConsumerInput,
   GetOrdersFromConsumerOutput,
-} from './dtos/get-orders-from-consumer.dto';
-import { OrdersService } from './orders.service';
+} from '@apis/orders/dtos/get-orders-from-consumer.dto';
+import { OrdersService } from '@apis/orders/orders.service';
 import {
   FindOrderByIdInput,
   FindOrderByIdOutput,
-} from './dtos/find-order-by-id.dto';
+} from '@apis/orders/dtos/find-order-by-id.dto';
 import {
   FindOrderItemByIdInput,
   FindOrderItemByIdOutput,
-} from './dtos/find-order-item-by-id';
+} from '@apis/orders/dtos/find-order-item-by-id';
 import {
   CancelOrderItemInput,
   CancelOrderItemOutput,
-} from './dtos/cancel-order-item.dto';
+} from '@apis/orders/dtos/cancel-order-item.dto';
 import {
   UpdateOrerStatusInput,
   UpdateOrerStatusOutput,
-} from './dtos/update-order-status.dto';
-import { OrderStatus } from './entities/order-item.entity';
+} from '@apis/orders/dtos/update-order-status.dto';
+import { OrderStatus } from '@apis/orders/entities/order-item.entity';
 
 @Controller('/orders')
 export class OrdersController {

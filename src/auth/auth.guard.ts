@@ -1,10 +1,11 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { TOKEN_KEY } from 'src/apis/common/common.constants';
-import { JwtService } from 'src/jwt/jwt.service';
-import { UsersService } from 'src/apis/users/users.service';
-import { AllowedRoles } from './roles.decorator';
+
+import { TOKEN_KEY } from '@apis/common/common.constants';
+import { JwtService } from '@jwt/jwt.service';
+import { UsersService } from '@apis/users/users.service';
+import { AllowedRoles } from '@auth/roles.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

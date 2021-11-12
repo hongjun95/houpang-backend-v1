@@ -2,31 +2,30 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Product } from 'src/apis/products/entities/product.entity';
+import { Product } from '@apis/products/entities/product.entity';
 import {
   CreateCategoryInput,
   CreateCategoryOutput,
-} from './dtos/create-category.dto';
+} from '@apis/categories/dtos/create-category.dto';
 import {
   DeleteCategoryInput,
   DeleteCategoryOutput,
-} from './dtos/delete-category.dto';
+} from '@apis/categories/dtos/delete-category.dto';
 import {
   EditCategoryInput,
   EditCategoryOutput,
-} from './dtos/edit-category.dto';
-import { GetAllCategoriesOutput } from './dtos/get-all-categories.dto';
+} from '@apis/categories/dtos/edit-category.dto';
+import { GetAllCategoriesOutput } from '@apis/categories/dtos/get-all-categories.dto';
 import {
   GetProductsByCategoryIdInput,
   GetProductsByCategoryIdOutput,
-} from './dtos/get-products-by-categoryId.dto';
+} from '@apis/categories/dtos/get-products-by-categoryId.dto';
 import {
   GetProductsOnCategoryInput,
   GetProductsOnCategoryOutput,
-} from './dtos/get-products-on-category.dto';
-import { Category } from './entities/category.entity';
-import { createPaginationObj } from '../common/dtos/pagination.dto';
-import { SortState } from '../common/common';
+} from '@apis/categories/dtos/get-products-on-category.dto';
+import { Category } from '@apis/categories/entities/category.entity';
+import { createPaginationObj } from '@apis/common/dtos/pagination.dto';
 
 @Injectable()
 export class CategoriesService {

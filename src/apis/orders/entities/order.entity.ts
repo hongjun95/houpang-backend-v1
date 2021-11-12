@@ -9,7 +9,7 @@ import {
   RelationId,
 } from 'typeorm';
 
-import { CoreEntity } from '../../common/entities/common.entity';
+import { CommonEntity } from '../../common/entities/common.entity';
 import { User } from '../../users/entities/user.entity';
 import { OrderItem } from './order-item.entity';
 
@@ -17,7 +17,7 @@ import { OrderItem } from './order-item.entity';
 @InputType('OrderInputType', { isAbstract: true })
 @ObjectType()
 @Entity()
-export class Order extends CoreEntity {
+export class Order extends CommonEntity {
   @Field((type) => User)
   @ManyToOne((type) => User, (user) => user.orders, {
     onDelete: 'SET NULL',

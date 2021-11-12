@@ -2,22 +2,25 @@ import { Response } from 'express';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Raw, Repository } from 'typeorm';
+import { CookieOptions } from 'express';
 
-import { Like } from 'src/apis/likes/entities/likes.entity';
-import { JwtService } from 'src/jwt/jwt.service';
+import { Like } from '@apis/likes/entities/likes.entity';
+import { JwtService } from '@jwt/jwt.service';
 import {
   ChangePasswordInput,
   ChangePasswordOutput,
-} from './dtos/change-password.dto';
+} from '@apis/users/dtos/change-password.dto';
 import {
   CreateAccountInput,
   CreateAccountOutput,
-} from './dtos/create-account.dto';
-import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile.dto';
-import { LoginInput, LoginOutput } from './dtos/login.dto';
-import { UserProfileOutput } from './dtos/user-profile.dto';
-import { User } from './entities/user.entity';
-import { CookieOptions } from 'express';
+} from '@apis/users/dtos/create-account.dto';
+import {
+  EditProfileInput,
+  EditProfileOutput,
+} from '@apis/users/dtos/edit-profile.dto';
+import { LoginInput, LoginOutput } from '@apis/users/dtos/login.dto';
+import { UserProfileOutput } from '@apis/users/dtos/user-profile.dto';
+import { User } from '@apis/users/entities/user.entity';
 
 @Injectable()
 export class UsersService {

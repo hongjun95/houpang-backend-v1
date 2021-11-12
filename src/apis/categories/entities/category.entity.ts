@@ -2,13 +2,13 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsString, MinLength } from 'class-validator';
 import { Column, Entity, OneToMany } from 'typeorm';
 
-import { CoreEntity } from '../../common/entities/common.entity';
-import { Product } from '../../products/entities/product.entity';
+import { CommonEntity } from '@apis/common/entities/common.entity';
+import { Product } from '@apis/products/entities/product.entity';
 
 @InputType('CategoryInputType', { isAbstract: true })
 @ObjectType()
 @Entity()
-export class Category extends CoreEntity {
+export class Category extends CommonEntity {
   @Field((type) => String)
   @Column({ unique: true })
   @IsString()

@@ -7,10 +7,10 @@ import {
 } from '@nestjs/graphql';
 import { Column, Entity, ManyToOne, RelationId } from 'typeorm';
 
-import { User } from '../../users/entities/user.entity';
-import { CoreEntity } from '../../common/entities/common.entity';
-import { Product } from '../../products/entities/product.entity';
-import { Order } from './order.entity';
+import { User } from '@apis/users/entities/user.entity';
+import { CommonEntity } from '@apis/common/entities/common.entity';
+import { Product } from '@apis/products/entities/product.entity';
+import { Order } from '@apis/orders/entities/order.entity';
 
 export enum OrderStatus {
   Checking = '확인중',
@@ -27,7 +27,7 @@ registerEnumType(OrderStatus, { name: 'OrderStatus' });
 @InputType('OrderItemInputType', { isAbstract: true })
 @ObjectType()
 @Entity()
-export class OrderItem extends CoreEntity {
+export class OrderItem extends CommonEntity {
   @Field((type) => Order)
   @ManyToOne((type) => Order, (order) => order.orderItems, {
     onDelete: 'CASCADE',

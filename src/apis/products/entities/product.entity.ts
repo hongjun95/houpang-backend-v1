@@ -9,11 +9,11 @@ import {
   RelationId,
 } from 'typeorm';
 
-import { CoreEntity } from '../../common/entities/common.entity';
-import { User } from '../../users/entities/user.entity';
-import { Category } from '../../categories/entities/category.entity';
-import { OrderItem } from '../../orders/entities/order-item.entity';
-import { Review } from '../../reviews/entities/review.entity';
+import { CommonEntity } from '@apis/common/entities/common.entity';
+import { User } from '@apis/users/entities/user.entity';
+import { Category } from '@apis/categories/entities/category.entity';
+import { OrderItem } from '@apis/orders/entities/order-item.entity';
+import { Review } from '@apis/reviews/entities/review.entity';
 
 @InputType('InfoItemInputType', { isAbstract: true })
 @ObjectType()
@@ -34,7 +34,7 @@ export class InfoItem {
 @InputType('ProductInputType', { isAbstract: true })
 @ObjectType()
 @Entity()
-export class Product extends CoreEntity {
+export class Product extends CommonEntity {
   @Column()
   @Field((type) => String)
   @IsString()

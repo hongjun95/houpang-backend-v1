@@ -1,21 +1,24 @@
 import { Body, Controller, Get, Post, Res, UseFilters } from '@nestjs/common';
 import { Response } from 'express';
 
-import { AuthUser } from 'src/auth/auth-user.decorator';
-import { Roles } from 'src/auth/roles.decorator';
-import { User } from 'src/apis/users/entities/user.entity';
+import { AuthUser } from '@auth/auth-user.decorator';
+import { Roles } from '@auth/roles.decorator';
+import { User } from '@apis/users/entities/user.entity';
 import {
   ChangePasswordInput,
   ChangePasswordOutput,
-} from './dtos/change-password.dto';
+} from '@apis/users/dtos/change-password.dto';
 import {
   CreateAccountInput,
   CreateAccountOutput,
-} from './dtos/create-account.dto';
-import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile.dto';
-import { LoginInput, LoginOutput } from './dtos/login.dto';
-import { UserProfileOutput } from './dtos/user-profile.dto';
-import { UsersService } from './users.service';
+} from '@apis/users/dtos/create-account.dto';
+import {
+  EditProfileInput,
+  EditProfileOutput,
+} from '@apis/users/dtos/edit-profile.dto';
+import { LoginInput, LoginOutput } from '@apis/users/dtos/login.dto';
+import { UserProfileOutput } from '@apis/users/dtos/user-profile.dto';
+import { UsersService } from '@apis/users/users.service';
 
 @Controller('')
 export class UsersController {

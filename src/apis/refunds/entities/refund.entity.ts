@@ -7,9 +7,9 @@ import {
 } from '@nestjs/graphql';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 
-import { CoreEntity } from '../../common/entities/common.entity';
-import { User } from '../../users/entities/user.entity';
-import { OrderItem } from '../../orders/entities/order-item.entity';
+import { CommonEntity } from '@apis/common/entities/common.entity';
+import { User } from '@apis/users/entities/user.entity';
+import { OrderItem } from '@apis/orders/entities/order-item.entity';
 
 export enum RefundStatus {
   Exchanged = '교환',
@@ -21,7 +21,7 @@ registerEnumType(RefundStatus, { name: 'RefundStatus' });
 @InputType('RefundInputType', { isAbstract: true })
 @ObjectType()
 @Entity()
-export class Refund extends CoreEntity {
+export class Refund extends CommonEntity {
   @Field((type) => String)
   @Column()
   refundedAt: string;

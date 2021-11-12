@@ -1,21 +1,21 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 
-import { AuthUser } from 'src/auth/auth-user.decorator';
-import { Roles } from 'src/auth/roles.decorator';
-import { User } from 'src/apis/users/entities/user.entity';
+import { AuthUser } from '@auth/auth-user.decorator';
+import { Roles } from '@auth/roles.decorator';
+import { User } from '@apis/users/entities/user.entity';
 import {
   GetRefundsFromConsumerInput,
   GetRefundsFromConsumerOutput,
-} from './dtos/get-refunds-from-consumer.dto';
+} from '@apis/refunds/dtos/get-refunds-from-consumer.dto';
 import {
   GetRefundsFromProviderInput,
   GetRefundsFromProviderOutput,
-} from './dtos/get-refunds-from-provider.dto';
+} from '@apis/refunds/dtos/get-refunds-from-provider.dto';
 import {
   RefundProductInput,
   RefundProductOutput,
-} from './dtos/refund-product.dto';
-import { RefundsService } from './refunds.service';
+} from '@apis/refunds/dtos/refund-product.dto';
+import { RefundsService } from '@apis/refunds/refunds.service';
 
 @Controller('refunds')
 export class RefundsController {

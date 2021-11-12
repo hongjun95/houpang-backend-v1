@@ -1,23 +1,24 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Roles } from 'src/auth/roles.decorator';
-import { CategoriesService } from './categories.service';
+
+import { Roles } from '@auth/roles.decorator';
+import { CategoriesService } from '@apis/categories/categories.service';
 import {
   CreateCategoryInput,
   CreateCategoryOutput,
-} from './dtos/create-category.dto';
+} from '@apis/categories/dtos/create-category.dto';
 import {
   DeleteCategoryInput,
   DeleteCategoryOutput,
-} from './dtos/delete-category.dto';
+} from '@apis/categories/dtos/delete-category.dto';
 import {
   EditCategoryInput,
   EditCategoryOutput,
-} from './dtos/edit-category.dto';
-import { GetAllCategoriesOutput } from './dtos/get-all-categories.dto';
+} from '@apis/categories/dtos/edit-category.dto';
+import { GetAllCategoriesOutput } from '@apis/categories/dtos/get-all-categories.dto';
 import {
   GetProductsOnCategoryInput,
   GetProductsOnCategoryOutput,
-} from './dtos/get-products-on-category.dto';
+} from '@apis/categories/dtos/get-products-on-category.dto';
 
 @Resolver()
 export class CategoriesResolver {

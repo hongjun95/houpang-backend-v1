@@ -1,8 +1,8 @@
 import { Field, InputType, ObjectType, PickType } from '@nestjs/graphql';
 import { MinLength } from 'class-validator';
 
-import { CoreOutput } from 'src/apis/common/dtos/output.dto';
-import { User } from '../entities/user.entity';
+import { CoreOutput } from '@apis/common/dtos/output.dto';
+import { User } from '@apis/users/entities/user.entity';
 
 @InputType()
 export class CreateAccountInput extends PickType(User, [
@@ -12,7 +12,7 @@ export class CreateAccountInput extends PickType(User, [
   'language',
   'phoneNumber',
   'address',
-  'userImg'
+  'userImg',
 ]) {
   @Field((type) => String, { nullable: true })
   bio?: string;

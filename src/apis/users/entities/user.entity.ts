@@ -15,7 +15,7 @@ import {
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
-import { CoreEntity } from '../../common/entities/common.entity';
+import { CommonEntity } from '../../common/entities/common.entity';
 import { Product } from '../../products/entities/product.entity';
 import { Order } from '../../orders/entities/order.entity';
 import { Review } from '../../reviews/entities/review.entity';
@@ -39,8 +39,8 @@ registerEnumType(Language, { name: 'Language' });
 @InputType('UserInputType', { isAbstract: true })
 @ObjectType()
 @Entity()
-export class User extends CoreEntity {
-  @Column({ unique: true })
+export class User extends CommonEntity {
+  @Column({ unique: true, type: 'string' })
   @Field((type) => String)
   @IsEmail()
   email: string;

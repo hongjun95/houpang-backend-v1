@@ -3,32 +3,33 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/apis/users/entities/user.entity';
 import { Raw, Repository } from 'typeorm';
 
-import { SortState } from 'src/apis/common/common';
-
 import {
   CreateProductInput,
   CreateProductOutput,
-} from './dtos/create-product.dto';
-import { EditProductInput, EditProductOutput } from './dtos/edit-product.dto';
+} from '@apis/products/dtos/create-product.dto';
+import {
+  EditProductInput,
+  EditProductOutput,
+} from '@apis/products/dtos/edit-product.dto';
 import {
   DeleteProductInput,
   DeleteProductOutput,
-} from './dtos/delete-product.dto';
+} from '@apis/products/dtos/delete-product.dto';
 import {
   FindProductByIdInput,
   FindProductByIdOutput,
-} from './dtos/find-product-by-id.dto';
-import { Product } from './entities/product.entity';
+} from '@apis/products/dtos/find-product-by-id.dto';
+import { Product } from '@apis/products/entities/product.entity';
 import { CategoryRepository } from 'src/apis/categories/repositories/category.repository';
 import {
   GetProductsFromProviderInput,
   GetProductsFromProviderOutput,
-} from './dtos/get-products-from-provider.dto';
-import { createPaginationObj } from '../common/dtos/pagination.dto';
+} from '@apis/products/dtos/get-products-from-provider.dto';
+import { createPaginationObj } from '@apis/common/dtos/pagination.dto';
 import {
   GetProductsBySearchTermInput,
   GetProductsBySearchTermOutput,
-} from './dtos/get-products-by-name.dto';
+} from '@apis/products/dtos/get-products-by-name.dto';
 
 @Injectable()
 export class ProductsService {

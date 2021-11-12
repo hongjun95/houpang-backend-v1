@@ -1,28 +1,31 @@
 import { Resolver } from '@nestjs/graphql';
 import { Args, Mutation, Query } from '@nestjs/graphql';
 
-import { AuthUser } from 'src/auth/auth-user.decorator';
-import { Roles } from 'src/auth/roles.decorator';
-import { User } from 'src/apis/users/entities/user.entity';
+import { AuthUser } from '@auth/auth-user.decorator';
+import { Roles } from '@auth/roles.decorator';
+import { User } from '@apis/users/entities/user.entity';
 import {
   CreateProductInput,
   CreateProductOutput,
-} from './dtos/create-product.dto';
+} from '@apis/products/dtos/create-product.dto';
 import {
   DeleteProductInput,
   DeleteProductOutput,
-} from './dtos/delete-product.dto';
-import { EditProductInput, EditProductOutput } from './dtos/edit-product.dto';
+} from '@apis/products/dtos/delete-product.dto';
+import {
+  EditProductInput,
+  EditProductOutput,
+} from '@apis/products/dtos/edit-product.dto';
 import {
   FindProductByIdInput,
   FindProductByIdOutput,
-} from './dtos/find-product-by-id.dto';
+} from '@apis/products/dtos/find-product-by-id.dto';
 
-import { ProductsService } from './products.service';
+import { ProductsService } from '@apis/products/products.service';
 import {
   GetProductsBySearchTermInput,
   GetProductsBySearchTermOutput,
-} from './dtos/get-products-by-name.dto';
+} from '@apis/products/dtos/get-products-by-name.dto';
 
 @Resolver()
 export class ProductsResolver {

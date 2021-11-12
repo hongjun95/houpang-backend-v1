@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { createImageURL } from 'src/utils/uploads';
+import { createImageURL } from '@utils/uploads';
 
 @Injectable()
 export default class UploadsService {

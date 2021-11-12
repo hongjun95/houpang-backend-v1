@@ -3,8 +3,8 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import {
   PaginationInput,
   PaginationOutput,
-} from 'src/apis/common/dtos/pagination.dto';
-import { OrderItem } from '../entities/order-item.entity';
+} from '@apis/common/dtos/pagination.dto';
+import { OrderItem } from '@apis/orders/entities/order-item.entity';
 
 @InputType()
 export class GetOrdersFromProviderInput extends PaginationInput {

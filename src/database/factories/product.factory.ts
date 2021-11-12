@@ -2,10 +2,9 @@ import * as Faker from 'faker';
 import { getRepository } from 'typeorm';
 import { define } from 'typeorm-seeding';
 
-import { Category } from '../../apis/categories/entities/category.entity';
-import { Product } from '../../apis/products/entities/product.entity';
-import { User, UserRole } from '../../apis/users/entities/user.entity';
-
+import { Category } from '@apis/categories/entities/category.entity';
+import { Product } from '@apis/products/entities/product.entity';
+import { User, UserRole } from '@apis/users/entities/user.entity';
 
 const productFaker = async (faker: typeof Faker) => {
   const product = new Product();

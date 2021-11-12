@@ -1,8 +1,8 @@
 import * as Faker from 'faker';
 import { define } from 'typeorm-seeding';
 
-import { Order } from '../../apis/orders/entities/order.entity';
-import { formmatDay } from '../../utils/dayUtils';
+import { Order } from '@apis/orders/entities/order.entity';
+import { formmatDay } from '@utils/dayUtils';
 
 const orderFaker = (faker: typeof Faker) => {
   const order = new Order();

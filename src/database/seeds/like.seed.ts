@@ -2,9 +2,9 @@ import * as Faker from 'faker';
 import { getRepository } from 'typeorm';
 import { Factory, Seeder } from 'typeorm-seeding';
 
-import { Like } from '../../apis/likes/entities/likes.entity';
-import { Product } from '../../apis/products/entities/product.entity';
-import { User } from '../../apis/users/entities/user.entity';
+import { Like } from '@apis/likes/entities/likes.entity';
+import { Product } from '@apis/products/entities/product.entity';
+import { User } from '@apis/users/entities/user.entity';
 
 export class CreateLikes implements Seeder {
   public async run(factory: Factory): Promise<void> {

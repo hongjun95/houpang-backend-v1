@@ -1,7 +1,7 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 
-import { CoreOutput } from 'src/apis/common/dtos/output.dto';
-import { Review } from '../entities/review.entity';
+import { CoreOutput } from '@apis/common/dtos/output.dto';
+import { Review } from '@apis/reviews/entities/review.entity';
 
 @InputType()
 export class GetReviewsOnConsumerInput {

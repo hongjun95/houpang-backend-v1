@@ -3,8 +3,8 @@ import { Field, Float, InputType, ObjectType } from '@nestjs/graphql';
 import {
   PaginationInput,
   PaginationOutput,
-} from 'src/apis/common/dtos/pagination.dto';
-import { Review } from '../entities/review.entity';
+} from '@apis/common/dtos/pagination.dto';
+import { Review } from '@apis/reviews/entities/review.entity';
 
 @InputType()
 export class GetReviewsOnProductInput extends PaginationInput {

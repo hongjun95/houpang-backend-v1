@@ -1,11 +1,7 @@
 import { define } from 'typeorm-seeding';
 import * as Faker from 'faker';
 
-import {
-  Language,
-  User,
-  UserRole,
-} from '../../apis/users/entities/user.entity';
+import { Language, User, UserRole } from '@apis/users/entities/user.entity';
 
 const userFaker = (faker: typeof Faker) => {
   const user = new User();

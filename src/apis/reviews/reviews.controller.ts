@@ -8,27 +8,30 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
-import { AuthUser } from 'src/auth/auth-user.decorator';
-import { Roles } from 'src/auth/roles.decorator';
-import { User } from 'src/apis/users/entities/user.entity';
+import { AuthUser } from '@auth/auth-user.decorator';
+import { Roles } from '@auth/roles.decorator';
+import { User } from '@apis/users/entities/user.entity';
 import {
   CreateReviewInput,
   CreateReviewOutput,
-} from './dtos/create-review.dto';
+} from '@apis/reviews/dtos/create-review.dto';
 import {
   DeleteReviewInput,
   DeleteReviewOutput,
-} from './dtos/delete-review.dto';
-import { EditReviewInput, EditReviewOutput } from './dtos/edit-review.dto';
+} from '@apis/reviews/dtos/delete-review.dto';
+import {
+  EditReviewInput,
+  EditReviewOutput,
+} from '@apis/reviews/dtos/edit-review.dto';
 import {
   GetReviewsOnConsumerInput,
   GetReviewsOnConsumerOutput,
-} from './dtos/get-reviews-on-consumer.dto';
+} from '@apis/reviews/dtos/get-reviews-on-consumer.dto';
 import {
   GetReviewsOnProductInput,
   GetReviewsOnProductOutput,
-} from './dtos/get-reviews-on-products.dto';
-import { ReviewsService } from './reviews.service';
+} from '@apis/reviews/dtos/get-reviews-on-products.dto';
+import { ReviewsService } from '@apis/reviews/reviews.service';
 
 @Controller('/reviews')
 export class ReviewsController {

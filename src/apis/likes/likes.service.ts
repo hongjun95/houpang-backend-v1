@@ -1,15 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from 'src/apis/products/entities/product.entity';
-import { User } from 'src/apis/users/entities/user.entity';
 import { Repository } from 'typeorm';
-import { FindLikeListOutput } from './dtos/find-like-list.dto';
-import { LikeProductInput, LikeProductOutput } from './dtos/like-product.dto';
+
+import { Product } from '@apis/products/entities/product.entity';
+import { User } from '@apis/users/entities/user.entity';
+import { FindLikeListOutput } from '@apis/likes/dtos/find-like-list.dto';
+import {
+  LikeProductInput,
+  LikeProductOutput,
+} from '@apis/likes/dtos/like-product.dto';
 import {
   UnlikeProductInput,
   UnlikeProductOutput,
-} from './dtos/unlike-product.dto';
-import { Like } from './entities/likes.entity';
+} from '@apis/likes/dtos/unlike-product.dto';
+import { Like } from '@apis/likes/entities/likes.entity';
 
 @Injectable()
 export class LikesService {

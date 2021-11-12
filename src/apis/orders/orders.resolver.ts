@@ -1,30 +1,33 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { AuthUser } from 'src/auth/auth-user.decorator';
-import { Roles } from 'src/auth/roles.decorator';
-import { User } from 'src/apis/users/entities/user.entity';
-import { CreateOrderInput, CreateOrderOutput } from './dtos/create-order.dto';
+import { AuthUser } from '@auth/auth-user.decorator';
+import { Roles } from '@auth/roles.decorator';
+import { User } from '@apis/users/entities/user.entity';
+import {
+  CreateOrderInput,
+  CreateOrderOutput,
+} from '@apis/orders/dtos/create-order.dto';
 import {
   GetOrdersFromProviderInput,
   GetOrdersFromProviderOutput,
-} from './dtos/get-orders-from-provider.dto';
+} from '@apis/orders/dtos/get-orders-from-provider.dto';
 import {
   GetOrdersFromConsumerInput,
   GetOrdersFromConsumerOutput,
-} from './dtos/get-orders-from-consumer.dto';
-import { OrdersService } from './orders.service';
+} from '@apis/orders/dtos/get-orders-from-consumer.dto';
+import { OrdersService } from '@apis/orders/orders.service';
 import {
   FindOrderByIdInput,
   FindOrderByIdOutput,
-} from './dtos/find-order-by-id.dto';
+} from '@apis/orders/dtos/find-order-by-id.dto';
 import {
   FindOrderItemByIdInput,
   FindOrderItemByIdOutput,
-} from './dtos/find-order-item-by-id';
+} from '@apis/orders/dtos/find-order-item-by-id';
 import {
   CancelOrderItemInput,
   CancelOrderItemOutput,
-} from './dtos/cancel-order-item.dto';
+} from '@apis/orders/dtos/cancel-order-item.dto';
 
 @Resolver()
 export class OrdersResolver {
