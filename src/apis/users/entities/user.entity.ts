@@ -40,7 +40,7 @@ registerEnumType(Language, { name: 'Language' });
 @ObjectType()
 @Entity()
 export class User extends CommonEntity {
-  @Column({ unique: true, type: 'string' })
+  @Column({ unique: true, type: 'text' })
   @Field((type) => String)
   @IsEmail()
   email: string;
