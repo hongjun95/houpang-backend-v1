@@ -134,7 +134,7 @@ export class ProductsService {
     provider: User,
   ): Promise<GetProductsFromProviderOutput> {
     let order = {};
-    console.log(sort);
+
     const takePages = 10;
     try {
       switch (sort) {

@@ -15,12 +15,12 @@ import {
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
-import { CommonEntity } from '../../common/entities/common.entity';
-import { Product } from '../../products/entities/product.entity';
-import { Order } from '../../orders/entities/order.entity';
-import { Review } from '../../reviews/entities/review.entity';
-import { Refund } from '../../refunds/entities/refund.entity';
-import { OrderItem } from '../../orders/entities/order-item.entity';
+import { CommonEntity } from '@apis/common/entities/common.entity';
+import { Product } from '@apis/products/entities/product.entity';
+import { Order } from '@apis/orders/entities/order.entity';
+import { Review } from '@apis/reviews/entities/review.entity';
+import { Refund } from '@apis/refunds/entities/refund.entity';
+import { OrderItem } from '@apis/orders/entities/order-item.entity';
 
 export enum UserRole {
   Consumer = 'Consumer',

@@ -1,13 +1,6 @@
 import { Field, Float, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { IsNumber, IsString, Max, Min } from 'class-validator';
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToOne,
-  OneToMany,
-  RelationId,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, RelationId } from 'typeorm';
 
 import { CommonEntity } from '@apis/common/entities/common.entity';
 import { User } from '@apis/users/entities/user.entity';
@@ -82,7 +75,6 @@ export class Product extends CommonEntity {
     onDelete: 'CASCADE',
     nullable: true,
   })
-  @JoinTable()
   @Field((type) => [OrderItem], { nullable: true })
   orderItems?: OrderItem[];
 
