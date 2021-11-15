@@ -8,7 +8,7 @@ module.exports = {
   synchronize: false,
   logging: ['warn', 'error'],
   entities: ['dist/**/entities/**/*.entity.js'],
-  migrations: ['dist/database/migrations/**/*.js'],
+  migrations: ['dist/database/migrations/**/*.{js,ts}'],
   cli: {
     entitiesDir: 'src/**/entities',
     migrationsDir: 'src/database/migrations',

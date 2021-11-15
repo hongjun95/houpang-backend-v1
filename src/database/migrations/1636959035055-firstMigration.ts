@@ -1,13 +1,16 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class firstMigration1636697268849 implements MigrationInterface {
-    name = 'firstMigration1636697268849'
+export class firstMigration1636959035055 implements MigrationInterface {
+    name = 'firstMigration1636959035055'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`CREATE TYPE "order_item_status_enum" AS ENUM('확인중', '주문 접수', '배달중', '배달 완료', '주문 취소', '교환', '환불')`);
         await queryRunner.query(`CREATE TABLE "order_item" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "count" integer NOT NULL, "status" "order_item_status_enum" NOT NULL DEFAULT '확인중', "orderId" uuid, "productId" uuid, "consumerId" uuid, CONSTRAINT "PK_d01158fe15b1ead5c26fd7f4e90" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "order" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "total" integer NOT NULL, "destination" character varying NOT NULL DEFAULT '', "deliverRequest" character varying NOT NULL DEFAULT '문 앞', "orderedAt" character varying NOT NULL, "consumerId" uuid, CONSTRAINT "PK_1031171c13130102495201e3e20" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "review" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "content" character varying NOT NULL, "rating" integer NOT NULL, "images" text array NOT NULL, "reviewedAt" character varying NOT NULL, "commenterId" uuid, "productId" uuid, CONSTRAINT "PK_2e4299a343a81574217255c00ca" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TYPE "refund_status_enum" AS ENUM('교환', '환불')`);
         await queryRunner.query(`CREATE TABLE "refund" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "refundedAt" character varying NOT NULL, "count" integer NOT NULL, "problemTitle" character varying NOT NULL, "problemDescription" character varying NOT NULL, "status" "refund_status_enum" NOT NULL, "recallPlace" character varying NOT NULL, "recallDay" TIMESTAMP NOT NULL, "recallTitle" character varying NOT NULL, "recallDescription" character varying, "sendPlace" character varying, "sendDay" TIMESTAMP, "refundPay" integer, "orderItemId" uuid, "refundeeId" uuid, CONSTRAINT "REL_94c9b30386ff638178cf039a13" UNIQUE ("orderItemId"), CONSTRAINT "PK_f1cefa2e60d99b206c46c1116e5" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TYPE "user_role_enum" AS ENUM('Consumer', 'Provider', 'Admin')`);
         await queryRunner.query(`CREATE TABLE "user" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "email" text NOT NULL, "username" character varying NOT NULL, "password" character varying NOT NULL, "role" "user_role_enum" NOT NULL DEFAULT 'Consumer', "verified" boolean NOT NULL DEFAULT false, "language" character varying NOT NULL DEFAULT 'Korean', "bio" character varying, "phoneNumber" character varying NOT NULL, "userImg" character varying, "address" character varying NOT NULL, CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE ("email"), CONSTRAINT "UQ_78a916df40e02a9deb1c4b75edb" UNIQUE ("username"), CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "product" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "name" character varying NOT NULL, "price" integer NOT NULL, "stock" integer NOT NULL DEFAULT '0', "images" text array NOT NULL, "infos" json, "avgRating" integer NOT NULL DEFAULT '0', "providerId" uuid, "categoryId" uuid, CONSTRAINT "PK_bebc9158e480b949565b4dc7a82" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "category" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "name" character varying NOT NULL, "coverImg" character varying, "slug" character varying NOT NULL, CONSTRAINT "UQ_23c05c292c439d77b0de816b500" UNIQUE ("name"), CONSTRAINT "UQ_cb73208f151aa71cdd78f662d70" UNIQUE ("slug"), CONSTRAINT "PK_9c4e4a89e3674fc9f382d733f03" PRIMARY KEY ("id"))`);
@@ -51,10 +54,13 @@ export class firstMigration1636697268849 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE "category"`);
         await queryRunner.query(`DROP TABLE "product"`);
         await queryRunner.query(`DROP TABLE "user"`);
+        await queryRunner.query(`DROP TYPE "user_role_enum"`);
         await queryRunner.query(`DROP TABLE "refund"`);
+        await queryRunner.query(`DROP TYPE "refund_status_enum"`);
         await queryRunner.query(`DROP TABLE "review"`);
         await queryRunner.query(`DROP TABLE "order"`);
         await queryRunner.query(`DROP TABLE "order_item"`);
+        await queryRunner.query(`DROP TYPE "order_item_status_enum"`);
     }
 
 }

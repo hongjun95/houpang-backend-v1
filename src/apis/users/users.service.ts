@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Raw, Repository } from 'typeorm';
+import { getManager, Raw, Repository } from 'typeorm';
 import { CookieOptions } from 'express';
 
 import { Like } from '@apis/likes/entities/likes.entity';
@@ -46,15 +46,43 @@ export class UsersService {
     userImg,
   }: CreateAccountInput): Promise<CreateAccountOutput> {
     try {
-      const existedEmail = await this.users.findOne({ email });
-      if (existedEmail) {
-        return { ok: false, error: '계정이 있는 이메일입니다.' };
-      }
+      console.log('hi1');
+      await getManager()
+        .transaction(async (transactionalEntityManager) => {
+          await transactionalEntityManager.findOne(User, {
+            where: {
+              email,
+            },
+          });
+          await transactionalEntityManager.findOne(User, {
+            where: {
+              username,
+            },
+          });
+        })
+        .catch((error) => {
+          console.error('Transaction Error');
+          console.error(error);
+          throw new HttpException(
+            {
+              status: HttpStatus.BAD_REQUEST,
+              error: "Password doesn't match",
+            },
+            HttpStatus.BAD_REQUEST,
+          );
+        });
 
-      const existedUsername = await this.users.findOne({ username });
-      if (existedUsername) {
-        return { ok: false, error: '계정이 있는 이름입니다.' };
-      }
+      console.log('hi2');
+
+      // const existedEmail = await this.users.findOne({ email });
+      // if (existedEmail) {
+      //   return { ok: false, error: '계정이 있는 이메일입니다.' };
+      // }
+
+      // const existedUsername = await this.users.findOne({ username });
+      // if (existedUsername) {
+      //   return { ok: false, error: '계정이 있는 이름입니다.' };
+      // }
 
       if (password !== verifyPassword) {
         return {
