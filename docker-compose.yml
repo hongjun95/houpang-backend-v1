@@ -1,0 +1,41 @@
+version: '3'
+services:
+  backend:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./
+    container_name: app_backend
+    depends_on:
+      - postgres
+    volumes:
+      - /app/node_modules
+      - ./:/app
+    ports:
+      - '5000:5000'
+    environment:
+      PORT: ${PORT}
+      CLIENT_URL: ${CLIENT_URL}
+      PRIVATE_KEY: ${PRIVATE_KEY}
+      NODE_ENV: dev
+      DB_DIALECT: ${DB_DIALECT}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_DROP_SCHEMA: ${DB_DROP_SCHEMA}
+      DB_MIGRATIONS_RUN: ${DB_MIGRATIONS_RUN}
+
+  postgres:
+    image: postgres:13
+    restart: unless-stopped
+    container_name: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./mnt/postgres/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    platform: linux/x86_64
