@@ -46,43 +46,15 @@ export class UsersService {
     userImg,
   }: CreateAccountInput): Promise<CreateAccountOutput> {
     try {
-      console.log('hi1');
-      await getManager()
-        .transaction(async (transactionalEntityManager) => {
-          await transactionalEntityManager.findOne(User, {
-            where: {
-              email,
-            },
-          });
-          await transactionalEntityManager.findOne(User, {
-            where: {
-              username,
-            },
-          });
-        })
-        .catch((error) => {
-          console.error('Transaction Error');
-          console.error(error);
-          throw new HttpException(
-            {
-              status: HttpStatus.BAD_REQUEST,
-              error: "Password doesn't match",
-            },
-            HttpStatus.BAD_REQUEST,
-          );
-        });
+      const existedEmail = await this.users.findOne({ email });
+      if (existedEmail) {
+        return { ok: false, error: '계정이 있는 이메일입니다.' };
+      }
 
-      console.log('hi2');
-
-      // const existedEmail = await this.users.findOne({ email });
-      // if (existedEmail) {
-      //   return { ok: false, error: '계정이 있는 이메일입니다.' };
-      // }
-
-      // const existedUsername = await this.users.findOne({ username });
-      // if (existedUsername) {
-      //   return { ok: false, error: '계정이 있는 이름입니다.' };
-      // }
+      const existedUsername = await this.users.findOne({ username });
+      if (existedUsername) {
+        return { ok: false, error: '계정이 있는 이름입니다.' };
+      }
 
       if (password !== verifyPassword) {
         return {
@@ -216,33 +188,27 @@ export class UsersService {
     authUser: User,
   ): Promise<EditProfileOutput> {
     try {
-      const user = await this.users.findOne({ id: authUser.id });
-
-      if (editProfileInput.email) {
-        if (editProfileInput.email !== authUser.email) {
-          const exists = await this.users.findOne({
-            email: editProfileInput.email,
-          });
-          if (exists) {
-            return {
-              ok: false,
-              error: '이미 존재하는 이메일로 수정할 수 없습니다.',
-            };
-          }
+      if (editProfileInput?.email !== authUser.email) {
+        const exists = await this.users.findOne({
+          email: editProfileInput.email,
+        });
+        if (exists) {
+          return {
+            ok: false,
+            error: '이미 존재하는 이메일로 수정할 수 없습니다.',
+          };
         }
       }
 
-      if (editProfileInput.username) {
-        if (editProfileInput.username !== authUser.username) {
-          const exists = await this.users.findOne({
-            username: editProfileInput.username,
-          });
-          if (exists) {
-            return {
-              ok: false,
-              error: '이미 존재하는 사용자 이름으로 수정할 수 없습니다.',
-            };
-          }
+      if (editProfileInput?.username !== authUser.username) {
+        const exists = await this.users.findOne({
+          username: editProfileInput.username,
+        });
+        if (exists) {
+          return {
+            ok: false,
+            error: '이미 존재하는 사용자 이름으로 수정할 수 없습니다.',
+          };
         }
       }
 
@@ -256,7 +222,7 @@ export class UsersService {
       }
 
       await this.users.save({
-        id: user.id,
+        id: authUser.id,
         ...editProfileInput,
       });
 
