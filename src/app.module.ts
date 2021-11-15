@@ -16,6 +16,7 @@ import { DatabaseModule } from '@database/database.module';
 import { GraphQLModule } from '@graphql/graphql.module';
 import { CommonModule } from '@apis/common/common.module';
 import { UsersModule } from '@apis/users/users.module';
+import { FiltersModule } from './filters/filters.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { UsersModule } from '@apis/users/users.module';
       rootPath: join(__dirname, '..', 'public'),
     }),
     AuthModule,
+    FiltersModule,
 
     // apis
     CommonModule,

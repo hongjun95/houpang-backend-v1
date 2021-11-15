@@ -25,7 +25,8 @@
       "@jwt/*": ["src/jwt/*"],
       "@utils/*": ["src/utils/*"],
       "@src/*": ["src/*"],
-      "@apis/*": ["src/apis/*"]
+      "@apis/*": ["src/apis/*"],
+      "@filters/*": ["src/filters/*"]
     }
     // "moduleResolution": "node"
   },
