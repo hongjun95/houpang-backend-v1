@@ -24,14 +24,13 @@ import {
   GetProductsOnCategoryInput,
   GetProductsOnCategoryOutput,
 } from '@apis/categories/dtos/get-products-on-category.dto';
-import { Category } from '@apis/categories/entities/category.entity';
 import { createPaginationObj } from '@apis/common/dtos/pagination.dto';
+import { CategoryRepository } from '@apis/categories/repositories/category.repository';
 
 @Injectable()
 export class CategoriesService {
   constructor(
-    @InjectRepository(Category)
-    private readonly categories: Repository<Category>,
+    private readonly categories: CategoryRepository,
 
     @InjectRepository(Product)
     private readonly products: Repository<Product>,

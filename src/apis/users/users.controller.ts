@@ -78,10 +78,4 @@ export class UsersController {
   async userProfile(@AuthUser() user: User): Promise<UserProfileOutput> {
     return this.usersService.findUserById(user.id);
   }
-
-  @Get('/productsuser')
-  @Roles(['Any'])
-  async getProducts(@AuthUser() user: User) {
-    return this.usersService.getProducts(user.id);
-  }
 }

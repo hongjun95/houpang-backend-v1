@@ -305,40 +305,5 @@ export class UsersService {
     return {
       ok: true,
     };
-
-    // console.error(e);
-    // throw new HttpException(
-    //   {
-    //     status: HttpStatus.BAD_REQUEST,
-    //     error: "Can't change the password",
-    //   },
-    //   HttpStatus.BAD_REQUEST,
-    // );
-  }
-
-  async getProducts(userId: string): Promise<ChangePasswordOutput> {
-    const users = await this.users.find({
-      // where: {
-      //   products: [
-      //     {
-      //       id: '',
-      //     },
-      //   ],
-      // },
-      where: {
-        // RAW : raw sql query를 실행할 수 있도록 해준다.
-        // %${query}%는 query가 포함된 값을 찾아준다.
-        products: [
-          {
-            id: Raw(
-              (id) => `${id} ILIKE '%4de9b66c-0618-4852-9cb7-873ca7466448%'`,
-            ),
-          },
-        ],
-      },
-    });
-    return {
-      ok: true,
-    };
   }
 }
