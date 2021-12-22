@@ -112,9 +112,12 @@ export class ProductsService {
     // todo
     // category 내역에 있는 품목만 가져오는 것으로 만들기
     try {
-      const product = await this.products.findOne(productId, {
-        relations: ['provider', 'category'],
-      });
+      const product = await this.products.findOne(
+        { id: productId },
+        {
+          relations: ['provider', 'category'],
+        },
+      );
 
       return {
         ok: true,
