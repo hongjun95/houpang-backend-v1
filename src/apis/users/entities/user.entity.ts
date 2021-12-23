@@ -4,7 +4,7 @@ import {
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { InternalServerErrorException } from '@nestjs/common';
+import { InternalServerErrorException, Logger } from '@nestjs/common';
 import {
   IsBoolean,
   IsEmail,
@@ -14,6 +14,7 @@ import {
 } from 'class-validator';
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { ApiProperty } from '@nestjs/swagger';
 
 import { CommonEntity } from '@apis/common/entities/common.entity';
 import { Product } from '@apis/products/entities/product.entity';
@@ -40,73 +41,164 @@ registerEnumType(Language, { name: 'Language' });
 @ObjectType()
 @Entity()
 export class User extends CommonEntity {
+  private logger = new Logger('User');
+
+  @ApiProperty({
+    example: 'lewis@gmail.com',
+    description: 'email',
+    required: true,
+    type: String,
+  })
   @Column({ unique: true, type: 'text' })
-  @Field((type) => String)
+  @Field(() => String)
   @IsEmail()
   email: string;
 
+  @ApiProperty({
+    example: 'hongjun',
+    description: 'username',
+    required: true,
+    type: String,
+  })
   @Column({ unique: true })
-  @Field((type) => String)
+  @Field(() => String)
   @IsString()
   username: string;
 
+  @ApiProperty({
+    example: 'animal!@123',
+    description: 'password',
+    required: true,
+    type: String,
+    minLength: 8,
+  })
   @Column()
-  @Field((type) => String)
+  @Field(() => String)
   @MinLength(8)
   password: string;
 
+  @ApiProperty({
+    example: UserRole.Consumer,
+    description: 'User Role',
+    required: true,
+    enum: UserRole,
+  })
   @Column({ type: 'enum', enum: UserRole, default: UserRole.Consumer })
-  @Field((type) => UserRole)
+  @Field(() => UserRole)
   @IsEnum(UserRole)
   role: UserRole;
 
+  @ApiProperty({
+    example: false,
+    description: 'email verification',
+    required: true,
+    type: Boolean,
+  })
   @Column({ default: false })
-  @Field((type) => Boolean)
+  @Field(() => Boolean)
   @IsBoolean()
   verified: boolean;
 
+  @ApiProperty({
+    example: Language.Korean,
+    description: 'Language',
+    required: true,
+    enum: Language,
+  })
   @Column({ default: Language.Korean })
-  @Field((type) => Language)
+  @Field(() => Language)
   @IsEnum(Language)
   language: Language;
 
+  @ApiProperty({
+    example: 'Hello World',
+    description: 'Biography',
+    type: String,
+  })
   @Column({ nullable: true })
-  @Field((type) => String, { nullable: true })
+  @Field(() => String, { nullable: true })
   @IsString()
   bio?: string;
 
+  @ApiProperty({
+    example: '010-1234-5678',
+    description: 'Phone number',
+    required: true,
+    type: String,
+  })
   @Column()
-  @Field((type) => String)
+  @Field(() => String)
   @IsString()
   phoneNumber: string;
 
+  @ApiProperty({
+    example: 'https://image-url',
+    description: 'Image url',
+    type: String,
+  })
   @Column({ nullable: true })
-  @Field((type) => String, { nullable: true })
+  @Field(() => String, { nullable: true })
   userImg?: string;
 
+  @ApiProperty({
+    example: 'Seoul Myeong-dong',
+    description: 'Address',
+    required: true,
+    type: String,
+  })
   @Column()
-  @Field((type) => String)
+  @Field(() => String)
   @IsString()
   address: string;
 
-  @OneToMany((type) => Product, (product) => product.provider)
-  @Field((type) => [Product])
+  @ApiProperty({
+    example: 'products',
+    description: 'products',
+    required: true,
+    type: [Product],
+  })
+  @OneToMany(() => Product, (product) => product.provider)
+  @Field(() => [Product])
   products: Product[];
 
-  @OneToMany((type) => Order, (order) => order.consumer)
-  @Field((type) => [Order])
+  @ApiProperty({
+    example: 'orders',
+    description: 'Orders',
+    required: true,
+    type: [Order],
+  })
+  @OneToMany(() => Order, (order) => order.consumer)
+  @Field(() => [Order])
   orders: Order[];
 
-  @OneToMany((type) => Refund, (refund) => refund.refundee)
-  @Field((type) => [Refund])
+  @ApiProperty({
+    example: 'refund',
+    description: 'Refund',
+    required: true,
+    type: [Refund],
+  })
+  @OneToMany(() => Refund, (refund) => refund.refundee)
+  @Field(() => [Refund])
   refunds: Refund[];
 
-  @OneToMany((type) => OrderItem, (orderItem) => orderItem.consumer)
-  @Field((type) => [OrderItem])
+  @ApiProperty({
+    example: 'Order Item',
+    description: 'Order Item',
+    required: true,
+    type: [OrderItem],
+  })
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.consumer)
+  @Field(() => [OrderItem])
   orderItems: OrderItem[];
 
-  @OneToMany((type) => Review, (review) => review.commenter)
-  @Field((type) => [Review])
+  @ApiProperty({
+    example: 'Review',
+    description: 'Review',
+    required: true,
+    type: [Review],
+  })
+  @OneToMany(() => Review, (review) => review.commenter)
+  @Field(() => [Review])
   reviews: Review[];
 
   @BeforeInsert()
@@ -118,7 +210,7 @@ export class User extends CommonEntity {
 
         this.password = await bcrypt.hash(this.password, salt);
       } catch (e) {
-        console.error(e);
+        this.logger.error(e);
         throw new InternalServerErrorException();
       }
     }
@@ -128,8 +220,8 @@ export class User extends CommonEntity {
     try {
       const ok = await bcrypt.compare(password, this.password);
       return ok;
-    } catch (error) {
-      console.error(error);
+    } catch (e) {
+      this.logger.error(e);
       throw new InternalServerErrorException();
     }
   }

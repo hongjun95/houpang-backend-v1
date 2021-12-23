@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res, UseFilters } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 
 import { AuthUser } from '@auth/auth-user.decorator';
@@ -19,25 +19,59 @@ import {
 import { LoginInput, LoginOutput } from '@apis/users/dtos/login.dto';
 import { UserProfileOutput } from '@apis/users/dtos/user-profile.dto';
 import { UsersService } from '@apis/users/users.service';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiOperation({ summary: 'Get user information' })
+  @ApiResponse({
+    status: 200,
+    description: 'success',
+    type: User,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Server Error...',
+  })
   @Get('/me')
   @Roles(['Any'])
   me(@AuthUser() user: User): User {
     return user;
   }
 
+  @ApiOperation({ summary: 'Sign up' })
+  @ApiResponse({
+    status: 200,
+    description: 'success',
+    type: CreateAccountOutput,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Server Error...',
+  })
   @Post('/signup')
-  async createAccount(@Body() body): Promise<CreateAccountOutput> {
+  async createAccount(
+    @Body() body: CreateAccountInput,
+  ): Promise<CreateAccountOutput> {
     const createAccountInput: CreateAccountInput = {
       ...body,
     };
     return this.usersService.createAccount(createAccountInput);
   }
 
+  @ApiOperation({ summary: 'Login' })
+  @ApiResponse({
+    status: 200,
+    description: 'success',
+    type: LoginOutput,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Server Error...',
+  })
   @Post('/login')
   async login(
     @Body() body, //

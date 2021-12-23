@@ -1,4 +1,5 @@
-import { Field, InputType, ObjectType, PickType } from '@nestjs/graphql';
+import { ApiProperty, PickType } from '@nestjs/swagger';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { MinLength } from 'class-validator';
 
 import { CoreOutput } from '@apis/common/dtos/output.dto';
@@ -13,11 +14,16 @@ export class CreateAccountInput extends PickType(User, [
   'phoneNumber',
   'address',
   'userImg',
+  'bio',
 ]) {
-  @Field((type) => String, { nullable: true })
-  bio?: string;
-
-  @Field((type) => String)
+  @ApiProperty({
+    example: 'animal!@123',
+    description: 'Verify password',
+    required: true,
+    type: String,
+    minLength: 8,
+  })
+  @Field(() => String)
   @MinLength(8)
   verifyPassword: string;
 }

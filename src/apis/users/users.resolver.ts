@@ -22,25 +22,25 @@ import { UsersService } from '@apis/users/users.service';
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Query((returns) => User)
+  @Query(() => User)
   @Roles(['Any'])
   me(@AuthUser() user: User): User {
     return user;
   }
 
-  @Mutation((returns) => CreateAccountOutput)
+  @Mutation(() => CreateAccountOutput)
   async createAccount(
     @Args('input') createAccountInput: CreateAccountInput,
   ): Promise<CreateAccountOutput> {
     return this.usersService.createAccount(createAccountInput);
   }
 
-  @Mutation((returns) => LoginOutput)
+  @Mutation(() => LoginOutput)
   async login(@Args('input') loginInput: LoginInput): Promise<LoginOutput> {
     return this.usersService.login(loginInput);
   }
 
-  @Mutation((returns) => EditProfileOutput)
+  @Mutation(() => EditProfileOutput)
   @Roles(['Any'])
   async editProfile(
     @Args('input') editProfileInput: EditProfileInput,
@@ -49,7 +49,7 @@ export class UsersResolver {
     return this.usersService.editProfile(editProfileInput, user);
   }
 
-  @Mutation((returns) => EditProfileOutput)
+  @Mutation(() => EditProfileOutput)
   @Roles(['Any'])
   async changePassword(
     @Args('input') ChangePasswordInput: ChangePasswordInput,
@@ -58,7 +58,7 @@ export class UsersResolver {
     return this.usersService.changePassword(ChangePasswordInput, user.id);
   }
 
-  @Mutation((returns) => UserProfileOutput)
+  @Mutation(() => UserProfileOutput)
   @Roles(['Any'])
   async userProfile(@AuthUser() user: User): Promise<UserProfileOutput> {
     return this.usersService.findUserById(user.id);

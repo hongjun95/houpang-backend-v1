@@ -2,7 +2,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
-// import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger"
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 // import * as compression from "compression"
 // import * as rateLimit from "express-rate-limit"
 // import * as helmet from "helmet"
@@ -79,18 +79,13 @@ export async function bootstrap() {
     |
     */
 
-  // const options = new DocumentBuilder()
-  //   .setTitle(config.get('app.title'))
-  //   .setDescription(config.get('app.description'))
-  //   .setVersion(config.get('app.version'))
-  //   .addTag('API Information', 'Basic information about this API')
-  //   .addTag('Tournament', 'Main resource of this API')
-  //   .addTag('team')
-  //   .addTag('Game')
-  //   .addTag('generator')
-  //   .build();
-  // const document = SwaggerModule.createDocument(app, options);
-  // SwaggerModule.setup('docs', app, document);
+  const options = new DocumentBuilder()
+    .setTitle(config.get('app.name'))
+    .setDescription(config.get('app.description'))
+    .setVersion(config.get('app.version'))
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('docs', app, document);
 
   /*
     |--------------------------------------------------------------------------
