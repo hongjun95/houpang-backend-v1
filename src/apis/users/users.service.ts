@@ -1,10 +1,7 @@
 import { Response } from 'express';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { getManager, Raw, Repository } from 'typeorm';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { CookieOptions } from 'express';
 
-import { Like } from '@apis/likes/entities/likes.entity';
 import { JwtService } from '@jwt/jwt.service';
 import {
   ChangePasswordInput,
@@ -21,18 +18,18 @@ import {
 import { LoginInput, LoginOutput } from '@apis/users/dtos/login.dto';
 import { UserProfileOutput } from '@apis/users/dtos/user-profile.dto';
 import { User } from '@apis/users/entities/user.entity';
+import { UserRepository } from './repositories/user.repository';
+import { LikeRepository } from '../likes/repositories/like.repository';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private readonly users: Repository<User>,
-
-    @InjectRepository(Like)
-    private readonly likes: Repository<Like>,
-
+    private readonly users: UserRepository,
+    private readonly likes: LikeRepository,
     private readonly jwtService: JwtService,
   ) {}
+
+  private logeer = new Logger('users');
 
   async createAccount({
     email,
@@ -86,24 +83,18 @@ export class UsersService {
         };
       }
 
-      const user = await this.users.save(
-        this.users.create({
-          email,
-          username,
-          password,
-          language,
-          phoneNumber,
-          address,
-          bio,
-          userImg,
-        }),
-      );
+      const user = await this.users.createUser({
+        email,
+        username,
+        password,
+        language,
+        phoneNumber,
+        address,
+        bio,
+        userImg,
+      });
 
-      await this.likes.save(
-        this.likes.create({
-          createdBy: user,
-        }),
-      );
+      await this.likes.createLike(user);
 
       return { ok: true };
     } catch (e) {
@@ -116,13 +107,15 @@ export class UsersService {
     res?: Response,
   ): Promise<LoginOutput> {
     try {
-      const user = await this.users.findOne({ email });
-
+      const user = await this.users.findByEmail(email);
       if (!user) {
-        return {
-          ok: false,
-          error: '사용자를 찾을 수 없습니다.',
-        };
+        throw new HttpException(
+          {
+            status: HttpStatus.BAD_REQUEST,
+            error: '사용자를 찾을 수 없습니다.',
+          },
+          HttpStatus.BAD_REQUEST,
+        );
       }
 
       const passwordCorrect = await user.checkPassowrd(password);
@@ -175,7 +168,7 @@ export class UsersService {
         user,
       };
     } catch (error) {
-      console.error(error);
+      this.logeer.error(error);
       return {
         ok: false,
         error: 'User not found',
@@ -189,10 +182,8 @@ export class UsersService {
   ): Promise<EditProfileOutput> {
     try {
       if (editProfileInput?.email !== authUser.email) {
-        const exists = await this.users.findOne({
-          email: editProfileInput.email,
-        });
-        if (exists) {
+        const user = await this.users.findByEmail(editProfileInput.email);
+        if (user) {
           return {
             ok: false,
             error: '이미 존재하는 이메일로 수정할 수 없습니다.',
@@ -201,10 +192,8 @@ export class UsersService {
       }
 
       if (editProfileInput?.username !== authUser.username) {
-        const exists = await this.users.findOne({
-          username: editProfileInput.username,
-        });
-        if (exists) {
+        const user = await this.users.findByUsername(editProfileInput.username);
+        if (user) {
           return {
             ok: false,
             error: '이미 존재하는 사용자 이름으로 수정할 수 없습니다.',
@@ -230,7 +219,7 @@ export class UsersService {
         ok: true,
       };
     } catch (e) {
-      console.error(e);
+      this.logeer.error(e);
       return {
         ok: false,
         error: '사용자 프로파일을 수정할 수 없습니다.',
@@ -252,7 +241,7 @@ export class UsersService {
       );
     }
 
-    const user = await this.users.findOne(userId);
+    const { user } = await this.findUserById(userId);
 
     const passwordCorrect = await user.checkPassowrd(currentPassword);
     if (!passwordCorrect) {
