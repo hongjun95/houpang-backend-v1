@@ -8,6 +8,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 // import * as helmet from "helmet"
 // import * as nocache from "nocache"
 import * as cookieParser from 'cookie-parser';
+import * as expressBasicAuth from 'express-basic-auth';
 
 import { ConfigService } from '@nestjs/config';
 import { AppModule } from '@src/app.module';
@@ -78,6 +79,15 @@ export async function bootstrap() {
     | The added tags define our RESTful resource endpoints.
     |
     */
+
+  app.use(
+    ['/docs', '/docs-json'],
+    expressBasicAuth({
+      challenge: true,
+      users: { [process.env.SWAGGER_USER]: process.env.SWAGGER_PASSWORD },
+      realm: 'Imb4T3st4pp',
+    }),
+  );
 
   const options = new DocumentBuilder()
     .setTitle(config.get('app.name'))
