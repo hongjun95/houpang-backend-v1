@@ -72,7 +72,7 @@ export class User extends CommonEntity {
     type: String,
     minLength: 8,
   })
-  @Column()
+  @Column({ select: false })
   @Field(() => String)
   @MinLength(8)
   password: string;

@@ -156,6 +156,7 @@ export class UsersService {
 
   async findUserById(id: string): Promise<UserProfileOutput> {
     try {
+      // const cat = await this.catModel.findById(catId).select('-password');
       const user = await this.users.findOne({ id });
       if (!!!user) {
         return {
