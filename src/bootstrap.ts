@@ -1,3 +1,4 @@
+import { resolve } from 'path';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -68,7 +69,7 @@ export async function bootstrap() {
   //   res.header('Access-Control-Allow-Headers', 'Content-Type, Accept');
   //   next();
   // });
-  //   app.useStaticAssets(resolve(__dirname, "..", "resources"))
+  app.useStaticAssets(resolve(__dirname, '..', 'public'));
 
   /*
     |--------------------------------------------------------------------------

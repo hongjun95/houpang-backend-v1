@@ -24,7 +24,7 @@ export const multerOptions: MulterOptions = {
 
   storage: diskStorage({
     destination: (req, file, callback) => {
-      const uploadPath: string = 'public';
+      const uploadPath = 'public';
 
       if (!existsSync(uploadPath)) {
         mkdirSync(uploadPath);
