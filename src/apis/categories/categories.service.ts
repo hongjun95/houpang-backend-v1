@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -36,6 +36,8 @@ export class CategoriesService {
     private readonly products: Repository<Product>,
   ) {}
 
+  private readonly logger = new Logger('CategoryService');
+
   async getAllCategories(): Promise<GetAllCategoriesOutput> {
     try {
       const categories = await this.categories.find();
@@ -50,7 +52,7 @@ export class CategoriesService {
         categories,
       };
     } catch (error) {
-      console.error(error);
+      this.logger.error(error);
       return {
         ok: false,
         error: '카테고리를 불러올 수가 없습니다.',
@@ -94,7 +96,7 @@ export class CategoriesService {
         ...paginationObj,
       };
     } catch (error) {
-      console.error(error);
+      this.logger.error(error);
       return {
         ok: false,
         error: '카테고리에 있는 상품을 불러올 수 없습니다.',
@@ -162,7 +164,7 @@ export class CategoriesService {
         ...paginationObj,
       };
     } catch (error) {
-      console.error(error);
+      this.logger.error(error);
       return {
         ok: false,
         error: '카테고리에 있는 상품을 불러올 수 없습니다.',
@@ -201,7 +203,7 @@ export class CategoriesService {
         ok: true,
       };
     } catch (error) {
-      console.error(error);
+      this.logger.error(error);
       return {
         ok: false,
         error: '카테고리를 추가할 수 없습니다.',
@@ -238,7 +240,7 @@ export class CategoriesService {
         ok: true,
       };
     } catch (error) {
-      console.error(error);
+      this.logger.error(error);
       return {
         ok: false,
         error: '카테고리를 수정할 수 없습니다.',
@@ -264,7 +266,7 @@ export class CategoriesService {
         ok: true,
       };
     } catch (error) {
-      console.error(error);
+      this.logger.error(error);
       return {
         ok: false,
         error: '카테고리를 수정할 수 없습니다.',
