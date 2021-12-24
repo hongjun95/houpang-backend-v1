@@ -1,5 +1,5 @@
 import { define } from 'typeorm-seeding';
-import * as Faker from 'faker';
+import Faker from 'faker';
 
 import { Language, User, UserRole } from '@apis/users/entities/user.entity';
 

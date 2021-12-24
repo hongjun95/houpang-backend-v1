@@ -1,4 +1,4 @@
-import * as Faker from 'faker';
+import Faker from 'faker';
 import { getRepository } from 'typeorm';
 import { define } from 'typeorm-seeding';
 

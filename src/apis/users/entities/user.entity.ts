@@ -13,7 +13,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { CommonEntity } from '@apis/common/entities/common.entity';

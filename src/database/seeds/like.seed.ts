@@ -1,4 +1,4 @@
-import * as Faker from 'faker';
+import Faker from 'faker';
 import { getRepository } from 'typeorm';
 import { Factory, Seeder } from 'typeorm-seeding';
 
@@ -15,7 +15,7 @@ export class CreateLikes implements Seeder {
 
         const productRepository = getRepository(Product);
         const products = await productRepository.find();
-        let pushedProducts: Product[] = [];
+        const pushedProducts: Product[] = [];
         products.forEach((product) => {
           const magicNumber = Faker.random.number({
             min: 0,

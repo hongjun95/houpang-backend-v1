@@ -5,6 +5,7 @@
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "esModuleInterop": true, // you dont need to do "import * as cookieParser from 'cookie-parser';"
     "allowSyntheticDefaultImports": true,
     "target": "es2017",
     "sourceMap": true,

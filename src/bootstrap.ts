@@ -4,12 +4,12 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-// import * as compression from "compression"
-// import * as rateLimit from "express-rate-limit"
-// import * as helmet from "helmet"
-// import * as nocache from "nocache"
-import * as cookieParser from 'cookie-parser';
-import * as expressBasicAuth from 'express-basic-auth';
+// import compression from "compression"
+// import rateLimit from "express-rate-limit"
+// import helmet from "helmet"
+// import nocache from "nocache"
+import cookieParser from 'cookie-parser';
+import expressBasicAuth from 'express-basic-auth';
 
 import { ConfigService } from '@nestjs/config';
 import { AppModule } from '@src/app.module';

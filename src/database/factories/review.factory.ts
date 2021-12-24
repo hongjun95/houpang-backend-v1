@@ -1,5 +1,5 @@
 import { define } from 'typeorm-seeding';
-import * as Faker from 'faker';
+import Faker from 'faker';
 
 import { Review } from '@apis/reviews/entities/review.entity';
 import { formmatDay } from '@utils/dayUtils';
