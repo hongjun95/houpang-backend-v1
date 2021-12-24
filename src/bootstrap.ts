@@ -40,15 +40,15 @@ export async function bootstrap() {
     |
     */
 
-  const corsOptions = {
-    origin: [/^(.*)/],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-    optionsSuccessStatus: 200,
-    credentials: true,
-    allowedHeaders:
-      'Origin,X-Requested-With,Content-Type,Accept,Authorization,authorization,X-Forwarded-for',
-  };
+  // const corsOptions = {
+  //   origin: [/^(.*)/],
+  //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  //   preflightContinue: false,
+  //   optionsSuccessStatus: 200,
+  //   credentials: true,
+  //   allowedHeaders:
+  //     'Origin,X-Requested-With,Content-Type,Accept,Authorization,authorization,X-Forwarded-for',
+  // };
   // app.enableCors(corsOptions);
   app.enableCors();
   //   app.use(helmet())
