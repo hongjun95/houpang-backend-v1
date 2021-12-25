@@ -99,8 +99,6 @@ export async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('docs', app, document);
-  console.log(process.env.DB_HOST);
-  console.log('process.env.DB_HOST');
   /*
     |--------------------------------------------------------------------------
     | Run The Application
@@ -115,7 +113,7 @@ export async function bootstrap() {
 
   await app.listen(config.get('app.port'), () => {
     logger.log(
-      `Server is listen on http://localhost:${config.get('app.port')}`,
+      `✅ Server is listen on http://localhost:${config.get('app.port')}`,
     );
   });
 

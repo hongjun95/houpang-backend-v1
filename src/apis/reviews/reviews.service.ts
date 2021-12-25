@@ -27,7 +27,7 @@ import {
 } from '@apis/reviews/dtos/get-reviews-on-products.dto';
 import { Review } from '@apis/reviews/entities/review.entity';
 import { createPaginationObj } from '@apis/common/dtos/pagination.dto';
-import { formmatDay } from '@utils/dayUtils';
+import { formmatDay } from '@utils';
 
 @Injectable()
 export class ReviewsService {

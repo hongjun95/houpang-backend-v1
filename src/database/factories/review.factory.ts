@@ -2,7 +2,7 @@ import { define } from 'typeorm-seeding';
 import Faker from 'faker';
 
 import { Review } from '@apis/reviews/entities/review.entity';
-import { formmatDay } from '@utils/dayUtils';
+import { formmatDay } from '@utils';
 
 const reviewFaker = (faker: typeof Faker) => {
   const review = new Review();

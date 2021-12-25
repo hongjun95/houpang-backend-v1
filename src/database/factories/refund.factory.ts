@@ -2,7 +2,7 @@ import { define } from 'typeorm-seeding';
 import Faker from 'faker';
 
 import { Refund, RefundStatus } from '@apis/refunds/entities/refund.entity';
-import { formmatDay } from '@utils/dayUtils';
+import { formmatDay } from '@utils';
 
 const refundFaker = (faker: typeof Faker) => {
   const refund = new Refund();

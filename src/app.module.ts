@@ -1,8 +1,11 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { join } from 'path';
 
 import { JwtModule } from '@jwt/jwt.module';
 import { AuthModule } from '@auth/auth.module';
+import { FiltersModule } from '@filters/filters.module';
+import { LoggerMiddleware } from '@middlewares/logger.middleware';
+
 import { ProductsModule } from '@apis/products/products.module';
 import { CategoriesModule } from '@apis/categories/categories.module';
 import { OrdersModule } from '@apis/orders/orders.module';
@@ -16,7 +19,6 @@ import { DatabaseModule } from '@database/database.module';
 import { GraphQLModule } from '@graphql/graphql.module';
 import { CommonModule } from '@apis/common/common.module';
 import { UsersModule } from '@apis/users/users.module';
-import { FiltersModule } from './filters/filters.module';
 
 @Module({
   imports: [
@@ -46,4 +48,8 @@ import { FiltersModule } from './filters/filters.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}

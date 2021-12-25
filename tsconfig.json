@@ -19,16 +19,17 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@root/*": ["/*"],
+      "@root/*": ["*"],
       "@src/*": ["src/*"],
       "@auth/*": ["src/auth/*"],
       "@config/*": ["src/config/*"],
       "@database/*": ["src/database/*"],
       "@graphql/*": ["src/graphql/*"],
       "@jwt/*": ["src/jwt/*"],
-      "@utils/*": ["src/utils/*"],
+      "@utils": ["src/utils"],
       "@apis/*": ["src/apis/*"],
-      "@filters/*": ["src/filters/*"]
+      "@filters/*": ["src/filters/*"],
+      "@middlewares/*": ["src/middlewares/*"]
     }
     // "moduleResolution": "node"
   },

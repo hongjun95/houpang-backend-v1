@@ -29,7 +29,7 @@ import {
   FindOrderItemByIdInput,
   FindOrderItemByIdOutput,
 } from '@apis/orders/dtos/find-order-item-by-id';
-import { formmatDay } from '@utils/dayUtils';
+import { formmatDay } from '@utils';
 import {
   CancelOrderItemInput,
   CancelOrderItemOutput,
@@ -290,7 +290,7 @@ export class OrdersService {
           };
         }
 
-        let productPrice = product.price * createOrderItem.count;
+        const productPrice = product.price * createOrderItem.count;
         orderFinalPrice += productPrice;
 
         product.stock -= createOrderItem.count;
