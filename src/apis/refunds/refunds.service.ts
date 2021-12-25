@@ -20,7 +20,7 @@ import {
   GetRefundsFromProviderInput,
   GetRefundsFromProviderOutput,
 } from '@apis/refunds/dtos/get-refunds-from-provider.dto';
-import { formmatDay } from 'src/utils/dayUtils';
+import { formmatDay } from '@utils';
 import { createPaginationObj } from '@apis/common/dtos/pagination.dto';
 
 @Injectable()

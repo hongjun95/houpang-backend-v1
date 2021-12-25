@@ -7,9 +7,9 @@ export default () => ({
     | This values are defined in the package.json.
     |
     */
-  name: require('../../package.json').name,
-  description: require('../../package.json').description,
-  version: require('../../package.json').version,
+  name: require('../../../package.json').name,
+  description: require('../../../package.json').description,
+  version: require('../../../package.json').version,
 
   /*
     |--------------------------------------------------------------------------

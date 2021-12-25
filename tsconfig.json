@@ -22,14 +22,15 @@
       "@root/*": ["*"],
       "@src/*": ["src/*"],
       "@auth/*": ["src/auth/*"],
-      "@config/*": ["src/config/*"],
       "@database/*": ["src/database/*"],
       "@graphql/*": ["src/graphql/*"],
       "@jwt/*": ["src/jwt/*"],
-      "@utils": ["src/utils"],
+      "@config/*": ["src/common/config/*"],
       "@apis/*": ["src/apis/*"],
-      "@filters/*": ["src/filters/*"],
-      "@middlewares/*": ["src/middlewares/*"]
+      "@utils": ["src/common/utils"],
+      "@filters/*": ["src/common/filters/*"],
+      "@middlewares/*": ["src/common/middlewares/*"],
+      "@interceptors/*": ["src/common/interceptors/*"]
     }
     // "moduleResolution": "node"
   },

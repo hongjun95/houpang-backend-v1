@@ -3,7 +3,7 @@ import { join } from 'path';
 
 import { JwtModule } from '@jwt/jwt.module';
 import { AuthModule } from '@auth/auth.module';
-import { FiltersModule } from '@filters/filters.module';
+import { FiltersModule } from '@root/src/common/filters/filters.module';
 import { LoggerMiddleware } from '@middlewares/logger.middleware';
 
 import { ProductsModule } from '@apis/products/products.module';
