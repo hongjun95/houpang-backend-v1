@@ -16,6 +16,7 @@ const config: TypeOrmModuleOptions = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   synchronize: false,
+  keepConnectionAlive: true,
   logging: ['warn', 'error'],
   entities: [
     //

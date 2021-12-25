@@ -13,11 +13,11 @@ export class Like extends CommonEntity {
     onDelete: 'CASCADE',
   })
   @JoinColumn()
-  @Field((type) => User)
+  @Field(() => User)
   createdBy: User;
 
   @ManyToMany(() => Product)
   @JoinTable()
-  @Field((type) => [Product])
+  @Field(() => [Product])
   products: Product[];
 }

@@ -30,7 +30,9 @@ import {
   GetProductsOnCategoryInput,
   GetProductsOnCategoryOutput,
 } from '@apis/categories/dtos/get-products-on-category.dto';
+import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Category')
 @Controller('/categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
@@ -51,6 +53,21 @@ export class CategoriesController {
     );
   }
 
+  @ApiParam({
+    name: 'url param categoryId',
+    required: true,
+    description: 'Category ID',
+  })
+  @ApiQuery({
+    name: 'sort',
+    required: true,
+    description: 'Sort',
+  })
+  @ApiQuery({
+    name: 'page',
+    required: true,
+    description: 'Page',
+  })
   @Get('/:categoryId')
   @Roles(['Any'])
   async getProductsByCategoryId(
