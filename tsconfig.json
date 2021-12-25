@@ -19,13 +19,14 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@root/*": ["/*"],
+      "@src/*": ["src/*"],
       "@auth/*": ["src/auth/*"],
       "@config/*": ["src/config/*"],
       "@database/*": ["src/database/*"],
       "@graphql/*": ["src/graphql/*"],
       "@jwt/*": ["src/jwt/*"],
       "@utils/*": ["src/utils/*"],
-      "@src/*": ["src/*"],
       "@apis/*": ["src/apis/*"],
       "@filters/*": ["src/filters/*"]
     }

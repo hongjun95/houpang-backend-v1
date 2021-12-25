@@ -14,6 +14,8 @@ import expressBasicAuth from 'express-basic-auth';
 import { ConfigService } from '@nestjs/config';
 import { AppModule } from '@src/app.module';
 
+declare const module: any;
+
 export async function bootstrap() {
   /*
   |--------------------------------------------------------------------------
@@ -97,7 +99,8 @@ export async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('docs', app, document);
-
+  console.log(process.env.DB_HOST);
+  console.log('process.env.DB_HOST');
   /*
     |--------------------------------------------------------------------------
     | Run The Application
@@ -115,6 +118,11 @@ export async function bootstrap() {
       `Server is listen on http://localhost:${config.get('app.port')}`,
     );
   });
+
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
 
   // await app.listen(4000);
 }
