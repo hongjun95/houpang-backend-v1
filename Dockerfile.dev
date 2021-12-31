@@ -8,4 +8,4 @@ CMD ["yarn", "run", "build"]
 FROM node:17-alpine
 WORKDIR /app
 COPY --from=builder /app ./
-CMD [ "yarn" ,"run","start:dev"]
+CMD [ "yarn" ,"run","start:dev-hmr"]

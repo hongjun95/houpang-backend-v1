@@ -8,14 +8,14 @@ import {
 @ObjectType()
 export abstract class CommonEntity {
   @PrimaryGeneratedColumn('uuid')
-  @Field((type) => String)
+  @Field(() => String)
   id: string;
 
   @CreateDateColumn()
-  @Field((type) => Date)
+  @Field(() => Date)
   createdAt: Date;
 
   @UpdateDateColumn()
-  @Field((type) => Date)
+  @Field(() => Date)
   updatedAt: Date;
 }

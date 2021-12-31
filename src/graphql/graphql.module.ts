@@ -10,8 +10,8 @@ import { TOKEN_KEY } from '@apis/common/common.constants';
       autoSchemaFile: true,
 
       context: ({ req }) => {
-        let token: string = '';
-        let authorization: string = '';
+        let token = '';
+        let authorization = '';
         if (req.headers.hasOwnProperty(TOKEN_KEY)) {
           authorization = req.headers[TOKEN_KEY];
         }

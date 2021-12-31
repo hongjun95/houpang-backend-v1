@@ -4,7 +4,7 @@ services:
     build:
       dockerfile: Dockerfile.dev
       context: ./
-    container_name: app_backend
+    container_name: houpang_backend
     depends_on:
       - postgres
     volumes:
@@ -12,6 +12,8 @@ services:
       - ./:/app
     ports:
       - '5000:5000'
+    env_file:
+      - ./.env.development
     environment:
       PORT: ${PORT}
       CLIENT_URL: ${CLIENT_URL}
@@ -31,7 +33,7 @@ services:
     restart: unless-stopped
     container_name: postgres
     ports:
-      - '5432:5432'
+      - '5433:5432'
     volumes:
       - ./mnt/postgres/data:/var/lib/postgresql/data
     environment:
