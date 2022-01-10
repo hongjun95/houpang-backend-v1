@@ -203,8 +203,11 @@ export class UsersService {
       }
 
       const phoneNumberRegex = new RegExp(/^[0-9]{3}[-]+[0-9]{4}[-]+[0-9]{4}$/);
+      const phoneNumberTestPass = phoneNumberRegex.test(
+        editProfileInput.phoneNumber,
+      );
 
-      if (!phoneNumberRegex) {
+      if (!phoneNumberTestPass) {
         return {
           ok: false,
           error: '올바른 전화번호를 입력하세요',

@@ -34,7 +34,6 @@ export class AuthGuard implements CanActivate {
         token = gqlContext.token;
       } else if (host.getType() === 'http') {
         const req = host.getArgByIndex(0);
-        console.log(req.cookies);
         if (req.headers.hasOwnProperty(TOKEN_KEY)) {
           const authorization = req.headers[TOKEN_KEY];
           if (authorization.includes('Bearer')) {
